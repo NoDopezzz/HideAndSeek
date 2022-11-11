@@ -5,22 +5,10 @@ plugins {
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        applicationId = "nay.kirill.hideandseek"
-        minSdk = 23
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
+    applicationConfig(
+        target = project,
+        targetPackage = "nay.kirill.hideandseek"
+    )
 }
 
 dependencies {
@@ -28,4 +16,9 @@ dependencies {
     implementation(Libraries.Androidx.appCompat)
     implementation(Libraries.Google.material)
     implementation(Libraries.Androidx.constraint)
+    implementation(Libraries.Koin.koinAndroid)
+    implementation(Libraries.Navigation.cicerone)
+
+    implementation(project(Project.Features.mainImpl))
+    implementation(project(Project.Features.mainApi))
 }

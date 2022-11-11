@@ -16,4 +16,48 @@ object Libraries {
 
     }
 
+    object Koin {
+
+        private const val version = "3.3.0"
+
+        const val koinAndroid = "io.insert-koin:koin-android:$version"
+
+        const val compose = "io.insert-koin:koin-androidx-compose:$version"
+
+    }
+
+    object Navigation {
+
+        const val cicerone = "com.github.terrakok:cicerone:7.1"
+
+    }
+
+    object LifeCycle {
+
+        private const val version = "2.2.0"
+
+        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+
+        const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
+
+    }
+
+    object Compose {
+
+        private const val version = "1.0.5"
+
+        const val material = "androidx.compose.material:material"
+
+        const val preview = "androidx.compose.ui:ui-tooling-preview"
+
+        const val debugPreview = "androidx.compose.ui:ui-tooling"
+
+        const val runtime = "androidx.compose.runtime:runtime:$version"
+
+        const val foundation = "androidx.compose.foundation:foundation"
+
+        const val bom = "androidx.compose:compose-bom:2022.10.00"
+
+    }
+
 }

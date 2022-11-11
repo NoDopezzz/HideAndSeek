@@ -6,6 +6,7 @@ pluginManagement {
         maven("https://jitpack.io")
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -13,5 +14,12 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "HideAndSeek"
-include(":app")
+
+include(
+    ":app",
+    ":features:main:impl",
+    ":features:main:api",
+    ":core:ui:compose"
+)
