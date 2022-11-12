@@ -17,10 +17,14 @@ dependencies {
 
     implementation(project(Project.Features.sessionSearchApi))
 
+    implementation(project(Project.Core.arch))
+
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)
     implementation(Libraries.Compose.runtime)
     implementation(Libraries.Compose.foundation)
     implementation(Libraries.Compose.preview)
     debugImplementation(Libraries.Compose.debugPreview)
+
+    implementation(Libraries.coroutines)
 }

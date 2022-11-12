@@ -4,6 +4,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SessionSearchScreen() {
-    Text(text = "Searching sessions")
+internal fun SessionSearchScreen(
+    state: SessionSearchUiState
+) {
+    Text(text = "Counter: ${state.counter}")
 }

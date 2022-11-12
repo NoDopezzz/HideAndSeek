@@ -20,7 +20,7 @@ internal class SessionSearchFragment : Fragment() {
     ): View = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
-                SessionSearchScreen()
+                SessionSearchScreen(viewModel.uiState.value)
             }
         }
     }

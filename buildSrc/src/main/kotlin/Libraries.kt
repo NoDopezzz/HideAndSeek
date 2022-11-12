@@ -34,7 +34,7 @@ object Libraries {
 
     }
 
-    object LifeCycle {
+    object Lifecycle {
 
         private const val version = "2.2.0"
 
@@ -61,5 +61,7 @@ object Libraries {
         const val bom = "androidx.compose:compose-bom:2022.10.00"
 
     }
+
+    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
 }

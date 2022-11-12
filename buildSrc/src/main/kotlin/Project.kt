@@ -14,6 +14,8 @@ object Project {
 
     object Core {
 
+        const val arch = ":core:arch"
+
         object UI {
 
             const val compose = ":core:ui:compose"

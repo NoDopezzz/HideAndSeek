@@ -29,4 +29,5 @@ include(
     // Core
     ":core:ui:compose",
     ":core:ui:button",
+    ":core:arch"
 )

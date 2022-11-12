@@ -1,3 +1,9 @@
 package nay.kirill.hideandseek.sessionsearch.impl.presentation
 
-internal class SessionSearchState
+internal data class SessionSearchState(
+    val counter: Int
+)
+
+internal data class SessionSearchUiState(
+    val counter: String
+)
