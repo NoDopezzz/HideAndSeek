@@ -19,16 +19,16 @@ object AppConfig {
 }
 
 fun BaseExtension.libraryConfig(
-    target: Project,
-    targetPackage: String,
-    compose: Boolean = false
+        target: Project,
+        targetPackage: String,
+        compose: Boolean = false
 ) {
     baseConfig(target, targetPackage, compose)
 }
 
 fun BaseExtension.applicationConfig(
-    target: Project,
-    targetPackage: String
+        target: Project,
+        targetPackage: String
 ) {
     baseConfig(target, targetPackage)
 
@@ -52,9 +52,9 @@ fun BaseExtension.applicationConfig(
 }
 
 private fun BaseExtension.baseConfig(
-    target: Project,
-    targetPackage: String,
-    useCompose: Boolean = false
+        target: Project,
+        targetPackage: String,
+        useCompose: Boolean = false
 ) {
     compileSdkVersion(AppConfig.compileSdk)
 

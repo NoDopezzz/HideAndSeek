@@ -14,15 +14,15 @@ internal class SessionSearchFragment : Fragment() {
     private val viewModel: SessionSearchViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
                 SessionSearchScreen(
-                    state = viewModel.uiState.value,
-                    onBack = viewModel::back
+                        state = viewModel.uiState.value,
+                        onBack = viewModel::back
                 )
             }
         }

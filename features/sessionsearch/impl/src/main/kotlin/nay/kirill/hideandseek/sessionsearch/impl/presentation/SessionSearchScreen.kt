@@ -23,18 +23,18 @@ import nay.kirill.hideandseek.sessionsearch.impl.R
 
 @Composable
 internal fun SessionSearchScreen(
-    state: SessionSearchUiState,
-    onBack: () -> Unit
+        state: SessionSearchUiState,
+        onBack: () -> Unit
 ) {
     Scaffold(
-        topBar = {
-            AppTopBar(text = stringResource(id = R.string.session_search_title))
-        }
+            topBar = {
+                AppTopBar(text = stringResource(id = R.string.session_search_title))
+            }
     ) {
         Column(
-            modifier = Modifier
-                .padding(bottom = it.calculateBottomPadding() + 18.dp)
-                .fillMaxHeight()
+                modifier = Modifier
+                        .padding(bottom = it.calculateBottomPadding() + 18.dp)
+                        .fillMaxHeight()
         ) {
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -43,18 +43,18 @@ internal fun SessionSearchScreen(
                 else -> R.string.session_search_subtitle
             }
             Text(
-                text = stringResource(id = textId),
-                style= AppTextStyle.SubTitle,
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 52.dp)
+                    text = stringResource(id = textId),
+                    style = AppTextStyle.SubTitle,
+                    modifier = Modifier
+                            .padding(start = 16.dp, end = 52.dp)
             )
             Spacer(modifier = Modifier.weight(1F))
             AppButton(
-                state = AppButtonState.Content(text = stringResource(R.string.back_button)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                onClick = onBack
+                    state = AppButtonState.Content(text = stringResource(R.string.back_button)),
+                    modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                    onClick = onBack
             )
         }
     }
@@ -63,7 +63,7 @@ internal fun SessionSearchScreen(
 @Composable
 @Preview
 private fun SessionsSearchPreview(
-    @PreviewParameter(SessionsSearchStateProvider::class) state: SessionSearchUiState
+        @PreviewParameter(SessionsSearchStateProvider::class) state: SessionSearchUiState
 ) {
     SessionSearchScreen(state) {
 
@@ -73,11 +73,11 @@ private fun SessionsSearchPreview(
 internal class SessionsSearchStateProvider : PreviewParameterProvider<SessionSearchUiState> {
 
     override val values: Sequence<SessionSearchUiState> = sequenceOf(
-        SessionSearchUiState.Content(
-            sessions = listOf("1", "2", "3")
-        ),
-        SessionSearchUiState.Error,
-        SessionSearchUiState.Loading
+            SessionSearchUiState.Content(
+                    sessions = listOf("1", "2", "3")
+            ),
+            SessionSearchUiState.Error,
+            SessionSearchUiState.Loading
     )
 
 }

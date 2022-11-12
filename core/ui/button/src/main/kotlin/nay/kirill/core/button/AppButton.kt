@@ -18,27 +18,27 @@ import nay.kirill.core.compose.AppTextStyle
 
 @Composable
 fun AppButton(
-    state: AppButtonState,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
+        state: AppButtonState,
+        modifier: Modifier = Modifier,
+        onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier
-            .height(44.dp),
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = AppColors.Primary
-        ),
-        shape = RoundedCornerShape(16.dp)
+            modifier = modifier
+                    .height(44.dp),
+            onClick = onClick,
+            colors = ButtonDefaults.buttonColors(
+                    backgroundColor = AppColors.Primary
+            ),
+            shape = RoundedCornerShape(16.dp)
     ) {
         when (state) {
             is AppButtonState.Content -> Text(
-                text = state.text.uppercase(),
-                style = AppTextStyle.ButtonStyle
+                    text = state.text.uppercase(),
+                    style = AppTextStyle.ButtonStyle
             )
             is AppButtonState.Loading -> CircularProgressIndicator(
-                color = AppColors.OnPrimary,
-                modifier = Modifier.size(16.dp)
+                    color = AppColors.OnPrimary,
+                    modifier = Modifier.size(16.dp)
             )
         }
     }
@@ -47,7 +47,7 @@ fun AppButton(
 @Composable
 @Preview
 private fun AppButtonPreview(
-    @PreviewParameter(AppButtonStateProvider::class) state: AppButtonState
+        @PreviewParameter(AppButtonStateProvider::class) state: AppButtonState
 ) {
     AppButton(state) { }
 }
@@ -55,8 +55,8 @@ private fun AppButtonPreview(
 internal class AppButtonStateProvider : PreviewParameterProvider<AppButtonState> {
 
     override val values = sequenceOf(
-        AppButtonState.Loading,
-        AppButtonState.Content("Создать сессию")
+            AppButtonState.Loading,
+            AppButtonState.Content("Создать сессию")
     )
 
 }

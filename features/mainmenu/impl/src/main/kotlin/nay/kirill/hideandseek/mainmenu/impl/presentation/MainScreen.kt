@@ -29,53 +29,53 @@ import nay.kirill.hideandseek.mainmenu.impl.R
 
 @Composable
 internal fun MainMenuScreen(
-    onCreateSession: () -> Unit,
-    onConnect: () -> Unit
+        onCreateSession: () -> Unit,
+        onConnect: () -> Unit
 ) {
     Scaffold(
-        backgroundColor = AppColors.OnPrimary,
-        topBar = {
-            AppTopBar(text = stringResource(id = R.string.main_menu_title))
-        }
+            backgroundColor = AppColors.OnPrimary,
+            topBar = {
+                AppTopBar(text = stringResource(id = R.string.main_menu_title))
+            }
     ) { paddingValues: PaddingValues ->
         Box(
-            modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.main_menu_background),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
+                    painter = painterResource(id = R.drawable.main_menu_background),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter)
             )
             Column(
-                modifier = Modifier
-                    .padding(bottom = paddingValues.calculateBottomPadding() + 18.dp)
-                    .fillMaxHeight()
+                    modifier = Modifier
+                            .padding(bottom = paddingValues.calculateBottomPadding() + 18.dp)
+                            .fillMaxHeight()
             ) {
                 Spacer(modifier = Modifier.height(40.dp))
                 Text(
-                    text = stringResource(id = R.string.main_menu_subtitle),
-                    style= AppTextStyle.SubTitle,
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 52.dp)
+                        text = stringResource(id = R.string.main_menu_subtitle),
+                        style = AppTextStyle.SubTitle,
+                        modifier = Modifier
+                                .padding(start = 16.dp, end = 52.dp)
                 )
                 Spacer(modifier = Modifier.weight(1F))
                 AppButton(
-                    state = AppButtonState.Content(text = stringResource(R.string.create_session_button)),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
-                    onClick = onCreateSession
+                        state = AppButtonState.Content(text = stringResource(R.string.create_session_button)),
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp),
+                        onClick = onCreateSession
                 )
                 Spacer(modifier = Modifier.height(18.dp))
                 AppButton(
-                    state = AppButtonState.Content(text = stringResource(R.string.connect_button)),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
-                    onClick = onConnect
+                        state = AppButtonState.Content(text = stringResource(R.string.connect_button)),
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp),
+                        onClick = onConnect
                 )
             }
         }
@@ -86,7 +86,7 @@ internal fun MainMenuScreen(
 @Composable
 private fun MainMenuScreenPreview() {
     MainMenuScreen(
-        onCreateSession = {  },
-        onConnect = { }
+            onCreateSession = { },
+            onConnect = { }
     )
 }

@@ -14,15 +14,15 @@ internal class MainMenuFragment : Fragment() {
     private val viewModel: MainMenuViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
                 MainMenuScreen(
-                    onCreateSession = viewModel::onCreateSession,
-                    onConnect = viewModel::onConnectToSession
+                        onCreateSession = viewModel::onCreateSession,
+                        onConnect = viewModel::onConnectToSession
                 )
             }
         }

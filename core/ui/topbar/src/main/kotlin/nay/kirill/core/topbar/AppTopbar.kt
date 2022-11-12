@@ -9,16 +9,16 @@ import nay.kirill.core.compose.AppTextStyle
 
 @Composable
 fun AppTopBar(
-    modifier: Modifier = Modifier,
-    text: String
+        modifier: Modifier = Modifier,
+        text: String
 ) {
     Text(
         modifier = modifier
-            .padding(
-                top = 40.dp,
-                start = 16.dp,
-                end = 52.dp
-            ),
+                .padding(
+                    top = 40.dp,
+                    start = 16.dp,
+                    end = 52.dp
+                ),
         text = text,
         style = AppTextStyle.Header
     )

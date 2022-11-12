@@ -23,10 +23,10 @@ class MainApplication : Application() {
     }
 
     private val appModules = listOf(
-        navigationModule,
-        mainMenuModule,
-        mainModule,
-        sessionSearchModule
+            navigationModule,
+            mainMenuModule,
+            mainModule,
+            sessionSearchModule
     )
 
 }
