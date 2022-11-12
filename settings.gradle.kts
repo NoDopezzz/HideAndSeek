@@ -19,8 +19,14 @@ rootProject.name = "HideAndSeek"
 
 include(
     ":app",
+
+    // Features
     ":features:mainmenu:impl",
     ":features:mainmenu:api",
+    ":features:sessionsearch:api",
+    ":features:sessionsearch:impl",
+
+    // Core
     ":core:ui:compose",
-    ":core:ui:button"
+    ":core:ui:button",
 )

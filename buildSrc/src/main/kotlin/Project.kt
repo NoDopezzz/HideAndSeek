@@ -6,6 +6,10 @@ object Project {
 
         const val mainApi = ":features:mainmenu:api"
 
+        const val sessionSearchImpl = ":features:sessionsearch:impl"
+
+        const val sessionSearchApi = ":features:sessionsearch:api"
+
     }
 
     object Core {
