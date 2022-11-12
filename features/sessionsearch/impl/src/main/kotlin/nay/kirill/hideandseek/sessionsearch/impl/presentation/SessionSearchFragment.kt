@@ -22,7 +22,8 @@ internal class SessionSearchFragment : Fragment() {
             MaterialTheme {
                 SessionSearchScreen(
                         state = viewModel.uiState.value,
-                        onBack = viewModel::back
+                        onBack = viewModel::back,
+                        onRetry = {  }
                 )
             }
         }

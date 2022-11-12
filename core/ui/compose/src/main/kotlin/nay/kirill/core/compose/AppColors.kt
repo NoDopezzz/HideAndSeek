@@ -12,6 +12,12 @@ object AppColors {
 
     val OnPrimary = Color(0xFFFFFFFF)
 
+    val ListTextColor = Color(0xF515252F)
+
+    val DividerColor = Color(0xFFF2F2F2)
+
+    val RippleColor = Color(0xFFBEBEBE)
+
     val Background = Color(0xFFFFFFFF)
 
 }
