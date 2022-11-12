@@ -12,4 +12,6 @@ object AppColors {
 
     val OnPrimary = Color(0xFFFFFFFF)
 
+    val Background = Color(0xFFFFFFFF)
+
 }

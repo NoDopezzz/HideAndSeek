@@ -8,18 +8,18 @@ import androidx.compose.ui.unit.sp
 object AppTextStyle {
 
     val Header = TextStyle(
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
+        fontSize = 28.sp,
+        fontWeight = FontWeight.W700,
         fontFamily = FontFamily.SansSerif,
         lineHeight = 30.sp,
         color = AppColors.BlackText
     )
 
     val SubTitle = TextStyle(
-        fontSize = 14.sp,
-        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.W300,
         fontFamily = FontFamily.SansSerif,
-        lineHeight = 32.sp,
+        lineHeight = 26.sp,
         color = AppColors.GreyText
     )
 
