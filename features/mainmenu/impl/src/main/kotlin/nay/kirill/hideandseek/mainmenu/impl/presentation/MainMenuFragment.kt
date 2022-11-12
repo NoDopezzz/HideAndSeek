@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.fragment.app.Fragment
 
 internal class MainMenuFragment : Fragment() {
+
+    private val viewModel: MainMenuViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,7 +20,10 @@ internal class MainMenuFragment : Fragment() {
     ): View = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
-                MainMenuScreen()
+                MainMenuScreen(
+                    onCreateSession = viewModel::onCreateSession,
+                    onConnect = viewModel::onConnectToSession
+                )
             }
         }
     }

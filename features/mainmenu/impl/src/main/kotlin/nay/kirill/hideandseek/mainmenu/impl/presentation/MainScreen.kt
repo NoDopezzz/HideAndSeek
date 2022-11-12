@@ -26,9 +26,11 @@ import nay.kirill.core.compose.AppColors
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.hideandseek.mainmenu.impl.R
 
-@Preview
 @Composable
-fun MainMenuScreen() {
+internal fun MainMenuScreen(
+    onCreateSession: () -> Unit,
+    onConnect: () -> Unit
+) {
     Scaffold(
         backgroundColor = AppColors.OnPrimary,
         topBar = {
@@ -72,20 +74,27 @@ fun MainMenuScreen() {
                     state = AppButtonState.Content(text = stringResource(R.string.create_session_button)),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                ) {
-                    
-                }
+                        .padding(horizontal = 20.dp),
+                    onClick = onCreateSession
+                )
                 Spacer(modifier = Modifier.height(18.dp))
                 AppButton(
                     state = AppButtonState.Content(text = stringResource(R.string.connect_button)),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                ) {
-
-                }
+                        .padding(horizontal = 20.dp),
+                    onClick = onConnect
+                )
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun MainMenuScreenPreview() {
+    MainMenuScreen(
+        onCreateSession = {  },
+        onConnect = { }
+    )
 }
