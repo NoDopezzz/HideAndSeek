@@ -44,12 +44,13 @@ internal fun SessionSearchScreen(
         ) {
             Spacer(modifier = Modifier.height(40.dp))
 
-            val textId = when (state) {
+            val textSubtitleId = when (state) {
                 is SessionSearchUiState.Error -> R.string.session_search_error_subtitle
-                else -> R.string.session_search_subtitle
+                is SessionSearchUiState.Content -> R.string.session_search_subtitle
+                is SessionSearchUiState.Loading -> R.string.session_search_loading_subtitle
             }
             Text(
-                    text = stringResource(id = textId),
+                    text = stringResource(id = textSubtitleId),
                     style = AppTextStyle.SubTitle,
                     modifier = Modifier
                             .padding(start = 16.dp, end = 52.dp)
