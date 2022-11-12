@@ -14,6 +14,8 @@ object Project {
 
             const val compose = ":core:ui:compose"
 
+            const val button = ":core:ui:button"
+
         }
 
     }

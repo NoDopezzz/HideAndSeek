@@ -21,5 +21,6 @@ include(
     ":app",
     ":features:mainmenu:impl",
     ":features:mainmenu:api",
-    ":core:ui:compose"
+    ":core:ui:compose",
+    ":core:ui:button"
 )
