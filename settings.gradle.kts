@@ -29,5 +29,6 @@ include(
     // Core
     ":core:ui:compose",
     ":core:ui:button",
+    ":core:ui:topbar",
     ":core:arch"
 )

@@ -27,6 +27,7 @@ dependencies {
     implementation(project(Project.Features.mainApi))
     implementation(project(Project.Core.UI.compose))
     implementation(project(Project.Core.UI.button))
+    implementation(project(Project.Core.UI.topbar))
 
     implementation(project(Project.Features.sessionSearchApi))
 }

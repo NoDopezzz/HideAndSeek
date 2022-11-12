@@ -24,6 +24,7 @@ import nay.kirill.core.button.AppButton
 import nay.kirill.core.button.AppButtonState
 import nay.kirill.core.compose.AppColors
 import nay.kirill.core.compose.AppTextStyle
+import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.hideandseek.mainmenu.impl.R
 
 @Composable
@@ -34,16 +35,7 @@ internal fun MainMenuScreen(
     Scaffold(
         backgroundColor = AppColors.OnPrimary,
         topBar = {
-            Text(
-                modifier = Modifier
-                    .padding(
-                        top = 40.dp,
-                        start = 16.dp,
-                        end = 52.dp
-                    ),
-                text = stringResource(id = R.string.main_menu_title),
-                style = AppTextStyle.Header
-            )
+            AppTopBar(text = stringResource(id = R.string.main_menu_title))
         }
     ) { paddingValues: PaddingValues ->
         Box(

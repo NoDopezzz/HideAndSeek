@@ -18,6 +18,9 @@ dependencies {
     implementation(project(Project.Features.sessionSearchApi))
 
     implementation(project(Project.Core.arch))
+    implementation(project(Project.Core.UI.button))
+    implementation(project(Project.Core.UI.compose))
+    implementation(project(Project.Core.UI.topbar))
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)

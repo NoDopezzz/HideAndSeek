@@ -22,6 +22,8 @@ object Project {
 
             const val button = ":core:ui:button"
 
+            const val topbar = ":core:ui:topbar"
+
         }
 
     }

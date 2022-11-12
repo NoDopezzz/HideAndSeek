@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="session_search_title">Поиск сесиии...</string>
+    <string name="session_search_subtitle">Происходит поиск доступных сессий. Подключение использует Bluetooth, поэтому убедитесь, что эта настройка включена</string>
+    <string name="available_sessions">Доступные сессии</string>
+    <string name="session_search_error_subtitle">Произошла ошибка при поиске доступных сессий. Проверте, что в настройках устройства включен Bluetooth.</string>
+    <string name="back_button">Назад</string>
+    <string name="retry_button">Повторить</string>
+</resources>
