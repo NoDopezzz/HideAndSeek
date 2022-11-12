@@ -1,8 +1,8 @@
 package nay.kirill.hideandseek
 
 import android.app.Application
-import nay.kirill.hideandseek.di.baseModule
-import nay.kirill.hideandseek.main.impl.api.mainModule
+import nay.kirill.hideandseek.di.mainModule
+import nay.kirill.hideandseek.mainmenu.impl.api.mainMenuModule
 import nay.kirill.hideandseek.navigation.navigationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -23,8 +23,8 @@ class MainApplication : Application() {
 
     private val appModules = listOf(
         navigationModule,
-        mainModule,
-        baseModule
+        mainMenuModule,
+        mainModule
     )
 
 }

@@ -6,7 +6,7 @@ plugins {
 android {
     libraryConfig(
         target = project,
-        targetPackage = "nay.kirill.hideandseek.impl",
+        targetPackage = "nay.kirill.hideandseek.mainmenu.impl",
         compose = true
     )
 }

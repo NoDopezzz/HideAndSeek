@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.main.impl.presentation
+package nay.kirill.hideandseek.mainmenu.impl.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
@@ -9,7 +9,7 @@ import nay.kirill.core.compose.AppTextStyle
 
 @Preview
 @Composable
-fun MainScreen() {
+fun MainMenuScreen() {
     Text(
         modifier = Modifier.fillMaxSize(),
         text = "Compose main text",

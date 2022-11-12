@@ -7,6 +7,6 @@ internal class MainViewModel(
     private val navigation: Navigation
 ) : ViewModel() {
 
-    fun openMain() = navigation.openMainScreen()
+    fun openMain() = navigation.openMainMenu()
 
 }

@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.main.impl.presentation
+package nay.kirill.hideandseek.mainmenu.impl.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 
-internal class MainFragment : Fragment() {
+internal class MainMenuFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,14 +17,14 @@ internal class MainFragment : Fragment() {
     ): View = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
-                MainScreen()
+                MainMenuScreen()
             }
         }
     }
 
     companion object {
 
-        fun newInstance() = MainFragment()
+        fun newInstance() = MainMenuFragment()
 
     }
 }

@@ -1,13 +1,13 @@
 package nay.kirill.hideandseek.navigation
 
 import com.github.terrakok.cicerone.Router
-import nay.kirill.hideandseek.main.api.MainApi
+import nay.kirill.hideandseek.mainmenu.api.MainMenuApi
 
 internal class Navigation(
     private val router: Router,
-    private val mainApi: MainApi
+    private val mainApi: MainMenuApi
 ) {
 
-    fun openMainScreen() = router.newRootScreen(mainApi.getMainScreen())
+    fun openMainMenu() = router.newRootScreen(mainApi.getMainMenuScreen())
 
 }

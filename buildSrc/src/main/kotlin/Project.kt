@@ -2,9 +2,9 @@ object Project {
 
     object Features {
 
-        const val mainImpl = ":features:main:impl"
+        const val mainImpl = ":features:mainmenu:impl"
 
-        const val mainApi = ":features:main:api"
+        const val mainApi = ":features:mainmenu:api"
 
     }
 
