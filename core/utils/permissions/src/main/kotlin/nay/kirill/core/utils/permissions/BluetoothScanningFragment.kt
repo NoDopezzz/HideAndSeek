@@ -19,6 +19,9 @@ import kotlin.jvm.functions.Function0
 /**
  * Abstract Fragment for requesting permission for scanning bluetooth devices. In case your functionality requires
  * Bluetooth scanning be sure to inherit [BluetoothScanningFragment]
+ *
+ * You should use only [onCheckLocation] function of this class. Other functions are declared as public
+ * for annotation processor purposes.
  */
 
 @RuntimePermissions
@@ -26,9 +29,9 @@ abstract class BluetoothScanningFragment : Fragment() {
 
     /**
      * All required permissions can be gathered using [onCheckLocation]
-     * @param block is lambda that is gonna be invoked after all permissions will be granted
+     * @param block is lambda that is going to be invoked after all permissions will be granted
      */
-    fun onCheckLocation(block: () -> Unit) {
+    protected fun onCheckLocation(block: () -> Unit) {
         onCheckCoarseLocationWithPermissionCheck(object : Function0<Unit> {
             override fun invoke() = block()
         })
