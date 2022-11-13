@@ -28,4 +28,12 @@ object Project {
 
     }
 
+    object BluetoothSDK {
+
+        const val scannerImpl = ":bluetooth-sdk:scanner:impl"
+
+        const val scannerApi = ":bluetooth-sdk:scanner:api"
+
+    }
+
 }

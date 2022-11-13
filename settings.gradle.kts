@@ -18,17 +18,22 @@ dependencyResolutionManagement {
 rootProject.name = "HideAndSeek"
 
 include(
-    ":app",
+        ":app",
 
-    // Features
-    ":features:mainmenu:impl",
-    ":features:mainmenu:api",
-    ":features:sessionsearch:api",
-    ":features:sessionsearch:impl",
+        // Features
+        ":features:mainmenu:impl",
+        ":features:mainmenu:api",
+        ":features:sessionsearch:api",
+        ":features:sessionsearch:impl",
 
-    // Core
-    ":core:ui:compose",
-    ":core:ui:button",
-    ":core:ui:topbar",
-    ":core:arch"
+        // SDK
+        ":bluetooth-sdk:scanner:api",
+        ":bluetooth-sdk:scanner:impl",
+
+        // Core
+        ":core:ui:compose",
+        ":core:ui:button",
+        ":core:ui:topbar",
+        ":core:utils:permissions",
+        ":core:arch"
 )

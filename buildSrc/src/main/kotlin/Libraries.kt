@@ -62,6 +62,20 @@ object Libraries {
 
     }
 
+    object Bluetooth {
+
+        private const val version = "2.5.1"
+
+        const val nordic = "no.nordicsemi.android:ble-ktx:$version"
+
+        const val nordicCommon = "no.nordicsemi.android:ble-common:$version"
+
+        const val nordicExtensions = "no.nordicsemi.android:ble-ktx:$version"
+
+        const val scanner = "no.nordicsemi.android.support.v18:scanner:1.6.0"
+
+    }
+
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
 }

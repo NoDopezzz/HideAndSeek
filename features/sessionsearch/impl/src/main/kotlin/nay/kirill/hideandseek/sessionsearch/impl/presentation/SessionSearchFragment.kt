@@ -29,6 +29,12 @@ internal class SessionSearchFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getDevices()
+    }
+
     companion object {
 
         fun newInstance() = SessionSearchFragment()

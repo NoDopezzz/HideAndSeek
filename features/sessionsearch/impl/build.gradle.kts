@@ -5,9 +5,9 @@ plugins {
 
 android {
     libraryConfig(
-        target = project,
-        targetPackage = "nay.kirill.hideandseek.sessionsearch.impl",
-        compose = true
+            target = project,
+            targetPackage = "nay.kirill.hideandseek.sessionsearch.impl",
+            compose = true
     )
 }
 
@@ -21,6 +21,8 @@ dependencies {
     implementation(project(Project.Core.UI.button))
     implementation(project(Project.Core.UI.compose))
     implementation(project(Project.Core.UI.topbar))
+
+    implementation(project(Project.BluetoothSDK.scannerApi))
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)

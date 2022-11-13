@@ -2,6 +2,7 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 object AppConfig {
 
