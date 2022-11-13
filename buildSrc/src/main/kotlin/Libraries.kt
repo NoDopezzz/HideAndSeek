@@ -8,6 +8,8 @@ object Libraries {
 
         const val constraint = "androidx.constraintlayout:constraintlayout:2.1.4"
 
+        const val annotation = "androidx.annotation:annotation:1.5.0"
+
     }
 
     object Google {
@@ -37,8 +39,6 @@ object Libraries {
         private const val version = "2.2.0"
 
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
-
-        const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
 
     }
 
