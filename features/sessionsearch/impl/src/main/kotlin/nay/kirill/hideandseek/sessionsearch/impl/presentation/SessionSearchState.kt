@@ -1,21 +1,28 @@
 package nay.kirill.hideandseek.sessionsearch.impl.presentation
 
-import android.bluetooth.BluetoothDevice
+import nay.kirill.bluetooth.scanner.api.ScannedDevice
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.views.SessionUiState
 
 internal data class SessionSearchState(
-        val devices: ContentEvent<List<BluetoothDevice>>
+        val devicesEvent: ContentEvent<List<ScannedDevice>>
 )
 
 internal sealed interface SessionSearchUiState {
 
-    object Loading : SessionSearchUiState
+    val titleId: Int
+
+    val subtitleId: Int
 
     data class Content(
-            val sessions: List<SessionUiState>
+            val sessions: List<SessionUiState>,
+            override val titleId: Int,
+            override val subtitleId: Int
     ) : SessionSearchUiState
 
-    object Error : SessionSearchUiState
+    data class Error(
+            override val titleId: Int,
+            override val subtitleId: Int
+    ) : SessionSearchUiState
 
 }

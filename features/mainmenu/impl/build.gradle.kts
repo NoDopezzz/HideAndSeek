@@ -1,5 +1,6 @@
 plugins {
     kotlin("android")
+    kotlin("kapt")
     id("com.android.library")
 }
 
@@ -28,6 +29,10 @@ dependencies {
     implementation(project(Project.Core.UI.compose))
     implementation(project(Project.Core.UI.button))
     implementation(project(Project.Core.UI.topbar))
+    implementation(project(Project.Core.Utils.permissions))
 
     implementation(project(Project.Features.sessionSearchApi))
+
+    implementation(Libraries.Permission.permissionDispatcher)
+    kapt(Libraries.Permission.permissionDispatcherProcessor)
 }

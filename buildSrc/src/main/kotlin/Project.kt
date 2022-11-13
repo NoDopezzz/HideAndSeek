@@ -16,6 +16,12 @@ object Project {
 
         const val arch = ":core:arch"
 
+        object Utils {
+
+            const val permissions = ":core:utils:permissions"
+
+        }
+
         object UI {
 
             const val compose = ":core:ui:compose"

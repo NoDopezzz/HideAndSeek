@@ -20,17 +20,20 @@ internal class SessionSearchViewModel(
     fun back() = navigation.back()
 
     fun getDevices() {
-        state = state.copy(devices = ContentEvent.Loading())
+        state = state.copy(devicesEvent = ContentEvent.Loading())
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val devicesResult = bluetoothScanner.getScannedDevices()
-                devicesResult
-                        .onSuccess { devices ->
-                            state = state.copy(devices = ContentEvent.Success(devices))
+                bluetoothScanner.getScannedDevicesFlow()
+                        .collect { result ->
+                            result
+                                    .onSuccess { devices ->
+                                        state = state.copy(devicesEvent = ContentEvent.Success(devices))
+                                    }
+                                    .onFailure {
+                                        state = state.copy(devicesEvent = ContentEvent.Error(it))
+                                    }
                         }
-                        .onFailure {
-                            state = state.copy(devices = ContentEvent.Error(it))
-                        }
+
             }
         }
     }

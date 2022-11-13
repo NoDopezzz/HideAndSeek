@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.DependencyHandlerScope
-
 object Libraries {
 
     object Androidx {
@@ -73,6 +71,18 @@ object Libraries {
         const val nordicExtensions = "no.nordicsemi.android:ble-ktx:$version"
 
         const val scanner = "no.nordicsemi.android.support.v18:scanner:1.6.0"
+
+    }
+
+    object Permission {
+
+        private const val version = "4.8.0"
+
+        const val permissionDispatcher = "com.github.permissions-dispatcher:permissionsdispatcher:$version"
+
+        const val permissionDispatcherProcessor = "com.github.permissions-dispatcher:permissionsdispatcher-processor:$version"
+
+        const val permissionDispatcherKtx = "com.github.permissions-dispatcher:ktx:$version"
 
     }
 

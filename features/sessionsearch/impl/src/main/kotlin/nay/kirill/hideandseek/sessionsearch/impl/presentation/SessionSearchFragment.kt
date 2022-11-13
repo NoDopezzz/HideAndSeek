@@ -23,7 +23,7 @@ internal class SessionSearchFragment : Fragment() {
                 SessionSearchScreen(
                         state = viewModel.uiState.value,
                         onBack = viewModel::back,
-                        onRetry = {  }
+                        onRetry = viewModel::getDevices
                 )
             }
         }

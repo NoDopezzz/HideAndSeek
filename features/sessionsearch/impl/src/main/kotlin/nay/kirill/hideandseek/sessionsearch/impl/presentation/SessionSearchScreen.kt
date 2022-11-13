@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -34,7 +37,7 @@ internal fun SessionSearchScreen(
 ) {
     Scaffold(
             topBar = {
-                AppTopBar(text = stringResource(id = R.string.session_search_title))
+                AppTopBar(text = stringResource(id = state.titleId))
             }
     ) {
         Column(
@@ -44,47 +47,41 @@ internal fun SessionSearchScreen(
         ) {
             Spacer(modifier = Modifier.height(40.dp))
 
-            val textSubtitleId = when (state) {
-                is SessionSearchUiState.Error -> R.string.session_search_error_subtitle
-                is SessionSearchUiState.Content -> R.string.session_search_subtitle
-                is SessionSearchUiState.Loading -> R.string.session_search_loading_subtitle
-            }
             Text(
-                    text = stringResource(id = textSubtitleId),
+                    text = stringResource(id = state.subtitleId),
                     style = AppTextStyle.SubTitle,
                     modifier = Modifier
                             .padding(start = 16.dp, end = 52.dp)
             )
 
-            when (state) {
-                is SessionSearchUiState.Loading -> {
-                    Spacer(modifier = Modifier.weight(1F))
-                    CircularProgressIndicator(
-                            modifier = Modifier
-                                    .align(Alignment.CenterHorizontally),
-                            color = AppColors.Primary
-                    )
-                }
-                is SessionSearchUiState.Content -> Content(
+            if (state is SessionSearchUiState.Content) {
+                Content(
                         sessions = state.sessions,
                         modifier = Modifier
                                 .padding(horizontal = 16.dp)
+                                .fillMaxWidth()
+                                .weight(1F)
                 )
-                else -> Unit
+            } else {
+                Spacer(modifier = Modifier.weight(1F))
             }
 
-            Spacer(modifier = Modifier.weight(1F))
-
-            val (textButtonId, onClick) = when(state) {
-                is SessionSearchUiState.Error -> R.string.retry_button to onRetry
-                else -> R.string.back_button to onBack
+            if (state is SessionSearchUiState.Error) {
+                AppButton(
+                        state = AppButtonState.Content(text = stringResource(R.string.retry_button)),
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp),
+                        onClick = onRetry
+                )
+                Spacer(modifier = Modifier.height(18.dp))
             }
             AppButton(
-                    state = AppButtonState.Content(text = stringResource(textButtonId)),
+                    state = AppButtonState.Content(text = stringResource(R.string.back_button)),
                     modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp),
-                    onClick = onClick
+                    onClick = onBack
             )
         }
     }
@@ -95,16 +92,32 @@ private fun Content(
         sessions: List<SessionUiState>,
         modifier: Modifier = Modifier
 ) {
-    Column(modifier) {
+    Column(modifier = modifier) {
         Spacer(modifier = Modifier.height(45.dp))
         Text(
                 text = stringResource(id = R.string.available_sessions),
                 style = AppTextStyle.ListTitleStyle
         )
-        sessions.forEach { state ->
-            SessionElement(state) {
-                // TODO
+        Spacer(modifier = Modifier.height(8.dp))
+        Column(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+        ) {
+            sessions.forEach { state ->
+                SessionElement(state) {
+                    // TODO
+                }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            CircularProgressIndicator(
+                    modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(16.dp),
+                    color = AppColors.Primary,
+                    strokeWidth = 2.dp
+            )
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
@@ -129,10 +142,14 @@ internal class SessionsSearchStateProvider : PreviewParameterProvider<SessionSea
                             SessionUiState("Кирилл Samsung S22"),
                             SessionUiState("Дима Xaomi MI6", isLoading = true),
                             SessionUiState("Дима Huawei P40")
-                    )
+                    ),
+                    titleId = R.string.session_search_title,
+                    subtitleId = R.string.session_search_subtitle
             ),
-            SessionSearchUiState.Error,
-            SessionSearchUiState.Loading
+            SessionSearchUiState.Error(
+                    titleId = R.string.session_search_error_title,
+                    subtitleId = R.string.session_search_error_subtitle
+            )
     )
 
 }

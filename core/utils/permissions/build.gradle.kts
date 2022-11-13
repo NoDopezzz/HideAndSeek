@@ -9,7 +9,3 @@ android {
             targetPackage = "nay.kirill.core.utils.permissions"
     )
 }
-
-dependencies {
-    implementation(Libraries.Androidx.core)
-}

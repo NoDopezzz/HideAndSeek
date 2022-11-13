@@ -11,5 +11,6 @@ android {
 }
 
 dependencies {
-
+    implementation(Libraries.coroutines)
+    implementation(Libraries.Bluetooth.scanner)
 }

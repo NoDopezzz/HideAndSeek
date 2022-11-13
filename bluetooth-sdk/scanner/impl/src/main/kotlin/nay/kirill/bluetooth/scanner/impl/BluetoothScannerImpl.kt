@@ -1,73 +1,62 @@
 package nay.kirill.bluetooth.scanner.impl
 
-import android.Manifest
-import android.bluetooth.BluetoothDevice
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.core.app.ActivityCompat
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOf
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
 import nay.kirill.bluetooth.scanner.api.BluetoothScannerException
+import nay.kirill.bluetooth.scanner.api.ScannedDevice
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat
 import no.nordicsemi.android.support.v18.scanner.ScanCallback
 import no.nordicsemi.android.support.v18.scanner.ScanResult
 import no.nordicsemi.android.support.v18.scanner.ScanSettings
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
-internal class BluetoothScannerImpl(
-        private val context: Context
-) : BluetoothScanner {
+internal class BluetoothScannerImpl : BluetoothScanner {
 
     private val scanSettings by lazy {
         ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                .setReportDelay(4000)
+                .setUseHardwareBatchingIfSupported(true)
                 .build()
     }
 
-    override suspend fun getScannedDevices(): Result<List<BluetoothDevice>> {
+    override suspend fun getScannedDevicesFlow(): Flow<Result<List<ScannedDevice>>> {
         try {
-            checkPermission()
-            return suspendCoroutine { continuation ->
-                BluetoothLeScannerCompat.getScanner().startScan(null, scanSettings, object: ScanCallback() {
+            return callbackFlow {
+                val callback = object: ScanCallback() {
 
                     override fun onScanResult(callbackType: Int, result: ScanResult) {
                         super.onScanResult(callbackType, result)
 
-                        continuation.resume(Result.failure(BluetoothScannerException(
-                                "Got scan result"
-                        )))
+                        channel.close()
                     }
 
                     override fun onScanFailed(errorCode: Int) {
                         super.onScanFailed(errorCode)
 
-                        continuation.resume(Result.failure(BluetoothScannerException(
-                                "Failed to scan bluetooth devices. Error code $errorCode"
+                        trySend(Result.failure(BluetoothScannerException(
+                                "Failed to scan bluetooth devices. Error code"
                         )))
+                        channel.close()
                     }
 
                     override fun onBatchScanResults(results: MutableList<ScanResult>) {
                         super.onBatchScanResults(results)
 
-                        continuation.resume(Result.success(value = results.map { it.device }))
+                        trySend(Result.success(value = results.map { ScannedDevice(it) }))
                     }
-                })
+                }
+
+                BluetoothLeScannerCompat.getScanner().startScan(null, scanSettings, callback)
+
+                awaitClose { BluetoothLeScannerCompat.getScanner().stopScan(callback) }
             }
         } catch (e: Throwable) {
-            return Result.failure(e)
+            return flowOf(Result.failure(e))
         }
     }
 
-    private fun checkPermission() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(
-                        context,
-                        Manifest.permission.BLUETOOTH_CONNECT
-                ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            throw BluetoothScannerException(
-                    "BLUETOOTH_CONNECT permission is not granted!"
-            )
-        }
-    }
 }

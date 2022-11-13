@@ -73,7 +73,7 @@ private fun BaseExtension.baseConfig(
 
     target.tasks.withType(KotlinCompile::class.java).configureEach {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
         }
     }
 
