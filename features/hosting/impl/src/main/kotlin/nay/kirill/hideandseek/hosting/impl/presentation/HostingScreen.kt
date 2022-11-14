@@ -61,14 +61,16 @@ internal fun HostingScreen(
                 Spacer(modifier = Modifier.weight(1F))
             }
 
-            AppButton(
-                    state = AppButtonState.Content(text = stringResource(id = state.primaryButtonAction.buttonTitleId)),
-                    modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 20.dp),
-                    onClick = { onButtonClicked(state.primaryButtonAction) }
-            )
-            Spacer(modifier = Modifier.height(18.dp))
+            if (state.isPrimaryButtonVisible) {
+                AppButton(
+                        state = AppButtonState.Content(text = stringResource(id = state.primaryButtonAction.buttonTitleId)),
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp),
+                        onClick = { onButtonClicked(state.primaryButtonAction) }
+                )
+                Spacer(modifier = Modifier.height(18.dp))
+            }
             AppButton(
                     state = AppButtonState.Content(text = stringResource(id = state.secondaryButtonAction.buttonTitleId)),
                     modifier = Modifier
@@ -123,6 +125,7 @@ internal class HostingUiStateProvider : PreviewParameterProvider<HostingUiState>
                             ConnectedDeviceUiState("", "Дима Huawei P40"),
                                     ConnectedDeviceUiState("", "Xaomi M6")
                     ),
+                    isPrimaryButtonVisible = true,
                     titleId = R.string.hosting_title,
                     subtitle = "Игроки должны нажать на кнопку Присоединиться и выбрать устройство “Кирилл S22”",
                     primaryButtonAction = ButtonAction.Start,

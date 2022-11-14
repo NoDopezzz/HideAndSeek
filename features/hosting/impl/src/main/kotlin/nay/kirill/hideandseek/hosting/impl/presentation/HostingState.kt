@@ -20,12 +20,15 @@ internal sealed interface HostingUiState {
 
     val secondaryButtonAction: ButtonAction
 
+    val isPrimaryButtonVisible: Boolean
+
     data class Content(
             val connectedDevices: List<ConnectedDeviceUiState>,
             override val titleId: Int,
             override val subtitle: String,
             override val primaryButtonAction: ButtonAction,
-            override val secondaryButtonAction: ButtonAction
+            override val secondaryButtonAction: ButtonAction,
+            override val isPrimaryButtonVisible: Boolean
     ) : HostingUiState
 
     data class Error(
@@ -33,6 +36,10 @@ internal sealed interface HostingUiState {
             override val subtitle: String,
             override val primaryButtonAction: ButtonAction,
             override val secondaryButtonAction: ButtonAction
-    ) : HostingUiState
+    ) : HostingUiState {
+
+        override val isPrimaryButtonVisible: Boolean = true
+
+    }
 
 }
