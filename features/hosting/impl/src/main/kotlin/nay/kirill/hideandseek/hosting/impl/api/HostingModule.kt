@@ -1,6 +1,7 @@
 package nay.kirill.hideandseek.hosting.impl.api
 
 import nay.kirill.hideandseek.hosting.api.HostingApi
+import nay.kirill.hideandseek.hosting.impl.presentation.HostingNavigation
 import nay.kirill.hideandseek.hosting.impl.presentation.HostingStateConverter
 import nay.kirill.hideandseek.hosting.impl.presentation.HostingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -12,5 +13,6 @@ import org.koin.dsl.module
 val hostingModule = module {
     factoryOf(::HostingApiImpl).withOptions { bind<HostingApi>() }
     factoryOf(::HostingStateConverter)
+    factoryOf(::HostingNavigation)
     viewModelOf(::HostingViewModel)
 }

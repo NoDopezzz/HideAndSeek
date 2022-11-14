@@ -6,7 +6,8 @@ import nay.kirill.core.arch.ContentEvent
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 
 internal class HostingViewModel(
-        converter: HostingStateConverter
+        converter: HostingStateConverter,
+        private val navigation: HostingNavigation
 ) : BaseViewModel<HostingState, HostingUiState>(
         converter = converter,
         initialState = HostingState(
@@ -16,7 +17,11 @@ internal class HostingViewModel(
 ) {
 
     fun onButtonClicked(buttonAction: ButtonAction) {
-        // TODO
+        when (buttonAction) {
+            is ButtonAction.Start -> TODO()
+            is ButtonAction.Retry -> TODO()
+            is ButtonAction.Back -> navigation.back()
+        }
     }
 
 }
