@@ -11,6 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -22,7 +24,6 @@ import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.core.ui.list.AppList
 import nay.kirill.hideandseek.hosting.impl.R
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
-import nay.kirill.core.ui.res.R as CoreR
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
 
 @Composable
@@ -42,11 +43,24 @@ internal fun HostingScreen(
         ) {
             Spacer(modifier = Modifier.height(40.dp))
 
+            val text = when (state) {
+                is HostingUiState.Content -> buildAnnotatedString {
+                    withStyle(AppTextStyle.SubTitle.toSpanStyle()) {
+                        append(stringResource(id = state.subtitleId))
+                    }
+                    withStyle(AppTextStyle.SubTitleHighlighted.toSpanStyle()) {
+                        append(" \"${state.hostDeviceName}\"")
+                    }
+                }
+                else -> buildAnnotatedString {
+                    withStyle(AppTextStyle.SubTitle.toSpanStyle()) {
+                        append(stringResource(id = state.subtitleId))
+                    }
+                }
+            }
             Text(
-                    text = state.subtitle,
-                    style = AppTextStyle.SubTitle,
-                    modifier = Modifier
-                            .padding(start = 16.dp, end = 52.dp)
+                    text = text,
+                    modifier = Modifier.padding(start = 16.dp, end = 52.dp)
             )
 
             if (state is HostingUiState.Content) {
@@ -116,7 +130,7 @@ internal class HostingUiStateProvider : PreviewParameterProvider<HostingUiState>
     override val values: Sequence<HostingUiState> = sequenceOf(
             HostingUiState.Error(
                     titleId = R.string.hosting_error_title,
-                    subtitle = "Произошла ошибка при создании хоста. Проверьте настройки Bluetooth и предоставленные разрешения",
+                    subtitleId = R.string.hosting_error_subtitle,
                     primaryButtonAction = ButtonAction.Retry,
                     secondaryButtonAction = ButtonAction.Back
             ),
@@ -125,9 +139,10 @@ internal class HostingUiStateProvider : PreviewParameterProvider<HostingUiState>
                             ConnectedDeviceUiState("", "Дима Huawei P40"),
                                     ConnectedDeviceUiState("", "Xaomi M6")
                     ),
+                    hostDeviceName = "Кирилл's S22",
                     isPrimaryButtonVisible = true,
                     titleId = R.string.hosting_title,
-                    subtitle = "Игроки должны нажать на кнопку Присоединиться и выбрать устройство “Кирилл S22”",
+                    subtitleId = R.string.hosting_subtitle,
                     primaryButtonAction = ButtonAction.Start,
                     secondaryButtonAction = ButtonAction.Back
             )

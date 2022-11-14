@@ -14,7 +14,7 @@ internal sealed interface HostingUiState {
 
     val titleId: Int
 
-    val subtitle: String
+    val subtitleId: Int
 
     val primaryButtonAction: ButtonAction
 
@@ -24,8 +24,9 @@ internal sealed interface HostingUiState {
 
     data class Content(
             val connectedDevices: List<ConnectedDeviceUiState>,
+            val hostDeviceName: String,
             override val titleId: Int,
-            override val subtitle: String,
+            override val subtitleId: Int,
             override val primaryButtonAction: ButtonAction,
             override val secondaryButtonAction: ButtonAction,
             override val isPrimaryButtonVisible: Boolean
@@ -33,7 +34,7 @@ internal sealed interface HostingUiState {
 
     data class Error(
             override val titleId: Int,
-            override val subtitle: String,
+            override val subtitleId: Int,
             override val primaryButtonAction: ButtonAction,
             override val secondaryButtonAction: ButtonAction
     ) : HostingUiState {

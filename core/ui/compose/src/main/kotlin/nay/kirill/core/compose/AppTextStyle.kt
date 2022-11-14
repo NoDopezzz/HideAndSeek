@@ -23,6 +23,14 @@ object AppTextStyle {
             color = AppColors.GreyText
     )
 
+    val SubTitleHighlighted = TextStyle(
+            fontSize = 18.sp,
+            fontWeight = FontWeight.W400,
+            fontFamily = FontFamily.SansSerif,
+            lineHeight = 26.sp,
+            color = AppColors.GreyText
+    )
+
     val ButtonStyle = TextStyle(
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,

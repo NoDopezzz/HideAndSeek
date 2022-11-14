@@ -3,7 +3,7 @@
     <string name="hosting_title">Ожидание игроков…</string>
     <string name="hosting_error_title">Произошла ошибка</string>
 
-    <string name="hosting_subtitle">Игроки должны нажать на кнопку Присоединиться и выбрать устройство “%s”</string>
+    <string name="hosting_subtitle">Чтобы игроки могли присоединиться, им необходимо выбрать устройство</string>
     <string name="hosting_error_subtitle">Произошла ошибка при создании хоста. Проверьте настройки Bluetooth и предоставленные разрешения</string>
     <string name="primary_button_title">Начать игру</string>
 
