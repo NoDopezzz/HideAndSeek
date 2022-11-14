@@ -2,6 +2,7 @@ package nay.kirill.hideandseek
 
 import android.app.Application
 import nay.kirill.bluetooth.scanner.impl.bluetoothScannerModule
+import nay.kirill.bluetooth.server.impl.serverManagerModule
 import nay.kirill.core.ui.res.resourceModule
 import nay.kirill.hideandseek.di.mainModule
 import nay.kirill.hideandseek.hosting.impl.api.hostingModule
@@ -32,7 +33,8 @@ class MainApplication : Application() {
             sessionSearchModule,
             bluetoothScannerModule,
             hostingModule,
-            resourceModule
+            resourceModule,
+            serverManagerModule
     )
 
 }

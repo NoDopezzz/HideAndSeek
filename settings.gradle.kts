@@ -31,6 +31,9 @@ include(
         // SDK
         ":bluetooth-sdk:scanner:api",
         ":bluetooth-sdk:scanner:impl",
+        ":bluetooth-sdk:server-manager",
+        ":bluetooth-sdk:utils",
+        ":bluetooth-sdk:server-service:",
 
         // Core
         ":core:ui:compose",

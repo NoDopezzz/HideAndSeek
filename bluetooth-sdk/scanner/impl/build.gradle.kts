@@ -24,5 +24,6 @@ dependencies {
     implementation(Libraries.Koin.koinAndroid)
 
     implementation(project(Project.BluetoothSDK.scannerApi))
+    implementation(project(Project.BluetoothSDK.utils))
 
 }

@@ -48,6 +48,12 @@ object Project {
 
         const val scannerApi = ":bluetooth-sdk:scanner:api"
 
+        const val serverManager = ":bluetooth-sdk:server-manager"
+
+        const val serverService = ":bluetooth-sdk:server-service"
+
+        const val utils = ":bluetooth-sdk:utils"
+
     }
 
 }

@@ -1,6 +1,6 @@
 package nay.kirill.bluetooth.scanner.impl
 
-import kotlinx.coroutines.cancel
+import android.os.ParcelUuid
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -8,8 +8,10 @@ import kotlinx.coroutines.flow.flowOf
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
 import nay.kirill.bluetooth.scanner.api.BluetoothScannerException
 import nay.kirill.bluetooth.scanner.api.ScannedDevice
+import nay.kirill.bluetooth.utils.CharacteristicConstants
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat
 import no.nordicsemi.android.support.v18.scanner.ScanCallback
+import no.nordicsemi.android.support.v18.scanner.ScanFilter
 import no.nordicsemi.android.support.v18.scanner.ScanResult
 import no.nordicsemi.android.support.v18.scanner.ScanSettings
 
@@ -50,7 +52,13 @@ internal class BluetoothScannerImpl : BluetoothScanner {
                     }
                 }
 
-                BluetoothLeScannerCompat.getScanner().startScan(null, scanSettings, callback)
+                val filters = listOf(
+                        ScanFilter.Builder()
+                                .setServiceUuid(ParcelUuid(CharacteristicConstants.appUUID))
+                                .build()
+                )
+
+                BluetoothLeScannerCompat.getScanner().startScan(filters, scanSettings, callback)
 
                 awaitClose { BluetoothLeScannerCompat.getScanner().stopScan(callback) }
             }

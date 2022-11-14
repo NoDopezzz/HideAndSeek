@@ -27,4 +27,6 @@ dependencies {
     implementation(project(Project.Core.UI.res))
 
     implementation(project(Project.BluetoothSDK.scannerImpl))
+    implementation(project(Project.BluetoothSDK.serverManager))
+    implementation(project(Project.BluetoothSDK.serverService))
 }
