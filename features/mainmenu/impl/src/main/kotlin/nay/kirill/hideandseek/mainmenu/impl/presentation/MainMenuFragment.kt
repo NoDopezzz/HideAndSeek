@@ -22,13 +22,17 @@ class MainMenuFragment : BluetoothScanningFragment() {
             MaterialTheme {
                 MainMenuScreen(
                         onCreateSession = {
-                            onCheckLocation {
-                                viewModel.onCreateSession()
+                            launchWithAdvertisePermissionCheck {
+                                launchWithFineLocationPermissionCheck {
+                                    viewModel.onCreateSession()
+                                }
                             }
                         },
                         onConnect = {
-                            onCheckLocation {
-                                viewModel.onConnectToSession()
+                            launchWithScanningPermissionCheck {
+                                launchWithFineLocationPermissionCheck {
+                                    viewModel.onConnectToSession()
+                                }
                             }
                         }
                 )

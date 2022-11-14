@@ -20,37 +20,59 @@ import kotlin.jvm.functions.Function0
  * Abstract Fragment for requesting permission for scanning bluetooth devices. In case your functionality requires
  * Bluetooth scanning be sure to inherit [BluetoothScanningFragment]
  *
- * You should use only [onCheckLocation] function of this class. Other functions are declared as public
- * for annotation processor purposes.
+ * Make sure to use only [launchWithScanningPermissionCheck], [launchWithAdvertisePermissionCheck],
+ * [launchWithFineLocationPermissionCheck] functions.
+ * Other functions are declared as public for annotation processor purposes.
  */
 
 @RuntimePermissions
 abstract class BluetoothScanningFragment : Fragment() {
 
     /**
-     * All required permissions can be gathered using [onCheckLocation]
-     * @param block is lambda that is going to be invoked after all permissions will be granted
+     * If your functionality requires [Manifest.permission.BLUETOOTH_SCAN] you should
+     * call [launchWithScanningPermissionCheck] with passing lambda is [block] param
      */
-    protected fun onCheckLocation(block: () -> Unit) {
-        onCheckCoarseLocationWithPermissionCheck(object : Function0<Unit> {
+    protected fun launchWithScanningPermissionCheck(block: () -> Unit) {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> onCheckBluetoothScanWithPermissionCheck(object : Function0<Unit> {
+                override fun invoke() = block()
+            })
+            else -> block()
+        }
+    }
+
+    /**
+     * If your functionality requires [Manifest.permission.BLUETOOTH_ADVERTISE] you should
+     * call [launchWithAdvertisePermissionCheck] with passing lambda is [block] param
+     */
+    protected fun launchWithAdvertisePermissionCheck(block: () -> Unit) {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> onCheckBluetoothAdvertiseWithPermissionCheck(object : Function0<Unit> {
+                override fun invoke() = block()
+            })
+            else -> block()
+        }
+    }
+
+    /**
+     * If your functionality requires [Manifest.permission.ACCESS_FINE_LOCATION] you should
+     * call [launchWithFineLocationPermissionCheck] with passing lambda is [block] param
+     */
+    protected fun launchWithFineLocationPermissionCheck(block: () -> Unit) {
+        onCheckFineLocationWithPermissionCheck(object : Function0<Unit> {
             override fun invoke() = block()
         })
     }
 
-    @NeedsPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-    fun onCheckCoarseLocation(block: Function0<Unit>) {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> onCheckFineLocationWithPermissionCheck(block)
-            else -> onCheckBluetoothScanWithPermissionCheck(block)
-        }
-    }
-
     @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun onCheckFineLocation(block: Function0<Unit>) {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> onCheckBluetoothScanWithPermissionCheck(block)
-            else -> block.invoke()
-        }
+        block.invoke()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    @NeedsPermission(Manifest.permission.BLUETOOTH_ADVERTISE, Manifest.permission.BLUETOOTH_CONNECT)
+    fun onCheckBluetoothAdvertise(block: Function0<Unit>) {
+        block.invoke()
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -64,32 +86,21 @@ abstract class BluetoothScanningFragment : Fragment() {
         showPermissionAlert(type = PermissionType.LOCATION, request = request)
     }
 
-    @OnShowRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
-    fun showRationaleForCoarseLocation(request: PermissionRequest) {
-        showPermissionAlert(type = PermissionType.LOCATION, request = request)
-    }
-
     @RequiresApi(Build.VERSION_CODES.S)
     @OnShowRationale(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
     fun showRationaleForBluetooth(request: PermissionRequest) {
         showPermissionAlert(type = PermissionType.BLUETOOTH, request = request)
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
+    @OnShowRationale(Manifest.permission.BLUETOOTH_ADVERTISE)
+    fun showRationaleForAdvertisingBluetooth(request: PermissionRequest) {
+        showPermissionAlert(type = PermissionType.BLUETOOTH, request = request)
+    }
+
     @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
     @OnNeverAskAgain(Manifest.permission.ACCESS_FINE_LOCATION)
     fun onFineLocationPermissionNeverAskAgain() {
-        showPermissionAlert(
-                type = PermissionType.LOCATION,
-                okAction = {
-                    openPermissionSettings()
-                },
-                cancelAction = { /* Do nothing */ }
-        )
-    }
-
-    @OnPermissionDenied(Manifest.permission.ACCESS_COARSE_LOCATION)
-    @OnNeverAskAgain(Manifest.permission.ACCESS_COARSE_LOCATION)
-    fun onCoarseLocationPermissionNeverAskAgain() {
         showPermissionAlert(
                 type = PermissionType.LOCATION,
                 okAction = {
