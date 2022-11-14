@@ -5,19 +5,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.bluetooth.BluetoothManager
-import android.bluetooth.le.AdvertiseCallback
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import nay.kirill.bluetooth.server.impl.ServerManager
-import no.nordicsemi.android.ble.BleServerManager
+import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.android.ext.android.inject
 
 /**
@@ -66,7 +61,7 @@ class BleServerService : Service() {
     }
 
     private fun startServerService() {
-        if (checkBluetoothPermission()) {
+        if (PermissionsUtils.checkBluetoothAdvertisePermission(this)) {
             serverManager.open()
 
             val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -79,16 +74,13 @@ class BleServerService : Service() {
     }
 
     private fun stopServerService() {
-        if (checkBluetoothPermission()) {
+        if (PermissionsUtils.checkBluetoothAdvertisePermission(this)) {
             serverManager.close()
 
             val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
             bluetoothManager.adapter.bluetoothLeAdvertiser?.stopAdvertising(bleAdvertiseCallback)
         }
     }
-
-    private fun checkBluetoothPermission(): Boolean = Build.VERSION.SDK_INT < Build.VERSION_CODES.S
-            || ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED
 
     private inner class BleServerBinderImpl : ServiceBinder, Binder() {
 

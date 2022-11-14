@@ -8,6 +8,6 @@ class ResourceProvider(
 
     fun getString(id: Int) = context.getString(id)
 
-    fun getString(id: Int, vararg formatArgs: Any) = context.getString(id, formatArgs)
+    fun getString(id: Int, vararg formatArgs: Any) = context.getString(id, *formatArgs)
 
 }

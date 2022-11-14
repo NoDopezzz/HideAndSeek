@@ -1,6 +1,8 @@
 package nay.kirill.hideandseek.hosting.impl.presentation
 
+import android.bluetooth.BluetoothManager
 import android.content.ComponentName
+import android.content.Context.BLUETOOTH_SERVICE
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
@@ -13,6 +15,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import nay.kirill.bluetooth.server.service.BleServerService
 import nay.kirill.bluetooth.server.service.ServiceBinder
+import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class HostingFragment : Fragment() {
@@ -38,6 +41,10 @@ internal class HostingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (PermissionsUtils.checkBluetoothConnectPermission(requireContext())) {
+            viewModel.init(requireContext().getSystemService(BLUETOOTH_SERVICE) as BluetoothManager)
+        }
 
         activity?.startService(Intent(activity, BleServerService::class.java))
 

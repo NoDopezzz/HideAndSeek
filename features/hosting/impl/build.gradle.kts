@@ -23,6 +23,7 @@ dependencies {
     implementation(project(Project.Core.UI.topbar))
     implementation(project(Project.Core.UI.res))
     implementation(project(Project.Core.UI.list))
+    implementation(project(Project.Core.Utils.permissions))
 
     implementation(project(Project.BluetoothSDK.scannerApi))
     implementation(project(Project.BluetoothSDK.serverService))

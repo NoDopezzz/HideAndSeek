@@ -29,7 +29,7 @@ internal class HostingStateConverter(
                         .orEmpty(),
                 isPrimaryButtonVisible = !state.connectedDeviceEvent.data.isNullOrEmpty(),
                 titleId = R.string.hosting_title,
-                subtitle = resources.getString(R.string.hosting_subtitle, state.hostDevice.name),
+                subtitle = resources.getString(R.string.hosting_subtitle, state.hostDeviceName),
                 primaryButtonAction = ButtonAction.Start,
                 secondaryButtonAction = ButtonAction.Back
         )

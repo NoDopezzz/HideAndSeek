@@ -13,6 +13,7 @@ android {
 dependencies {
     implementation(project(Project.BluetoothSDK.serverManager))
     implementation(project(Project.BluetoothSDK.utils))
+    implementation(project(Project.Core.Utils.permissions))
 
     implementation(Libraries.Bluetooth.nordic)
     implementation(Libraries.Koin.koinAndroid)

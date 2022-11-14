@@ -6,7 +6,7 @@ import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
 
 internal data class HostingState(
-        val hostDevice: ScannedDevice,
+        val hostDeviceName: String,
         val connectedDeviceEvent: ContentEvent<List<ScannedDevice>>
 )
 
