@@ -20,7 +20,7 @@ internal class BluetoothScannerImpl : BluetoothScanner {
     private val scanSettings by lazy {
         ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                .setReportDelay(4000)
+                .setReportDelay(500)
                 .setUseHardwareBatchingIfSupported(true)
                 .build()
     }
