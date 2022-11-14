@@ -30,9 +30,13 @@ object Project {
 
             const val compose = ":core:ui:compose"
 
+            const val res = ":core:ui:res"
+
             const val button = ":core:ui:button"
 
             const val topbar = ":core:ui:topbar"
+
+            const val list = ":core:ui:list"
 
         }
 

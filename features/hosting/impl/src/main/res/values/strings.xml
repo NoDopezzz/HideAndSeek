@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hosting_title">Ожидание игроков…</string>
+    <string name="hosting_error_title">Произошла ошибка</string>
+
+    <string name="hosting_subtitle">Игроки должны нажать на кнопку Присоединиться и выбрать устройство “%s”</string>
+    <string name="hosting_error_subtitle">Произошла ошибка при создании хоста. Проверьте настройки Bluetooth и предоставленные разрешения</string>
+    <string name="primary_button_title">Начать игру</string>
+
+    <string name="connected_devices_list_title">Игроки</string>
+</resources>

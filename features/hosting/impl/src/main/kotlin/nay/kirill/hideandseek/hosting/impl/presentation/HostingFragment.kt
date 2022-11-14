@@ -11,7 +11,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class HostingFragment : Fragment() {
 
-    val viewModel: HostingViewModel by viewModel()
+    private val viewModel: HostingViewModel by viewModel()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -20,7 +20,10 @@ internal class HostingFragment : Fragment() {
     ): View = ComposeView(requireContext()).apply {
         setContent {
             MaterialTheme {
-                HostingScreen()
+                HostingScreen(
+                        state = viewModel.uiState.value,
+                        onButtonClicked = viewModel::onButtonClicked,
+                )
             }
         }
     }

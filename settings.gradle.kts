@@ -34,8 +34,10 @@ include(
 
         // Core
         ":core:ui:compose",
+        ":core:ui:res",
         ":core:ui:button",
         ":core:ui:topbar",
+        ":core:ui:list",
         ":core:utils:permissions",
         ":core:arch"
 )

@@ -24,5 +24,7 @@ dependencies {
     implementation(project(Project.Features.sessionSearchImpl))
     implementation(project(Project.Features.hostingImpl))
 
+    implementation(project(Project.Core.UI.res))
+
     implementation(project(Project.BluetoothSDK.scannerImpl))
 }
