@@ -12,6 +12,7 @@ android {
 
 dependencies {
     implementation(project(Project.BluetoothSDK.serverManager))
+    implementation(project(Project.BluetoothSDK.utils))
 
     implementation(Libraries.Bluetooth.nordic)
     implementation(Libraries.Koin.koinAndroid)

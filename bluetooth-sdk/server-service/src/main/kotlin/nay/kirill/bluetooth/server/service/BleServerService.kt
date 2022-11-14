@@ -1,14 +1,20 @@
 package nay.kirill.bluetooth.server.service
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.bluetooth.BluetoothManager
+import android.bluetooth.le.AdvertiseCallback
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import nay.kirill.bluetooth.server.impl.ServerManager
 import no.nordicsemi.android.ble.BleServerManager
@@ -17,10 +23,13 @@ import org.koin.android.ext.android.inject
 /**
  * Foreground service that enables BLE server.
  * Before binding service make sure to declare it in Manifest
+ * and request for [Manifest.permission.BLUETOOTH_ADVERTISE] if your are targeting [Build.VERSION_CODES.S]
  */
 class BleServerService : Service() {
 
     private val serverManager: ServerManager by inject()
+
+    private val bleAdvertiseCallback = BleAdvertiser.Callback()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
@@ -57,12 +66,29 @@ class BleServerService : Service() {
     }
 
     private fun startServerService() {
-        serverManager.open()
+        if (checkBluetoothPermission()) {
+            serverManager.open()
+
+            val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+            bluetoothManager.adapter.bluetoothLeAdvertiser?.startAdvertising(
+                    BleAdvertiser.settings(),
+                    BleAdvertiser.advertiseData(),
+                    bleAdvertiseCallback
+            )
+        }
     }
 
     private fun stopServerService() {
-        serverManager.close()
+        if (checkBluetoothPermission()) {
+            serverManager.close()
+
+            val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+            bluetoothManager.adapter.bluetoothLeAdvertiser?.stopAdvertising(bleAdvertiseCallback)
+        }
     }
+
+    private fun checkBluetoothPermission(): Boolean = Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+            || ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED
 
     private inner class BleServerBinderImpl : ServiceBinder, Binder() {
 
