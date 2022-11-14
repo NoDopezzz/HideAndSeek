@@ -5,14 +5,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
-import nay.kirill.core.arch.BaseViewModel
+import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
 
 internal class SessionSearchViewModel(
         converter: SessionSearchStateConverter,
         private val navigation: SessionSearchNavigation,
         private val bluetoothScanner: BluetoothScanner
-) : BaseViewModel<SessionSearchState, SessionSearchUiState>(
+) : BaseEffectViewModel<SessionSearchState, SessionSearchUiState, HostingEffect>(
         converter = converter,
         initialState = SessionSearchState(ContentEvent.Loading())
 ) {
@@ -34,6 +34,14 @@ internal class SessionSearchViewModel(
                                     }
                         }
 
+            }
+        }
+    }
+
+    fun onConnect(address: String) {
+        state.devicesEvent.onSuccess {
+            data.firstOrNull { it.address == address }?.let {
+                _effect.trySend(HostingEffect.StartService(device = it))
             }
         }
     }

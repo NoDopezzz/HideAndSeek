@@ -10,15 +10,11 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import nay.kirill.bluetooth.client.ClientManager
+import org.koin.android.ext.android.inject
 
 class BleClientService : Service() {
 
-    private val clientManager: ClientManager = ClientManager(
-            appContext = this,
-            onMessage = {
-
-            }
-    )
+    private val clientManager: ClientManager by inject()
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -39,7 +35,7 @@ class BleClientService : Service() {
 
         startForeground(1, notification)
 
-        val device = intent.getParcelableExtra(BLUETOOTH_DEVICE_EXTRA, BluetoothDevice::class.java)
+        val device = intent.getParcelableExtra<BluetoothDevice>(BLUETOOTH_DEVICE_EXTRA)
         if (device != null) startClientService(device)
 
         return START_STICKY

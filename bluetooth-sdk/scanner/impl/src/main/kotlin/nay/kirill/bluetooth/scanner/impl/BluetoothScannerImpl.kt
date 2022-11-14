@@ -1,5 +1,6 @@
 package nay.kirill.bluetooth.scanner.impl
 
+import android.bluetooth.BluetoothDevice
 import android.os.ParcelUuid
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -7,7 +8,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOf
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
 import nay.kirill.bluetooth.scanner.api.BluetoothScannerException
-import nay.kirill.bluetooth.scanner.api.ScannedDevice
 import nay.kirill.bluetooth.utils.CharacteristicConstants
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat
 import no.nordicsemi.android.support.v18.scanner.ScanCallback
@@ -25,7 +25,7 @@ internal class BluetoothScannerImpl : BluetoothScanner {
                 .build()
     }
 
-    override suspend fun getScannedDevicesFlow(): Flow<Result<List<ScannedDevice>>> {
+    override suspend fun getScannedDevicesFlow(): Flow<Result<List<BluetoothDevice>>> {
         try {
             return callbackFlow {
                 val callback = object: ScanCallback() {
@@ -48,7 +48,7 @@ internal class BluetoothScannerImpl : BluetoothScanner {
                     override fun onBatchScanResults(results: MutableList<ScanResult>) {
                         super.onBatchScanResults(results)
 
-                        trySend(Result.success(value = results.map { ScannedDevice(it) }))
+                        trySend(Result.success(value = results.map { it.device }))
                     }
                 }
 

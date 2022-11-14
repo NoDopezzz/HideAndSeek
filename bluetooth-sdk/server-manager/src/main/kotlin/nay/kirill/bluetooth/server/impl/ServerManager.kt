@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.BluetoothGattService
 import android.content.Context
+import android.util.Log
 import nay.kirill.bluetooth.utils.CharacteristicConstants
 import no.nordicsemi.android.ble.BleServerManager
 import no.nordicsemi.android.ble.observer.ServerObserver
@@ -45,6 +46,7 @@ class ServerManager(
     }
 
     override fun onDeviceConnectedToServer(device: BluetoothDevice) {
+        Log.i("ServerManager", "On new device connected: ${device.name}")
 
         serverConnections[device.address] = DeviceConnectionManager(context)
                 .apply {

@@ -1,13 +1,13 @@
 package nay.kirill.hideandseek.hosting.impl.presentation
 
-import nay.kirill.bluetooth.scanner.api.ScannedDevice
+import android.bluetooth.BluetoothDevice
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
 
 internal data class HostingState(
         val hostDeviceName: String,
-        val connectedDeviceEvent: ContentEvent<List<ScannedDevice>>
+        val connectedDeviceEvent: ContentEvent<List<BluetoothDevice>>
 )
 
 internal sealed interface HostingUiState {

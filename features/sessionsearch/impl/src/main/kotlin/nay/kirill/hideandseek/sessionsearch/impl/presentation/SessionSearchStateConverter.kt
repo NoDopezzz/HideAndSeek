@@ -1,14 +1,13 @@
 package nay.kirill.hideandseek.sessionsearch.impl.presentation
 
-import android.Manifest.permission.BLUETOOTH_CONNECT
-import androidx.annotation.RequiresPermission
+import android.annotation.SuppressLint
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.hideandseek.sessionsearch.impl.R
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.views.SessionUiState
 
 internal class SessionSearchStateConverter : (SessionSearchState) -> SessionSearchUiState {
 
-    @RequiresPermission(BLUETOOTH_CONNECT)
+    @SuppressLint("MissingPermission")
     override fun invoke(state: SessionSearchState): SessionSearchUiState = when (state.devicesEvent) {
         is ContentEvent.Error -> SessionSearchUiState.Error(
                 titleId = R.string.session_search_error_title,
@@ -20,7 +19,8 @@ internal class SessionSearchStateConverter : (SessionSearchState) -> SessionSear
                 sessions = state.devicesEvent.data
                         ?.map {
                             SessionUiState(
-                                    name = it.name,
+                                    deviceAddress = it.address,
+                                    name = it.name ?: it.address,
                                     isLoading = false
                             )
                         }

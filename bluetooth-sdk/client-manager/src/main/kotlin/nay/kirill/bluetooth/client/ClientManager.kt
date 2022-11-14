@@ -10,8 +10,7 @@ import nay.kirill.bluetooth.utils.CharacteristicConstants.characteristicUUID
 import no.nordicsemi.android.ble.BleManager
 
 class ClientManager(
-        appContext: Context,
-        private val onMessage: (String) -> Unit
+        appContext: Context
 ) : BleManager(appContext) {
 
     override fun getGattCallback() = object : BleManagerGattCallback() {
@@ -35,7 +34,8 @@ class ClientManager(
         override fun initialize() {
             setNotificationCallback(characteristic).with { _, data ->
                 if (data.value != null) {
-                    onMessage(String(data.value!!, Charsets.UTF_8))
+                    val value = String(data.value!!, Charsets.UTF_8)
+                    TODO()
                 }
             }
 

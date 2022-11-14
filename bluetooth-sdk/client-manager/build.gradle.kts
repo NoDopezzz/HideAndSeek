@@ -15,4 +15,6 @@ dependencies {
 
     implementation(project(Project.BluetoothSDK.utils))
 
+    implementation(Libraries.Koin.koinAndroid)
+
 }

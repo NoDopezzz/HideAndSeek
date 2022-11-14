@@ -29,7 +29,8 @@ import nay.kirill.hideandseek.sessionsearch.impl.presentation.views.SessionUiSta
 internal fun SessionSearchScreen(
         state: SessionSearchUiState,
         onBack: () -> Unit,
-        onRetry: () -> Unit
+        onRetry: () -> Unit,
+        onConnectToDevice: (String) -> Unit
 ) {
     Scaffold(
             topBar = {
@@ -56,7 +57,8 @@ internal fun SessionSearchScreen(
                         modifier = Modifier
                                 .padding(horizontal = 16.dp)
                                 .fillMaxWidth()
-                                .weight(1F)
+                                .weight(1F),
+                        onConnectToDevice = onConnectToDevice
                 )
             } else {
                 Spacer(modifier = Modifier.weight(1F))
@@ -86,7 +88,8 @@ internal fun SessionSearchScreen(
 @Composable
 private fun Content(
         sessions: List<SessionUiState>,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        onConnectToDevice: (String) -> Unit
 ) {
     AppList(
             listTitle = stringResource(id = R.string.available_sessions),
@@ -94,7 +97,7 @@ private fun Content(
             modifier = modifier
     ) { state ->
         SessionElement(state) {
-            // TODO
+            onConnectToDevice.invoke(state.deviceAddress)
         }
     }
 }
@@ -107,7 +110,8 @@ private fun SessionsSearchPreview(
     SessionSearchScreen(
             state = state,
             onBack = { },
-            onRetry = { }
+            onRetry = { },
+            onConnectToDevice = { }
     )
 }
 
@@ -116,9 +120,9 @@ internal class SessionsSearchStateProvider : PreviewParameterProvider<SessionSea
     override val values: Sequence<SessionSearchUiState> = sequenceOf(
             SessionSearchUiState.Content(
                     sessions = listOf(
-                            SessionUiState("Кирилл Samsung S22"),
-                            SessionUiState("Дима Xaomi MI6", isLoading = true),
-                            SessionUiState("Дима Huawei P40")
+                            SessionUiState("", "Кирилл Samsung S22"),
+                            SessionUiState("", "Дима Xaomi MI6", isLoading = true),
+                            SessionUiState("", "Дима Huawei P40")
                     ),
                     titleId = R.string.session_search_title,
                     subtitleId = R.string.session_search_subtitle
