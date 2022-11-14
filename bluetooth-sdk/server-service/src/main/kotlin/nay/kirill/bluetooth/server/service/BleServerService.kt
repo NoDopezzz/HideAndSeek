@@ -82,7 +82,7 @@ class BleServerService : Service() {
         }
     }
 
-    private inner class BleServerBinderImpl : ServiceBinder, Binder() {
+    private inner class BleServerBinderImpl : ServerServiceBinder, Binder() {
 
         override fun sendMessage(message: String, deviceId: String?) {
             serverManager.sendMessage(message, deviceId)

@@ -14,7 +14,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import nay.kirill.bluetooth.server.service.BleServerService
-import nay.kirill.bluetooth.server.service.ServiceBinder
+import nay.kirill.bluetooth.server.service.ServerServiceBinder
 import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,7 +22,7 @@ internal class HostingFragment : Fragment() {
 
     private val viewModel: HostingViewModel by viewModel()
 
-    private var serviceBinder: ServiceBinder? = null
+    private var serviceBinder: ServerServiceBinder? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -67,7 +67,7 @@ internal class HostingFragment : Fragment() {
     private val connection = object : ServiceConnection {
 
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
-            serviceBinder = binder as? ServiceBinder
+            serviceBinder = binder as? ServerServiceBinder
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {

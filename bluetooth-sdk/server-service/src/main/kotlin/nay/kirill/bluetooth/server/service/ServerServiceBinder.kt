@@ -4,7 +4,7 @@ package nay.kirill.bluetooth.server.service
  * Binder of [BleServerService].
  * Is used to communicate with connected devices via BLE
  */
-interface ServiceBinder {
+interface ServerServiceBinder {
 
     /**
      * Method [sendMessage] sends message to connected devices

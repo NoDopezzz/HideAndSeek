@@ -52,6 +52,10 @@ object Project {
 
         const val serverService = ":bluetooth-sdk:server-service"
 
+        const val clientManager = ":bluetooth-sdk:client-manager"
+
+        const val clientService = ":bluetooth-sdk:client-service"
+
         const val utils = ":bluetooth-sdk:utils"
 
     }

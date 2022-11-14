@@ -33,7 +33,9 @@ include(
         ":bluetooth-sdk:scanner:impl",
         ":bluetooth-sdk:server-manager",
         ":bluetooth-sdk:utils",
-        ":bluetooth-sdk:server-service:",
+        ":bluetooth-sdk:server-service",
+        ":bluetooth-sdk:client-manager",
+        ":bluetooth-sdk:client-service",
 
         // Core
         ":core:ui:compose",
