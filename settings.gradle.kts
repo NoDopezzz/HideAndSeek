@@ -31,12 +31,12 @@ include(
         // SDK
         ":bluetooth-sdk:scanner:api",
         ":bluetooth-sdk:scanner:impl",
-        ":bluetooth-sdk:server-manager",
-        ":bluetooth-sdk:server-callback",
-        ":bluetooth-sdk:server-service",
+        ":bluetooth-sdk:server:manager",
+        ":bluetooth-sdk:server:callback",
+        ":bluetooth-sdk:server:service",
         ":bluetooth-sdk:utils",
-        ":bluetooth-sdk:client-manager",
-        ":bluetooth-sdk:client-service",
+        ":bluetooth-sdk:client:manager",
+        ":bluetooth-sdk:client:service",
 
         // Core
         ":core:ui:compose",
