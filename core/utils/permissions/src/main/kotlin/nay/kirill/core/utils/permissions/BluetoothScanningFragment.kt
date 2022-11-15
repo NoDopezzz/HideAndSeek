@@ -93,7 +93,7 @@ abstract class BluetoothScanningFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
-    @OnShowRationale(Manifest.permission.BLUETOOTH_ADVERTISE)
+    @OnShowRationale(Manifest.permission.BLUETOOTH_ADVERTISE, Manifest.permission.BLUETOOTH_CONNECT)
     fun showRationaleForAdvertisingBluetooth(request: PermissionRequest) {
         showPermissionAlert(type = PermissionType.BLUETOOTH, request = request)
     }
@@ -113,6 +113,18 @@ abstract class BluetoothScanningFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.S)
     @OnPermissionDenied(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
     fun onBluetoothPermissionNeverAskAgain() {
+        showPermissionAlert(
+                type = PermissionType.BLUETOOTH,
+                okAction = {
+                    openPermissionSettings()
+                },
+                cancelAction = { /* Do nothing */ }
+        )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    @OnPermissionDenied(Manifest.permission.BLUETOOTH_ADVERTISE, Manifest.permission.BLUETOOTH_CONNECT)
+    fun onBluetoothAdvertisingPermissionNeverAskAgain() {
         showPermissionAlert(
                 type = PermissionType.BLUETOOTH,
                 okAction = {
