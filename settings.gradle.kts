@@ -32,8 +32,9 @@ include(
         ":bluetooth-sdk:scanner:api",
         ":bluetooth-sdk:scanner:impl",
         ":bluetooth-sdk:server-manager",
-        ":bluetooth-sdk:utils",
+        ":bluetooth-sdk:server-callback",
         ":bluetooth-sdk:server-service",
+        ":bluetooth-sdk:utils",
         ":bluetooth-sdk:client-manager",
         ":bluetooth-sdk:client-service",
 
@@ -44,5 +45,6 @@ include(
         ":core:ui:topbar",
         ":core:ui:list",
         ":core:utils:permissions",
-        ":core:arch"
+        ":core:arch",
+        ":core:utils:callbackFlow"
 )

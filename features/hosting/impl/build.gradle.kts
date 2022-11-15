@@ -24,9 +24,11 @@ dependencies {
     implementation(project(Project.Core.UI.res))
     implementation(project(Project.Core.UI.list))
     implementation(project(Project.Core.Utils.permissions))
+    implementation(project(Project.Core.Utils.callbackFlow))
 
     implementation(project(Project.BluetoothSDK.scannerApi))
     implementation(project(Project.BluetoothSDK.serverService))
+    implementation(project(Project.BluetoothSDK.serverCallback))
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)

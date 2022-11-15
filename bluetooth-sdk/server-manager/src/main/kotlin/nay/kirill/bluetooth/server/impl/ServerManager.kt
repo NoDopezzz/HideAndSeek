@@ -12,7 +12,8 @@ import no.nordicsemi.android.ble.observer.ServerObserver
 import java.nio.charset.StandardCharsets
 
 class ServerManager(
-        private val context: Context
+        private val context: Context,
+        private val consumerCallback: ServerConsumerCallback
 ) : BleServerManager(context), ServerObserver {
 
     private val gattCharacteristic = sharedCharacteristic(
@@ -42,11 +43,11 @@ class ServerManager(
     }
 
     override fun onServerReady() {
-
+        consumerCallback.onServerReady()
     }
 
     override fun onDeviceConnectedToServer(device: BluetoothDevice) {
-        Log.i("ServerManager", "On new device connected: ${device.name}")
+        consumerCallback.onNewDeviceConnected(device)
 
         serverConnections[device.address] = DeviceConnectionManager(context)
                 .apply {
@@ -56,6 +57,8 @@ class ServerManager(
     }
 
     override fun onDeviceDisconnectedFromServer(device: BluetoothDevice) {
+        consumerCallback.onDeviceDisconnected(device)
+
         serverConnections.remove(device.address)?.close()
     }
 

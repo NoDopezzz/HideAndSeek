@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
@@ -11,9 +12,13 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import nay.kirill.bluetooth.server.callback.ServerEvent
+import nay.kirill.bluetooth.server.callback.ServerServiceCallback
+import nay.kirill.bluetooth.server.impl.ServerConsumerCallback
 import nay.kirill.bluetooth.server.impl.ServerManager
 import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.android.ext.android.inject
+import kotlin.random.Random
 
 /**
  * Foreground service that enables BLE server.
@@ -22,7 +27,25 @@ import org.koin.android.ext.android.inject
  */
 class BleServerService : Service() {
 
-    private val serverManager: ServerManager by inject()
+    private var serverManager: ServerManager? = null
+
+    private val serverServiceCallback: ServerServiceCallback by inject()
+
+    private val consumerCallback = object : ServerConsumerCallback {
+
+        override fun onNewDeviceConnected(device: BluetoothDevice) {
+            serverServiceCallback.setResult(ServerEvent.OnDeviceConnected(device))
+        }
+
+        override fun onDeviceDisconnected(device: BluetoothDevice) {
+            serverServiceCallback.setResult(ServerEvent.OnDeviceDisconnected(device))
+        }
+
+        override fun onServerReady() {
+            serverServiceCallback.setResult(ServerEvent.OnServerIsReady)
+        }
+
+    }
 
     private val bleAdvertiseCallback = BleAdvertiser.Callback()
 
@@ -61,31 +84,47 @@ class BleServerService : Service() {
     }
 
     private fun startServerService() {
-        if (PermissionsUtils.checkBluetoothAdvertisePermission(this)) {
-            serverManager.open()
+        try {
+            if (PermissionsUtils.checkBluetoothAdvertisePermission(this)) {
+                serverManager = ServerManager(this, consumerCallback)
+                serverManager?.open()
 
-            val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-            bluetoothManager.adapter.bluetoothLeAdvertiser?.startAdvertising(
-                    BleAdvertiser.settings(),
-                    BleAdvertiser.advertiseData(),
-                    bleAdvertiseCallback
-            )
+                val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+                bluetoothManager.adapter.bluetoothLeAdvertiser?.startAdvertising(
+                        BleAdvertiser.settings(),
+                        BleAdvertiser.advertiseData(),
+                        bleAdvertiseCallback
+                )
+            }
+        } catch(e: Throwable) {
+            serverServiceCallback.setResult(ServerEvent.OnFatalException(e))
+
+            stopSelf()
         }
     }
 
     private fun stopServerService() {
-        if (PermissionsUtils.checkBluetoothAdvertisePermission(this)) {
-            serverManager.close()
+        try {
+            if (PermissionsUtils.checkBluetoothAdvertisePermission(this)) {
+                serverManager?.close()
+                serverManager = null
 
-            val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-            bluetoothManager.adapter.bluetoothLeAdvertiser?.stopAdvertising(bleAdvertiseCallback)
+                val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+                bluetoothManager.adapter.bluetoothLeAdvertiser?.stopAdvertising(bleAdvertiseCallback)
+            }
+        } catch (e: Throwable) {
+            serverServiceCallback.setResult(ServerEvent.OnFatalException(e))
         }
     }
 
     private inner class BleServerBinderImpl : ServerServiceBinder, Binder() {
 
         override fun sendMessage(message: String, deviceId: String?) {
-            serverManager.sendMessage(message, deviceId)
+            try {
+                serverManager?.sendMessage(message, deviceId)
+            } catch (e: Throwable) {
+                serverServiceCallback.setResult(ServerEvent.OnMinorException(e))
+            }
         }
 
     }

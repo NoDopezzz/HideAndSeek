@@ -24,6 +24,8 @@ object Project {
 
             const val permissions = ":core:utils:permissions"
 
+            const val callbackFlow = ":core:utils:callbackFlow"
+
         }
 
         object UI {
@@ -51,6 +53,8 @@ object Project {
         const val serverManager = ":bluetooth-sdk:server-manager"
 
         const val serverService = ":bluetooth-sdk:server-service"
+
+        const val serverCallback = ":bluetooth-sdk:server-callback"
 
         const val clientManager = ":bluetooth-sdk:client-manager"
 

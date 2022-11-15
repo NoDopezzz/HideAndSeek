@@ -13,6 +13,10 @@ import android.view.ViewGroup
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.server.service.BleServerService
 import nay.kirill.bluetooth.server.service.ServerServiceBinder
 import nay.kirill.core.utils.permissions.PermissionsUtils
@@ -46,16 +50,35 @@ internal class HostingFragment : Fragment() {
             viewModel.init(requireContext().getSystemService(BLUETOOTH_SERVICE) as BluetoothManager)
         }
 
+        startService()
+
+        observeEffects()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        runCatching { activity?.unbindService(connection) }
+
+        activity?.stopService(Intent(activity, BleServerService::class.java))
+    }
+
+    private fun startService() {
         activity?.startService(Intent(activity, BleServerService::class.java))
 
         activity?.bindService(Intent(activity, BleServerService::class.java), connection, 0)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        activity?.unbindService(connection)
+    private fun observeEffects() {
+        viewModel.effect
+                .flowWithLifecycle(lifecycle)
+                .onEach(::onEffect)
+                .launchIn(lifecycleScope)
+    }
 
-        activity?.stopService(Intent(activity, BleServerService::class.java))
+    private fun onEffect(eff: HostingEff) {
+        when (eff) {
+            is HostingEff.RetryStartService -> startService()
+        }
     }
 
     companion object {

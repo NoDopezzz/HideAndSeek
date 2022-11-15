@@ -10,11 +10,10 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import nay.kirill.bluetooth.client.ClientManager
-import org.koin.android.ext.android.inject
 
 class BleClientService : Service() {
 
-    private val clientManager: ClientManager by inject()
+    private var clientManager: ClientManager? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -51,11 +50,18 @@ class BleClientService : Service() {
     }
 
     private fun startClientService(device: BluetoothDevice) {
-        clientManager.connect(device).useAutoConnect(true)?.enqueue()
+        clientManager = ClientManager(this)
+        clientManager
+                ?.connect(device)
+                ?.retry(3, 100)
+                ?.timeout(15_000)
+                ?.useAutoConnect(false)
+                ?.enqueue()
     }
 
     private fun stopClientService() {
-        clientManager.close()
+        clientManager?.close()
+        clientManager = null
     }
 
     companion object {
