@@ -1,4 +1,4 @@
-package nay.kirill.bluetooth.server.callback
+package nay.kirill.bluetooth.server.callback.event
 
 import android.bluetooth.BluetoothDevice
 

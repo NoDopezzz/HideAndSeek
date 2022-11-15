@@ -54,7 +54,7 @@ internal class BluetoothScannerImpl : BluetoothScanner {
 
                 val filters = listOf(
                         ScanFilter.Builder()
-                                .setServiceUuid(ParcelUuid(CharacteristicConstants.appUUID))
+                                .setServiceUuid(ParcelUuid(CharacteristicConstants.SERVICE_UUID))
                                 .build()
                 )
 

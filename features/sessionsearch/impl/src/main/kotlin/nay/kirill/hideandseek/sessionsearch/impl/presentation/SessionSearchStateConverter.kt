@@ -21,7 +21,7 @@ internal class SessionSearchStateConverter : (SessionSearchState) -> SessionSear
                             SessionUiState(
                                     deviceAddress = it.address,
                                     name = it.name ?: it.address,
-                                    isLoading = false
+                                    isLoading = it.address == state.deviceAddressToConnect
                             )
                         }
                         .orEmpty()

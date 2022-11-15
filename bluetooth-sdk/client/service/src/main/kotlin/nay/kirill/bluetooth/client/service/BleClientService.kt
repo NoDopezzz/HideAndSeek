@@ -9,11 +9,38 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import nay.kirill.bluetooth.client.ClientConsumerCallback
 import nay.kirill.bluetooth.client.ClientManager
+import nay.kirill.bluetooth.client.callback.ClientEvent
+import nay.kirill.bluetooth.client.callback.ClientServiceCallback
+import no.nordicsemi.android.ble.PhyRequest
+import org.koin.android.ext.android.inject
 
 class BleClientService : Service() {
 
+    private val clientServiceCallback : ClientServiceCallback by inject()
+
     private var clientManager: ClientManager? = null
+
+    private val consumerCallback = object : ClientConsumerCallback {
+
+        override fun onServiceInvalidated() {
+            clientServiceCallback.setResult(ClientEvent.ServiceInvalidated)
+        }
+
+        override fun onNewMessage(device: BluetoothDevice, message: String) {
+            clientServiceCallback.setResult(ClientEvent.OnNewMessage(message))
+        }
+
+        override fun onSubscriptionSuccess(device: BluetoothDevice) {
+            clientServiceCallback.setResult(ClientEvent.SubscriptionResult(result = Result.success(device)))
+        }
+
+        override fun onSubscriptionFailed(error: Throwable) {
+            clientServiceCallback.setResult(ClientEvent.SubscriptionResult(result = Result.failure(error)))
+        }
+
+    }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -50,12 +77,21 @@ class BleClientService : Service() {
     }
 
     private fun startClientService(device: BluetoothDevice) {
-        clientManager = ClientManager(this)
+        clientManager = ClientManager(this, consumerCallback)
         clientManager
                 ?.connect(device)
-                ?.retry(3, 100)
-                ?.timeout(15_000)
+                ?.retry(4, 150)
                 ?.useAutoConnect(false)
+                ?.done {
+                    clientServiceCallback.setResult(ClientEvent.ConnectionResult(Result.success(it)))
+                }
+                ?.fail { _, status ->
+                    clientServiceCallback.setResult(
+                            value = ClientEvent.ConnectionResult(
+                                    connectResult = Result.failure(IllegalStateException("Failed to connect to bluetooth device: $status"))
+                            )
+                    )
+                }
                 ?.enqueue()
     }
 

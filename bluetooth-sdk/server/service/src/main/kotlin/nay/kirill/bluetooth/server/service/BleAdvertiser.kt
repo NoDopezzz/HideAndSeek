@@ -7,7 +7,6 @@ import android.os.ParcelUuid
 import nay.kirill.bluetooth.utils.CharacteristicConstants
 
 object BleAdvertiser {
-	private const val TAG = "ble-advertiser"
 
 	class Callback : AdvertiseCallback()
 
@@ -24,7 +23,7 @@ object BleAdvertiser {
 		return AdvertiseData.Builder()
 				.setIncludeDeviceName(false) // Including it will blow the length
 				.setIncludeTxPowerLevel(false)
-				.addServiceUuid(ParcelUuid(CharacteristicConstants.appUUID))
+				.addServiceUuid(ParcelUuid(CharacteristicConstants.SERVICE_UUID))
 				.build()
 	}
 }

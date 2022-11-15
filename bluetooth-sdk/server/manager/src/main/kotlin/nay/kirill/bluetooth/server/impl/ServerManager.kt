@@ -17,20 +17,15 @@ class ServerManager(
 ) : BleServerManager(context), ServerObserver {
 
     private val gattCharacteristic = sharedCharacteristic(
-            CharacteristicConstants.appUUID,
+            CharacteristicConstants.CHARACTERISTIC_UUID,
             BluetoothGattCharacteristic.PROPERTY_READ
                     or BluetoothGattCharacteristic.PROPERTY_NOTIFY,
-            BluetoothGattCharacteristic.PERMISSION_READ_ENCRYPTED_MITM,
-            descriptor(
-                    CharacteristicConstants.characteristicUUID,
-                    BluetoothGattDescriptor.PERMISSION_READ_ENCRYPTED_MITM
-                            or BluetoothGattDescriptor.PERMISSION_WRITE_ENCRYPTED_MITM, byteArrayOf(0, 0)
-            ),
+            BluetoothGattCharacteristic.PERMISSION_READ,
             description("A characteristic to be read", false) // descriptors
     )
 
     private val gattService = service(
-            CharacteristicConstants.appUUID,
+            CharacteristicConstants.SERVICE_UUID,
             gattCharacteristic
     )
 

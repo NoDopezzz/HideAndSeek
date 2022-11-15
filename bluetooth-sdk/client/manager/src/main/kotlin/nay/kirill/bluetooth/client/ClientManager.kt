@@ -4,13 +4,13 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.content.Context
-import android.util.Log
-import nay.kirill.bluetooth.utils.CharacteristicConstants.appUUID
-import nay.kirill.bluetooth.utils.CharacteristicConstants.characteristicUUID
+import nay.kirill.bluetooth.utils.CharacteristicConstants.CHARACTERISTIC_UUID
+import nay.kirill.bluetooth.utils.CharacteristicConstants.SERVICE_UUID
 import no.nordicsemi.android.ble.BleManager
 
 class ClientManager(
-        appContext: Context
+        appContext: Context,
+        private val consumerCallback: ClientConsumerCallback
 ) : BleManager(appContext) {
 
     override fun getGattCallback() = object : BleManagerGattCallback() {
@@ -18,9 +18,9 @@ class ClientManager(
         private var characteristic: BluetoothGattCharacteristic? = null
 
         override fun isRequiredServiceSupported(gatt: BluetoothGatt): Boolean {
-            val service = gatt.getService(appUUID) ?: return false
+            val service = gatt.getService(SERVICE_UUID) ?: return false
 
-            characteristic = service.getCharacteristic(characteristicUUID)
+            characteristic = service.getCharacteristic(CHARACTERISTIC_UUID)
             val properties = characteristic?.properties ?: 0
 
             return (properties and BluetoothGattCharacteristic.PROPERTY_READ != 0) &&
@@ -28,29 +28,29 @@ class ClientManager(
         }
 
         override fun onServicesInvalidated() {
+            consumerCallback.onServiceInvalidated()
             characteristic = null
         }
 
         override fun initialize() {
-            setNotificationCallback(characteristic).with { _, data ->
+            setNotificationCallback(characteristic).with { device, data ->
                 if (data.value != null) {
                     val value = String(data.value!!, Charsets.UTF_8)
-                    TODO()
+                    consumerCallback.onNewMessage(device, value)
                 }
             }
 
             beginAtomicRequestQueue()
                     .add(enableNotifications(characteristic)
                             .fail { _: BluetoothDevice?, status: Int ->
-                                log(Log.ERROR, "Could not subscribe: $status")
+                                consumerCallback.onSubscriptionFailed(IllegalStateException("Was not able to subscribe: $status"))
                                 disconnect().enqueue()
                             }
                     )
-                    .done {
-                        log(Log.INFO, "Target initialized")
+                    .done { device ->
+                        consumerCallback.onSubscriptionSuccess(device)
                     }
                     .enqueue()
         }
-
     }
 }
