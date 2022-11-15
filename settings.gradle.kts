@@ -37,6 +37,7 @@ include(
         ":bluetooth-sdk:utils",
         ":bluetooth-sdk:client:manager",
         ":bluetooth-sdk:client:service",
+        ":bluetooth-sdk:client:callback",
 
         // Core
         ":core:ui:compose",

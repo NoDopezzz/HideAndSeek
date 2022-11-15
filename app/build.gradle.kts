@@ -32,4 +32,5 @@ dependencies {
     implementation(project(Project.BluetoothSDK.serverCallback))
     implementation(project(Project.BluetoothSDK.clientManager))
     implementation(project(Project.BluetoothSDK.clientService))
+    implementation(project(Project.BluetoothSDK.clientCallback))
 }
