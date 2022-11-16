@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.hosting.impl.presentation.models
+package nay.kirill.hideandseek.hosting.impl.presentation.hosting.models
 
 data class ConnectedDeviceUiState(
         val deviceId: String,

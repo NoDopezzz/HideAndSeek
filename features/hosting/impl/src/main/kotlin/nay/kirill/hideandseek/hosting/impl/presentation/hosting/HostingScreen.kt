@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.hosting.impl.presentation
+package nay.kirill.hideandseek.hosting.impl.presentation.hosting
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +24,7 @@ import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.core.ui.error.AppError
 import nay.kirill.core.ui.list.AppList
 import nay.kirill.hideandseek.hosting.impl.R
-import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
+import nay.kirill.hideandseek.hosting.impl.presentation.hosting.models.ConnectedDeviceUiState
 
 @Composable
 internal fun HostingScreen(
@@ -144,7 +144,7 @@ internal class HostingUiStateProvider : PreviewParameterProvider<HostingUiState>
             HostingUiState.Content(
                     connectedDevices = listOf(
                             ConnectedDeviceUiState("", "Дима Huawei P40"),
-                                    ConnectedDeviceUiState("", "Xaomi M6")
+                            ConnectedDeviceUiState("", "Xaomi M6")
                     ),
                     hostDeviceName = "Кирилл's S22",
                     isPrimaryButtonVisible = true,

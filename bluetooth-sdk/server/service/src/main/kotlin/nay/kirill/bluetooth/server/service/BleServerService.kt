@@ -46,12 +46,12 @@ class BleServerService : Service(), CoroutineScope {
 
     private val consumerCallback = object : ServerConsumerCallback {
 
-        override fun onNewDeviceConnected(device: BluetoothDevice) {
-            serverEventCallback.setResult(ServerEvent.OnDeviceConnected(device))
+        override fun onNewDeviceConnected(device: BluetoothDevice, deviceCount: Int) {
+            serverEventCallback.setResult(ServerEvent.OnDeviceConnected(device, deviceCount))
         }
 
-        override fun onDeviceDisconnected(device: BluetoothDevice) {
-            serverEventCallback.setResult(ServerEvent.OnDeviceDisconnected(device))
+        override fun onDeviceDisconnected(device: BluetoothDevice, deviceCount: Int) {
+            serverEventCallback.setResult(ServerEvent.OnDeviceDisconnected(device,deviceCount))
         }
 
         override fun onServerReady() {

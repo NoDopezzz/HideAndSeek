@@ -31,7 +31,7 @@ internal class HideCounterViewModel(
     fun startTimer() {
         timerJob?.cancel()
         timerJob = viewModelScope.launch {
-            for (i in 60 downTo 0) {
+            for (i in 59 downTo 0) {
                 delay(1000)
                 state = HideCounterState.Content(i)
             }

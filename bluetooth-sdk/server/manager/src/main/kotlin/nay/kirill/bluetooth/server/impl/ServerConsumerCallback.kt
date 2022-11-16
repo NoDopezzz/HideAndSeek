@@ -7,9 +7,9 @@ interface ServerConsumerCallback {
 
     fun onNewMessage(device: BluetoothDevice, message: String)
 
-    fun onNewDeviceConnected(device: BluetoothDevice)
+    fun onNewDeviceConnected(device: BluetoothDevice, deviceCount: Int)
 
-    fun onDeviceDisconnected(device: BluetoothDevice)
+    fun onDeviceDisconnected(device: BluetoothDevice, deviceCount: Int)
 
     fun onServerReady()
 

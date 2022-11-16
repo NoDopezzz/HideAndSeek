@@ -55,13 +55,15 @@ class ServerManager(
                             .fail { _, status ->
                                 consumerCallback.onFailure(ServerException.DeviceConnectionException(status))
                             }
-                            .done(consumerCallback::onNewDeviceConnected)
+                            .done { connectedDevice ->
+                                consumerCallback.onNewDeviceConnected(connectedDevice, serverConnections.size + 1)
+                            }
                             .enqueue()
                 }
     }
 
     override fun onDeviceDisconnectedFromServer(device: BluetoothDevice) {
-        consumerCallback.onDeviceDisconnected(device)
+        consumerCallback.onDeviceDisconnected(device, serverConnections.size - 1)
 
         serverConnections.remove(device.address)?.close()
     }

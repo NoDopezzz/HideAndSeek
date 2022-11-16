@@ -1,11 +1,11 @@
-package nay.kirill.hideandseek.hosting.impl.presentation
+package nay.kirill.hideandseek.hosting.impl.presentation.hosting
 
 import android.annotation.SuppressLint
 import android.content.Context
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.core.utils.permissions.PermissionsUtils
 import nay.kirill.hideandseek.hosting.impl.R
-import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
+import nay.kirill.hideandseek.hosting.impl.presentation.hosting.models.ConnectedDeviceUiState
 
 internal class HostingStateConverter(
         private val context: Context

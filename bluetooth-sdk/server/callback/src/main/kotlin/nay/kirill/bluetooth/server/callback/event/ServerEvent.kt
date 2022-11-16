@@ -10,13 +10,17 @@ sealed interface ServerEvent {
 
     /**
      * [OnDeviceConnected] is sent when new device is connected to server
+     * @param device is connected device
+     * @param deviceCount is new amount of connected devices
      */
-    data class OnDeviceConnected(val device: BluetoothDevice) : ServerEvent
+    data class OnDeviceConnected(val device: BluetoothDevice, val deviceCount: Int) : ServerEvent
 
     /**
      * [OnDeviceConnected] is sent when device got disconnected from server
+     * @param device is disconnected device
+     * @param deviceCount is new amount of connected devices
      */
-    data class OnDeviceDisconnected(val device: BluetoothDevice) : ServerEvent
+    data class OnDeviceDisconnected(val device: BluetoothDevice, val deviceCount: Int) : ServerEvent
 
     /**
      * [OnServerIsReady] is sent when server is initialized and ready to use

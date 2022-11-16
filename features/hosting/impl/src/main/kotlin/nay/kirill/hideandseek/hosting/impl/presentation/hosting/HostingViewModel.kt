@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.hosting.impl.presentation
+package nay.kirill.hideandseek.hosting.impl.presentation.hosting
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
@@ -15,6 +15,7 @@ import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.core.ui.res.ResourceProvider
 import nay.kirill.hideandseek.hosting.impl.R
+import nay.kirill.hideandseek.hosting.impl.presentation.HostingNavigation
 
 internal class HostingViewModel(
         converter: HostingStateConverter,
@@ -52,6 +53,8 @@ internal class HostingViewModel(
         serverMessageCallback.setResult(value = ServerMessage.WriteCharacteristic(
                 message = MessageConstants.START
         ))
+
+        navigation.openTimer()
     }
 
     fun retry() {
@@ -77,6 +80,7 @@ internal class HostingViewModel(
     }
 
     private fun handleFatalServerFailure(error: Throwable) {
+        _effect.trySend(HostingEff.StopService)
         state = state.copy(connectedDeviceEvent = ContentEvent.Error(error))
     }
 

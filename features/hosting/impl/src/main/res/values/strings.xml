@@ -10,4 +10,11 @@
 
     <string name="connected_devices_list_title">Игроки</string>
     <string name="error_occurred_message">Произошла ошибка: %s</string>
+
+    <string name="seek_timer_title">Игроки прячутся</string>
+    <string name="stop_game_button_title">Остановить игру</string>
+
+    <string name="no_permissions_error_description">Произошла ошибка при работе сервера. Перепроверьте настройку Bluetooth и предоставленные разрешения пользователю</string>
+    <string name="no_connections_error_description">Кажется, все пользователи отключились от игры</string>
+    <string name="common_error_description">Произошла ошибка при работе сервера</string>
 </resources>
