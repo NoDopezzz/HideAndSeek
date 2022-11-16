@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.sessionsearch.impl.presentation
+package nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch
 
 import android.annotation.SuppressLint
 import nay.kirill.core.arch.ContentEvent

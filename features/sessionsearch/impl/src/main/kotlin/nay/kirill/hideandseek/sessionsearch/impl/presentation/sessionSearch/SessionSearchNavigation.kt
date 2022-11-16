@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.sessionsearch.impl.presentation
+package nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch
 
 import com.github.terrakok.cicerone.Router
 

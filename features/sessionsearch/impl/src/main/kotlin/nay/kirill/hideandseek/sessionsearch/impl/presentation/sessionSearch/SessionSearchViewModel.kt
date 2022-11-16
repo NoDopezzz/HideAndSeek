@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.sessionsearch.impl.presentation
+package nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
-import nay.kirill.bluetooth.client.callback.message.ClientMessageCallback
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
@@ -16,8 +15,7 @@ internal class SessionSearchViewModel(
         converter: SessionSearchStateConverter,
         private val navigation: SessionSearchNavigation,
         private val bluetoothScanner: BluetoothScanner,
-        private val clientEventCallback: ClientEventCallback,
-        private val clientMessageCallback: ClientMessageCallback
+        private val clientEventCallback: ClientEventCallback
 ) : BaseEffectViewModel<SessionSearchState, SessionSearchUiState, SessionSearchEffect>(
         converter = converter,
         initialState = SessionSearchState(ContentEvent.Loading())

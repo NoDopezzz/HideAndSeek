@@ -1,9 +1,9 @@
 package nay.kirill.hideandseek.sessionsearch.impl.api
 
 import nay.kirill.hideandseek.sessionsearch.api.SessionSearchApi
-import nay.kirill.hideandseek.sessionsearch.impl.presentation.SessionSearchStateConverter
-import nay.kirill.hideandseek.sessionsearch.impl.presentation.SessionSearchViewModel
-import nay.kirill.hideandseek.sessionsearch.impl.presentation.SessionSearchNavigation
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchStateConverter
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchViewModel
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchNavigation
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
