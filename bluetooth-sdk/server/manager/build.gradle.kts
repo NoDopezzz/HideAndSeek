@@ -15,4 +15,5 @@ dependencies {
     implementation(Libraries.Koin.koinAndroid)
 
     implementation(project(Project.BluetoothSDK.utils))
+    implementation(project(Project.BluetoothSDK.serverExceptions))
 }

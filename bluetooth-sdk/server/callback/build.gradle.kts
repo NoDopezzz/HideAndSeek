@@ -15,4 +15,5 @@ dependencies {
     implementation(Libraries.Koin.koinAndroid)
 
     implementation(project(Project.Core.Utils.callbackFlow))
+    implementation(project(Project.BluetoothSDK.serverExceptions))
 }

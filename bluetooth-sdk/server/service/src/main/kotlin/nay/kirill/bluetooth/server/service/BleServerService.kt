@@ -20,6 +20,7 @@ import nay.kirill.bluetooth.server.callback.event.ServerEvent
 import nay.kirill.bluetooth.server.callback.event.ServerEventCallback
 import nay.kirill.bluetooth.server.callback.message.ServerMessage
 import nay.kirill.bluetooth.server.callback.message.ServerMessageCallback
+import nay.kirill.bluetooth.server.exceptions.ServerException
 import nay.kirill.bluetooth.server.impl.ServerConsumerCallback
 import nay.kirill.bluetooth.server.impl.ServerManager
 import nay.kirill.core.utils.permissions.PermissionsUtils
@@ -59,6 +60,10 @@ class BleServerService : Service(), CoroutineScope {
 
         override fun onNewMessage(device: BluetoothDevice, message: String) {
             serverEventCallback.setResult(ServerEvent.OnNewMessage(message, device))
+        }
+
+        override fun onFailure(throwable: ServerException) {
+            serverEventCallback.setResult(ServerEvent.OnMinorException(throwable))
         }
 
     }
@@ -123,7 +128,7 @@ class BleServerService : Service(), CoroutineScope {
                 )
             }
         } catch (e: Throwable) {
-            serverEventCallback.setResult(ServerEvent.OnFatalException(e))
+            serverEventCallback.setResult(ServerEvent.OnFatalException(ServerException.UnknownException(e.message)))
 
             stopSelf()
         }
@@ -139,15 +144,11 @@ class BleServerService : Service(), CoroutineScope {
                 bluetoothManager.adapter.bluetoothLeAdvertiser?.stopAdvertising(bleAdvertiseCallback)
             }
         } catch (e: Throwable) {
-            serverEventCallback.setResult(ServerEvent.OnFatalException(e))
+            serverEventCallback.setResult(ServerEvent.OnFatalException(ServerException.UnknownException(e.message)))
         }
     }
 
     private fun sendMessage(message: String, deviceId: String?) {
-        try {
-            serverManager?.sendMessage(message, deviceId)
-        } catch (e: Throwable) {
-            serverEventCallback.setResult(ServerEvent.OnMinorException(e))
-        }
+        serverManager?.sendMessage(message, deviceId)
     }
 }

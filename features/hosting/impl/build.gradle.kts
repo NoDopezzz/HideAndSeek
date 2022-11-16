@@ -29,6 +29,7 @@ dependencies {
     implementation(project(Project.BluetoothSDK.scannerApi))
     implementation(project(Project.BluetoothSDK.serverService))
     implementation(project(Project.BluetoothSDK.serverCallback))
+    implementation(project(Project.BluetoothSDK.serverExceptions))
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)

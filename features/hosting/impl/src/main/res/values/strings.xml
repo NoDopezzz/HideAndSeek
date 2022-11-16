@@ -8,4 +8,5 @@
     <string name="primary_button_title">Начать игру</string>
 
     <string name="connected_devices_list_title">Игроки</string>
+    <string name="error_occurred_message">Произошла ошибка: %s</string>
 </resources>

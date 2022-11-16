@@ -1,6 +1,7 @@
 package nay.kirill.bluetooth.server.callback.event
 
 import android.bluetooth.BluetoothDevice
+import nay.kirill.bluetooth.server.exceptions.ServerException
 
 /**
  * Events that BLE-server service produce.
@@ -27,13 +28,13 @@ sealed interface ServerEvent {
      * If it happened ForegroundService is about to shutdown and you should reconnected to
      * server again
      */
-    data class OnFatalException(val throwable: Throwable) : ServerEvent
+    data class OnFatalException(val throwable: ServerException) : ServerEvent
 
     /**
      * [OnMinorException] defines exceptions while trying to update current state,
      * like write or read characteristics. It do not affect base server connection
      */
-    data class OnMinorException(val throwable: Throwable) : ServerEvent
+    data class OnMinorException(val throwable: ServerException) : ServerEvent
 
     /**
      * Receive [OnNewMessage] when got new message from connected BLE-client.

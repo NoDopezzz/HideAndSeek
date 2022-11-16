@@ -10,12 +10,15 @@ import nay.kirill.bluetooth.server.callback.event.ServerEvent
 import nay.kirill.bluetooth.server.callback.event.ServerEventCallback
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
+import nay.kirill.core.ui.res.ResourceProvider
+import nay.kirill.hideandseek.hosting.impl.R
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 
 internal class HostingViewModel(
         converter: HostingStateConverter,
         private val navigation: HostingNavigation,
-        private val serverServiceCallback: ServerEventCallback
+        private val serverServiceCallback: ServerEventCallback,
+        private val resourceProvider: ResourceProvider
 ) : BaseEffectViewModel<HostingState, HostingUiState, HostingEff>(
         converter = converter,
         initialState = HostingState(
@@ -29,7 +32,8 @@ internal class HostingViewModel(
         state = state.copy(hostDeviceName = manager.adapter.name)
 
         serverServiceCallback.result
-                .onEach { event ->when (event) {
+                .onEach { event ->
+                    when (event) {
                         is ServerEvent.OnServerIsReady -> handleOnServerReady()
                         is ServerEvent.OnDeviceConnected -> handleNewDeviceConnected(device = event.device)
                         is ServerEvent.OnDeviceDisconnected -> handleDeviceDisconnected(device = event.device)
@@ -68,7 +72,11 @@ internal class HostingViewModel(
     }
 
     private fun handleMinorException(error: Throwable) {
-
+        _effect.trySend(
+                HostingEff.ShowToast(
+                        message = resourceProvider.getString(R.string.error_occurred_message, error.message.orEmpty())
+                )
+        )
     }
 
 }

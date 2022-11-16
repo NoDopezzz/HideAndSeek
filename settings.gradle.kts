@@ -35,6 +35,7 @@ include(
         ":bluetooth-sdk:server:manager",
         ":bluetooth-sdk:server:callback",
         ":bluetooth-sdk:server:service",
+        ":bluetooth-sdk:server:exceptions",
         ":bluetooth-sdk:utils",
         ":bluetooth-sdk:client:manager",
         ":bluetooth-sdk:client:exceptions",

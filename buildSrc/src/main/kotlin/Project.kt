@@ -58,6 +58,8 @@ object Project {
 
         const val serverCallback = ":bluetooth-sdk:server:callback"
 
+        const val serverExceptions = ":bluetooth-sdk:server:exceptions"
+
         const val clientManager = ":bluetooth-sdk:client:manager"
 
         const val clientService = ":bluetooth-sdk:client:service"

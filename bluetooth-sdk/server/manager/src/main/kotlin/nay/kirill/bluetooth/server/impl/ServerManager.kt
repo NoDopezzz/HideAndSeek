@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.BluetoothGattService
 import android.content.Context
+import nay.kirill.bluetooth.server.exceptions.ServerException
 import nay.kirill.bluetooth.utils.CharacteristicConstants
 import no.nordicsemi.android.ble.BleManager
 import no.nordicsemi.android.ble.BleServerManager
@@ -47,12 +48,15 @@ class ServerManager(
     }
 
     override fun onDeviceConnectedToServer(device: BluetoothDevice) {
-        consumerCallback.onNewDeviceConnected(device)
-
         serverConnections[device.address] = DeviceConnectionManager(context)
                 .apply {
                     useServer(this@ServerManager)
-                    connect(device).enqueue()
+                    connect(device)
+                            .fail { _, status ->
+                                consumerCallback.onFailure(ServerException.DeviceConnectionException(status))
+                            }
+                            .done(consumerCallback::onNewDeviceConnected)
+                            .enqueue()
                 }
     }
 
@@ -97,7 +101,11 @@ class ServerManager(
         }
 
         fun sendMessage(value: ByteArray, characteristic: BluetoothGattCharacteristic) {
-            sendNotification(characteristic, value).enqueue()
+            sendNotification(characteristic, value)
+                    .fail { _, status ->
+                        consumerCallback.onFailure(ServerException.SendMessageException(status))
+                    }
+                    .enqueue()
         }
 
     }
