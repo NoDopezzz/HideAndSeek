@@ -34,9 +34,9 @@ internal class SessionSearchFragment : Fragment() {
         }
     }
 
-    private fun onEffect(effect: HostingEffect) {
+    private fun onEffect(effect: SessionSearchEffect) {
         when (effect) {
-            is HostingEffect.StartService -> startService(device = effect.device)
+            is SessionSearchEffect.StartService -> startService(device = effect.device)
         }
     }
 

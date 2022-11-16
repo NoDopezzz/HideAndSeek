@@ -18,7 +18,7 @@ internal class SessionSearchViewModel(
         private val bluetoothScanner: BluetoothScanner,
         private val clientEventCallback: ClientEventCallback,
         private val clientMessageCallback: ClientMessageCallback
-) : BaseEffectViewModel<SessionSearchState, SessionSearchUiState, HostingEffect>(
+) : BaseEffectViewModel<SessionSearchState, SessionSearchUiState, SessionSearchEffect>(
         converter = converter,
         initialState = SessionSearchState(ContentEvent.Loading())
 ) {
@@ -79,7 +79,7 @@ internal class SessionSearchViewModel(
         state = state.copy(deviceAddressToConnect = address)
         state.devicesEvent.onSuccess {
             data.firstOrNull { it.address == address }?.let {
-                _effect.trySend(HostingEffect.StartService(device = it))
+                _effect.trySend(SessionSearchEffect.StartService(device = it))
             }
         }
     }
