@@ -31,7 +31,7 @@ dependencies {
     implementation(project(Project.Core.UI.topbar))
     implementation(project(Project.Core.Utils.permissions))
 
-    implementation(project(Project.Features.sessionSearchApi))
+    implementation(project(Project.Features.clientApi))
     implementation(project(Project.Features.hostApi))
 
     implementation(Libraries.Permission.permissionDispatcher)

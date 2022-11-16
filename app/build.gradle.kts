@@ -21,7 +21,7 @@ dependencies {
 
     implementation(project(Project.Features.mainImpl))
     implementation(project(Project.Features.mainApi))
-    implementation(project(Project.Features.sessionSearchImpl))
+    implementation(project(Project.Features.clientImpl))
     implementation(project(Project.Features.hostImpl))
 
     implementation(project(Project.Core.UI.res))

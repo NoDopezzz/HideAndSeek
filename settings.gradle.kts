@@ -24,8 +24,8 @@ include(
         // Features
         ":features:mainmenu:impl",
         ":features:mainmenu:api",
-        ":features:sessionsearch:api",
-        ":features:sessionsearch:impl",
+        ":features:client:api",
+        ":features:client:impl",
         ":features:host:api",
         ":features:host:impl",
 

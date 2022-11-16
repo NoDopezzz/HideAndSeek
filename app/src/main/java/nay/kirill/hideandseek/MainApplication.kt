@@ -10,7 +10,7 @@ import nay.kirill.hideandseek.di.mainModule
 import nay.kirill.hideandseek.host.impl.api.hostingModule
 import nay.kirill.hideandseek.mainmenu.impl.api.mainMenuModule
 import nay.kirill.hideandseek.navigation.navigationModule
-import nay.kirill.hideandseek.sessionsearch.impl.api.sessionSearchModule
+import nay.kirill.hideandseek.client.impl.api.sessionSearchModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

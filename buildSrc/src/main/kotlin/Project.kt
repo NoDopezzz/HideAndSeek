@@ -6,9 +6,9 @@ object Project {
 
         const val mainApi = ":features:mainmenu:api"
 
-        const val sessionSearchImpl = ":features:sessionsearch:impl"
+        const val clientImpl = ":features:client:impl"
 
-        const val sessionSearchApi = ":features:sessionsearch:api"
+        const val clientApi = ":features:client:api"
 
         const val hostImpl = ":features:host:impl"
 
