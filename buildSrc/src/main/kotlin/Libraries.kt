@@ -58,6 +58,8 @@ object Libraries {
 
         const val bom = "androidx.compose:compose-bom:2022.10.00"
 
+        const val lottie = "com.airbnb.android:lottie-compose:5.2.0"
+
     }
 
     object Bluetooth {
