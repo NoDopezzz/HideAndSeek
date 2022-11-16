@@ -1,5 +1,7 @@
 package nay.kirill.hideandseek.sessionsearch.impl.presentation.counter
 
+import nay.kirill.core.ui.timer.TimerState
+
 internal sealed interface HideCounterState {
 
     data class Content(val count: Int) : HideCounterState
@@ -11,8 +13,7 @@ internal sealed interface HideCounterState {
 internal sealed interface HideCounterUiState {
 
     data class Content(
-            val seconds: String,
-            val progress: Float
+            val timerState: TimerState
     ) : HideCounterUiState
 
     object Error : HideCounterUiState

@@ -42,6 +42,8 @@ object Project {
 
             const val error = ":core:ui:error"
 
+            const val timer = ":core:ui:timer"
+
         }
 
     }

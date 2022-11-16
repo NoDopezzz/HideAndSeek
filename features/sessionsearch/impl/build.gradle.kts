@@ -28,6 +28,7 @@ dependencies {
     implementation(project(Project.Core.UI.res))
     implementation(project(Project.Core.UI.list))
     implementation(project(Project.Core.UI.error))
+    implementation(project(Project.Core.UI.timer))
 
     implementation(project(Project.BluetoothSDK.scannerApi))
     implementation(project(Project.BluetoothSDK.clientService))

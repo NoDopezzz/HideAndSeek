@@ -49,6 +49,7 @@ include(
         ":core:ui:topbar",
         ":core:ui:list",
         ":core:ui:error",
+        ":core:ui:timer",
         ":core:utils:permissions",
         ":core:arch",
         ":core:utils:callbackFlow"
