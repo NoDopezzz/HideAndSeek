@@ -46,14 +46,14 @@ private fun Content(
     ) { paddingValues ->
         Column(
                 modifier = Modifier
-                        .padding(bottom = paddingValues.calculateBottomPadding())
+                        .padding(bottom = paddingValues.calculateBottomPadding() + 16.dp)
                         .fillMaxSize()
         ) {
             Spacer(modifier = Modifier.weight(1F))
             Timer(
                     state = state.timerState,
-                    size = 150,
-                    stroke = 5,
+                    size = 250,
+                    stroke = 10,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.weight(1F))

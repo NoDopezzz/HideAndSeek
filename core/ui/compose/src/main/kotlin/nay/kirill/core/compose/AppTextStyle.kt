@@ -15,6 +15,14 @@ object AppTextStyle {
             color = AppColors.BlackText
     )
 
+    val Highlighted = TextStyle(
+            fontSize = 36.sp,
+            fontWeight = FontWeight.W700,
+            fontFamily = FontFamily.SansSerif,
+            lineHeight = 30.sp,
+            color = AppColors.BlackText
+    )
+
     val SubTitle = TextStyle(
             fontSize = 18.sp,
             fontWeight = FontWeight.W300,
