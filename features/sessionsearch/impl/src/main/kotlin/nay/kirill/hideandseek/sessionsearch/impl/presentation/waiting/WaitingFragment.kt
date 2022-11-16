@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -29,13 +30,25 @@ internal class WaitingFragment : Fragment() {
             MaterialTheme {
                 WaitingScreen(
                         state = viewModel.uiState.value,
-                        onBack = {
-                            activity?.stopService(Intent(activity, BleClientService::class.java))
-                            viewModel.back()
-                        }
+                        onBack = ::back
                 )
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                back()
+            }
+        })
+    }
+
+    private fun back() {
+        activity?.stopService(Intent(activity, BleClientService::class.java))
+        viewModel.back()
     }
 
     companion object {
