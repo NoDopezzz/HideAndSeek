@@ -40,6 +40,8 @@ object Project {
 
             const val list = ":core:ui:list"
 
+            const val error = ":core:ui:error"
+
         }
 
     }

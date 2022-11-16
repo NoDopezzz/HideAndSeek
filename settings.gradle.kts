@@ -46,6 +46,7 @@ include(
         ":core:ui:button",
         ":core:ui:topbar",
         ":core:ui:list",
+        ":core:ui:error",
         ":core:utils:permissions",
         ":core:arch",
         ":core:utils:callbackFlow"
