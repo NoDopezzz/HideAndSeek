@@ -8,17 +8,14 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
-import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import nay.kirill.bluetooth.server.callback.event.ServerEvent
 import nay.kirill.bluetooth.server.callback.event.ServerEventCallback
 import nay.kirill.bluetooth.server.callback.message.ServerMessage
@@ -37,7 +34,7 @@ import kotlin.coroutines.CoroutineContext
 class BleServerService : Service(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext by lazy {
-        SupervisorJob() + Dispatchers.IO
+        SupervisorJob()
     }
 
     private var serverManager: ServerManager? = null
@@ -58,6 +55,10 @@ class BleServerService : Service(), CoroutineScope {
 
         override fun onServerReady() {
             serverEventCallback.setResult(ServerEvent.OnServerIsReady)
+        }
+
+        override fun onNewMessage(device: BluetoothDevice, message: String) {
+            serverEventCallback.setResult(ServerEvent.OnNewMessage(message, device))
         }
 
     }
@@ -90,7 +91,7 @@ class BleServerService : Service(), CoroutineScope {
         serverMessageCallback.result
                 .onEach { msg ->
                     when (msg) {
-                        is ServerMessage.WriteCharacteristic -> sendMessage(msg.message, msg.deviceId)
+                        is ServerMessage.WriteCharacteristic -> sendMessage(msg.message, msg.deviceAddress)
                         else -> Unit
                     }
                 }

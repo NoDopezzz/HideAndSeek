@@ -9,35 +9,47 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.client.ClientConsumerCallback
 import nay.kirill.bluetooth.client.ClientManager
-import nay.kirill.bluetooth.client.callback.ClientEvent
-import nay.kirill.bluetooth.client.callback.ClientServiceCallback
-import no.nordicsemi.android.ble.PhyRequest
+import nay.kirill.bluetooth.client.callback.event.ClientEvent
+import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
+import nay.kirill.bluetooth.client.callback.message.ClientMessage
+import nay.kirill.bluetooth.client.callback.message.ClientMessageCallback
 import org.koin.android.ext.android.inject
+import kotlin.coroutines.CoroutineContext
 
-class BleClientService : Service() {
+class BleClientService : Service(), CoroutineScope {
 
-    private val clientServiceCallback : ClientServiceCallback by inject()
+    override val coroutineContext: CoroutineContext by lazy {
+        SupervisorJob()
+    }
+
+    private val eventCallback: ClientEventCallback by inject()
+
+    private val messageCallback: ClientMessageCallback by inject()
 
     private var clientManager: ClientManager? = null
 
     private val consumerCallback = object : ClientConsumerCallback {
 
         override fun onServiceInvalidated() {
-            clientServiceCallback.setResult(ClientEvent.ServiceInvalidated)
+            eventCallback.setResult(ClientEvent.ServiceInvalidated)
         }
 
         override fun onNewMessage(device: BluetoothDevice, message: String) {
-            clientServiceCallback.setResult(ClientEvent.OnNewMessage(message))
+            eventCallback.setResult(ClientEvent.OnNewMessage(message))
         }
 
         override fun onSubscriptionSuccess(device: BluetoothDevice) {
-            clientServiceCallback.setResult(ClientEvent.SubscriptionResult(result = Result.success(device)))
+            eventCallback.setResult(ClientEvent.SubscriptionResult(result = Result.success(device)))
         }
 
         override fun onSubscriptionFailed(error: Throwable) {
-            clientServiceCallback.setResult(ClientEvent.SubscriptionResult(result = Result.failure(error)))
+            eventCallback.setResult(ClientEvent.SubscriptionResult(result = Result.failure(error)))
         }
 
     }
@@ -64,6 +76,10 @@ class BleClientService : Service() {
         val device = intent.getParcelableExtra<BluetoothDevice>(BLUETOOTH_DEVICE_EXTRA)
         if (device != null) startClientService(device)
 
+        messageCallback.result
+                .onEach { reduceMessage(it) }
+                .launchIn(this)
+
         return START_STICKY
     }
 
@@ -72,8 +88,16 @@ class BleClientService : Service() {
         stopClientService()
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
-        return null
+    override fun onBind(p0: Intent?): IBinder? = null
+
+    private fun reduceMessage(msg: ClientMessage) {
+        when (msg) {
+            is ClientMessage.SendMessage -> sendMessage(msg.message)
+        }
+    }
+
+    private fun sendMessage(message: String) {
+        clientManager?.sendMessage(message)
     }
 
     private fun startClientService(device: BluetoothDevice) {
@@ -83,10 +107,10 @@ class BleClientService : Service() {
                 ?.retry(4, 150)
                 ?.useAutoConnect(false)
                 ?.done {
-                    clientServiceCallback.setResult(ClientEvent.ConnectionResult(Result.success(it)))
+                    eventCallback.setResult(ClientEvent.ConnectionResult(Result.success(it)))
                 }
                 ?.fail { _, status ->
-                    clientServiceCallback.setResult(
+                    eventCallback.setResult(
                             value = ClientEvent.ConnectionResult(
                                     connectResult = Result.failure(IllegalStateException("Failed to connect to bluetooth device: $status"))
                             )

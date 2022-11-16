@@ -1,16 +1,13 @@
 package nay.kirill.hideandseek.sessionsearch.impl.presentation
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import nay.kirill.bluetooth.client.callback.ClientEvent
-import nay.kirill.bluetooth.client.callback.ClientServiceCallback
+import nay.kirill.bluetooth.client.callback.event.ClientEvent
+import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
+import nay.kirill.bluetooth.client.callback.message.ClientMessageCallback
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
@@ -19,7 +16,8 @@ internal class SessionSearchViewModel(
         converter: SessionSearchStateConverter,
         private val navigation: SessionSearchNavigation,
         private val bluetoothScanner: BluetoothScanner,
-        private val clientServiceCallback: ClientServiceCallback
+        private val clientEventCallback: ClientEventCallback,
+        private val clientMessageCallback: ClientMessageCallback
 ) : BaseEffectViewModel<SessionSearchState, SessionSearchUiState, HostingEffect>(
         converter = converter,
         initialState = SessionSearchState(ContentEvent.Loading())
@@ -30,10 +28,8 @@ internal class SessionSearchViewModel(
     fun back() = navigation.back()
 
     fun init() {
-        clientServiceCallback.result
+        clientEventCallback.result
                 .onEach { event ->
-                    Log.i("SessionSearchViewModel", "New event: $event")
-
                     when (event) {
                         is ClientEvent.ServiceInvalidated -> {
                             state = state.copy(
@@ -50,9 +46,6 @@ internal class SessionSearchViewModel(
                                         state = state.copy(devicesEvent = ContentEvent.Error(it), deviceAddressToConnect = null)
                                     }
 
-                        }
-                        is ClientEvent.OnNewMessage -> {
-                            _effect.trySend(HostingEffect.NewMessageReceived(message = event.message))
                         }
                         else -> Unit
                     }

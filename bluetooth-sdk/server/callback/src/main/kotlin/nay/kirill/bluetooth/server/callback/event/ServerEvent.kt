@@ -34,4 +34,11 @@ sealed interface ServerEvent {
      * like write or read characteristics. It do not affect base server connection
      */
     data class OnMinorException(val throwable: Throwable) : ServerEvent
+
+    /**
+     * Receive [OnNewMessage] when got new message from connected BLE-client.
+     * @param message is message that client sent
+     * @param device is client that sent message
+     */
+    data class OnNewMessage(val message: String, val device: BluetoothDevice) : ServerEvent
 }

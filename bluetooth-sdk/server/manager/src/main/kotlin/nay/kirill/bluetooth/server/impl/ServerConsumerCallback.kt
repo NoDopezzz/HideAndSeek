@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothDevice
 
 interface ServerConsumerCallback {
 
+    fun onNewMessage(device: BluetoothDevice, message: String)
+
     fun onNewDeviceConnected(device: BluetoothDevice)
 
     fun onDeviceDisconnected(device: BluetoothDevice)

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -38,9 +37,6 @@ internal class SessionSearchFragment : Fragment() {
     private fun onEffect(effect: HostingEffect) {
         when (effect) {
             is HostingEffect.StartService -> startService(device = effect.device)
-            is HostingEffect.NewMessageReceived -> {
-                Toast.makeText(requireContext(), effect.message, Toast.LENGTH_LONG).show()
-            }
         }
     }
 

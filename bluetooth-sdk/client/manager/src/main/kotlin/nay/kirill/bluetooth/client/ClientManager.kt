@@ -7,15 +7,16 @@ import android.content.Context
 import nay.kirill.bluetooth.utils.CharacteristicConstants.CHARACTERISTIC_UUID
 import nay.kirill.bluetooth.utils.CharacteristicConstants.SERVICE_UUID
 import no.nordicsemi.android.ble.BleManager
+import java.nio.charset.StandardCharsets
 
 class ClientManager(
         appContext: Context,
         private val consumerCallback: ClientConsumerCallback
 ) : BleManager(appContext) {
 
-    override fun getGattCallback() = object : BleManagerGattCallback() {
+    private var characteristic: BluetoothGattCharacteristic? = null
 
-        private var characteristic: BluetoothGattCharacteristic? = null
+    override fun getGattCallback() = object : BleManagerGattCallback() {
 
         override fun isRequiredServiceSupported(gatt: BluetoothGatt): Boolean {
             val service = gatt.getService(SERVICE_UUID) ?: return false
@@ -52,5 +53,10 @@ class ClientManager(
                     }
                     .enqueue()
         }
+    }
+
+    fun sendMessage(message: String) {
+        val bytes = message.toByteArray(StandardCharsets.UTF_8)
+        writeCharacteristic(characteristic, bytes, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT).enqueue()
     }
 }
