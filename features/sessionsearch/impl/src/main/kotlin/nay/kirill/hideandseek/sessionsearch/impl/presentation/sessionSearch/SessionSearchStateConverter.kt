@@ -18,6 +18,7 @@ internal class SessionSearchStateConverter(
         else -> SessionSearchUiState.Content(
                 titleId = R.string.session_search_title,
                 subtitleId = R.string.session_search_subtitle,
+                isLoadingVisible = state.deviceAddressToConnect == null,
                 sessions = state.devicesEvent.data
                         ?.map {
                             SessionUiState(

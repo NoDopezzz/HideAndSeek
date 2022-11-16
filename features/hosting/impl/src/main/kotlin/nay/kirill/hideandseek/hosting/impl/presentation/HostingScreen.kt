@@ -76,6 +76,7 @@ private fun Content(
 
             ConnectedDevices(
                     connectedDevices = state.connectedDevices,
+                    isLoadingVisible = state.isLoadingVisible,
                     modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth()
@@ -106,11 +107,13 @@ private fun Content(
 @Composable
 private fun ConnectedDevices(
         connectedDevices: List<ConnectedDeviceUiState>,
+        isLoadingVisible: Boolean,
         modifier: Modifier = Modifier
 ) {
     AppList(
             listTitle = stringResource(id = R.string.connected_devices_list_title),
             elements = connectedDevices,
+            isLoadingVisible = isLoadingVisible,
             modifier = modifier
     ) { deviceState ->
         Text(
@@ -145,6 +148,7 @@ internal class HostingUiStateProvider : PreviewParameterProvider<HostingUiState>
                     ),
                     hostDeviceName = "Кирилл's S22",
                     isPrimaryButtonVisible = true,
+                    isLoadingVisible = false,
                     titleId = R.string.hosting_title,
                     subtitleId = R.string.hosting_subtitle
             )

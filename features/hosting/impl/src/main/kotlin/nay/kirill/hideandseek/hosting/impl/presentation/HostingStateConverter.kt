@@ -27,6 +27,7 @@ internal class HostingStateConverter(
                         .orEmpty(),
                 hostDeviceName = state.hostDeviceName,
                 isPrimaryButtonVisible = !state.connectedDeviceEvent.data.isNullOrEmpty(),
+                isLoadingVisible = state.connectedDeviceEvent.data.isNullOrEmpty(),
                 titleId = R.string.hosting_title,
                 subtitleId = R.string.hosting_subtitle
         )

@@ -69,6 +69,9 @@ internal class SessionSearchViewModel(
     fun onConnect(address: String) {
         scanningJob?.cancel()
 
+        // Do not allow connect to another device while connecting
+        if (state.deviceAddressToConnect != null) return
+
         state = state.copy(deviceAddressToConnect = address)
         state.devicesEvent.onSuccess {
             data.firstOrNull { it.address == address }?.let {

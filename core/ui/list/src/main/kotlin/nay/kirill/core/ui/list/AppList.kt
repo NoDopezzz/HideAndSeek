@@ -20,6 +20,7 @@ import nay.kirill.core.compose.AppTextStyle
 fun <TElement : Any> AppList(
         modifier: Modifier = Modifier,
         listTitle: String,
+        isLoadingVisible: Boolean = true,
         elements: List<TElement>,
         factory: @Composable (TElement) -> Unit
 ) {
@@ -38,14 +39,16 @@ fun <TElement : Any> AppList(
             elements.forEach { element ->
                 factory(element)
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            CircularProgressIndicator(
-                    modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .size(16.dp),
-                    color = AppColors.Primary,
-                    strokeWidth = 2.dp
-            )
+            if (isLoadingVisible) {
+                Spacer(modifier = Modifier.height(16.dp))
+                CircularProgressIndicator(
+                        modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .size(16.dp),
+                        color = AppColors.Primary,
+                        strokeWidth = 2.dp
+                )
+            }
             Spacer(modifier = Modifier.height(20.dp))
         }
     }

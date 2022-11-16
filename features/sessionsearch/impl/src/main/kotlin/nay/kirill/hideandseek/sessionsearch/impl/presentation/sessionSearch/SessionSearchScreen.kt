@@ -68,12 +68,13 @@ private fun Content(
                             .padding(start = 16.dp, end = 52.dp)
             )
 
-            Content(
+            AvailableDevices(
                     sessions = state.sessions,
                     modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth()
                             .weight(1F),
+                    isLoadingVisible = state.isLoadingVisible,
                     onConnectToDevice = onConnectToDevice
             )
 
@@ -89,14 +90,16 @@ private fun Content(
 }
 
 @Composable
-private fun Content(
+private fun AvailableDevices(
         sessions: List<SessionUiState>,
+        isLoadingVisible: Boolean,
         modifier: Modifier = Modifier,
         onConnectToDevice: (String) -> Unit
 ) {
     AppList(
             listTitle = stringResource(id = R.string.available_sessions),
             elements = sessions,
+            isLoadingVisible = isLoadingVisible,
             modifier = modifier
     ) { state ->
         SessionElement(state) {
@@ -128,7 +131,8 @@ internal class SessionsSearchStateProvider : PreviewParameterProvider<SessionSea
                             SessionUiState("", "Дима Huawei P40")
                     ),
                     titleId = R.string.session_search_title,
-                    subtitleId = R.string.session_search_subtitle
+                    subtitleId = R.string.session_search_subtitle,
+                    isLoadingVisible = false
             ),
             SessionSearchUiState.Error
     )

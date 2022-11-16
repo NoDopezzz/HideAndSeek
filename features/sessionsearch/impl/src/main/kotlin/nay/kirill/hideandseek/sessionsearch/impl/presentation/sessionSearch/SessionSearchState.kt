@@ -13,6 +13,7 @@ internal sealed interface SessionSearchUiState {
 
     data class Content(
             val sessions: List<SessionUiState>,
+            val isLoadingVisible: Boolean,
             val titleId: Int,
             val subtitleId: Int
     ) : SessionSearchUiState

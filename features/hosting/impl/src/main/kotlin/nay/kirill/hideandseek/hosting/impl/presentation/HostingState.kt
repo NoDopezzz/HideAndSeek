@@ -16,7 +16,8 @@ internal sealed interface HostingUiState {
             val hostDeviceName: String,
             val titleId: Int,
             val subtitleId: Int,
-            val isPrimaryButtonVisible: Boolean
+            val isPrimaryButtonVisible: Boolean,
+            val isLoadingVisible: Boolean
     ) : HostingUiState
 
     object Error : HostingUiState
