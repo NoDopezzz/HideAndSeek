@@ -11,7 +11,7 @@ internal class SessionSearchNavigation(
 
     fun back() = router.exit()
 
-    fun openWaiting(args: WaitingArgs) = router.navigateTo(FragmentScreen {
+    fun openWaiting(args: WaitingArgs) = router.replaceScreen(FragmentScreen {
         WaitingFragment.newInstance(args)
     })
 

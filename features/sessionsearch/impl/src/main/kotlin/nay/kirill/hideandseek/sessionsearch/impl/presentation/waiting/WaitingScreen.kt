@@ -32,7 +32,7 @@ import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.hideandseek.sessionsearch.impl.R
 
 @Composable
-fun WaitingScreen(
+internal fun WaitingScreen(
         state: WaitingUiState,
         onBack: () -> Unit
 ) {

@@ -2,9 +2,9 @@ package nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting
 
 import android.bluetooth.BluetoothDevice
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class WaitingArgs(
+internal data class WaitingArgs(
         val bluetoothDevice: BluetoothDevice
 ): Parcelable

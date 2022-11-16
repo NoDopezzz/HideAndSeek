@@ -47,12 +47,6 @@ internal class SessionSearchFragment : Fragment() {
         activity?.startService(intent)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        activity?.stopService(Intent(activity, BleClientService::class.java))
-    }
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,

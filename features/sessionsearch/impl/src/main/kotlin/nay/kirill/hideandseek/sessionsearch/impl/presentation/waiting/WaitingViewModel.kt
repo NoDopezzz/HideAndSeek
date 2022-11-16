@@ -4,8 +4,13 @@ import nay.kirill.core.arch.BaseViewModel
 
 internal class WaitingViewModel(
         args: WaitingArgs,
-        converter: WaitingStateConverter
+        converter: WaitingStateConverter,
+        private val navigation: WaitingNavigation
 ) : BaseViewModel<WaitingState, WaitingUiState>(
         converter = converter,
         initialState = WaitingState.Content(serverDevice = args.bluetoothDevice)
-)
+) {
+
+    fun back() = navigation.back()
+
+}

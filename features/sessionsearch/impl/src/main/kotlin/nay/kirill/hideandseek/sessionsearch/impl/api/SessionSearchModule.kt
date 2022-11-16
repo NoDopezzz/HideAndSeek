@@ -4,6 +4,7 @@ import nay.kirill.hideandseek.sessionsearch.api.SessionSearchApi
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchStateConverter
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchViewModel
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchNavigation
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting.WaitingNavigation
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting.WaitingStateConverter
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting.WaitingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -18,7 +19,8 @@ val sessionSearchModule = module {
     factoryOf(::SessionSearchStateConverter)
 
     factoryOf(::WaitingStateConverter)
+    factoryOf(::WaitingNavigation)
     viewModel { prop ->
-        WaitingViewModel(prop.get(), get())
+        WaitingViewModel(prop.get(), get(), get())
     }
 }

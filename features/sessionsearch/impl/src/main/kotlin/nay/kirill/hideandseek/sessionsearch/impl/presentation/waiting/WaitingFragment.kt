@@ -1,5 +1,6 @@
 package nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import nay.kirill.bluetooth.client.service.BleClientService
 import nay.kirill.core.arch.withArgs
 import nay.kirill.core.arch.args
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,7 +29,10 @@ internal class WaitingFragment : Fragment() {
             MaterialTheme {
                 WaitingScreen(
                         state = viewModel.uiState.value,
-                        onBack = { }
+                        onBack = {
+                            activity?.stopService(Intent(activity, BleClientService::class.java))
+                            viewModel.back()
+                        }
                 )
             }
         }
