@@ -26,7 +26,8 @@ internal class WaitingFragment : Fragment() {
         setContent {
             MaterialTheme {
                 WaitingScreen(
-                        state = viewModel.uiState.value
+                        state = viewModel.uiState.value,
+                        onBack = { }
                 )
             }
         }

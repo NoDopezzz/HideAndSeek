@@ -6,4 +6,8 @@
     <string name="session_search_subtitle">Происходит поиск доступных сессий. Подключение использует Bluetooth, поэтому убедитесь, что эта настройка включена</string>
     <string name="available_sessions">Доступные сессии</string>
     <string name="session_search_error_subtitle">Произошла ошибка при поиске доступных сессий</string>
+
+    <string name="waiting_screen_title">Ожидание игроков…</string>
+    <string name="waiting_screen_description">Вы присоединились к устройству</string>
+    <string name="waiting_back_button">В главное меню</string>
 </resources>
