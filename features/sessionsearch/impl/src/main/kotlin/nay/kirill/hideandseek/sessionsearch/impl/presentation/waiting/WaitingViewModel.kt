@@ -6,11 +6,12 @@ import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.core.arch.BaseViewModel
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.Navigation
 
 internal class WaitingViewModel(
         args: WaitingArgs,
         converter: WaitingStateConverter,
-        private val navigation: WaitingNavigation,
+        private val navigation: Navigation,
         private val clientEventCallback: ClientEventCallback
 ) : BaseViewModel<WaitingState, WaitingUiState>(
         converter = converter,
