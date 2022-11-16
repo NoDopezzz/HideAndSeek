@@ -2,7 +2,7 @@ package nay.kirill.hideandseek.sessionsearch.impl.presentation
 
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import nay.kirill.hideandseek.sessionsearch.impl.presentation.counter.HideCounterFragment
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.timer.HideTimerFragment
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchFragment
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting.WaitingArgs
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting.WaitingFragment
@@ -22,7 +22,7 @@ internal class Navigation(
     })
 
     fun openHideCounter() = router.replaceScreen(FragmentScreen {
-        HideCounterFragment.newInstance()
+        HideTimerFragment.newInstance()
     })
 
 }

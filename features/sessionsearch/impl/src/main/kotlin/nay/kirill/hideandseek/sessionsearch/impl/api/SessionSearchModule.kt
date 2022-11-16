@@ -2,8 +2,8 @@ package nay.kirill.hideandseek.sessionsearch.impl.api
 
 import nay.kirill.hideandseek.sessionsearch.api.SessionSearchApi
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.Navigation
-import nay.kirill.hideandseek.sessionsearch.impl.presentation.counter.HideCounterConverter
-import nay.kirill.hideandseek.sessionsearch.impl.presentation.counter.HideCounterViewModel
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.timer.HideTimerConverter
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.timer.HideTimerViewModel
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchStateConverter
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.sessionSearch.SessionSearchViewModel
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting.WaitingStateConverter
@@ -24,6 +24,6 @@ val sessionSearchModule = module {
         WaitingViewModel(prop.get(), get(), get(), get())
     }
 
-    factoryOf(::HideCounterConverter)
-    viewModelOf(::HideCounterViewModel)
+    factoryOf(::HideTimerConverter)
+    viewModelOf(::HideTimerViewModel)
 }
