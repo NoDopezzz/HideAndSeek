@@ -13,4 +13,7 @@ android {
 dependencies {
     implementation(Libraries.Compose.runtime)
     implementation(Libraries.Lifecycle.viewModel)
+
+    implementation(Libraries.Androidx.core)
+    implementation(Libraries.Androidx.appCompat)
 }

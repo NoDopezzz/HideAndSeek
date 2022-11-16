@@ -25,9 +25,9 @@ sealed interface ClientEvent {
     data class OnNewMessage(val message: String) : ClientEvent
 
     /**
-     * [SubscriptionResult] shown subscription to characteristics updates status.
+     * [NotificationEnableFailed] shown subscription to characteristics updates status.
      * In success case contains BLE-server device
      */
-    data class SubscriptionResult(val result: Result<BluetoothDevice>) : ClientEvent
+    object NotificationEnableFailed : ClientEvent
 
 }

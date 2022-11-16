@@ -43,14 +43,11 @@ class ClientManager(
 
             beginAtomicRequestQueue()
                     .add(enableNotifications(characteristic)
-                            .fail { _: BluetoothDevice?, status: Int ->
-                                consumerCallback.onSubscriptionFailed(IllegalStateException("Was not able to subscribe: $status"))
+                            .fail { _: BluetoothDevice?, _: Int ->
+                                consumerCallback.onNotificationEnableFailed()
                                 disconnect().enqueue()
                             }
                     )
-                    .done { device ->
-                        consumerCallback.onSubscriptionSuccess(device)
-                    }
                     .enqueue()
         }
     }

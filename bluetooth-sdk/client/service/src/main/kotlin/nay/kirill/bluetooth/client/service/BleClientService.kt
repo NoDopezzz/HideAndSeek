@@ -44,12 +44,8 @@ class BleClientService : Service(), CoroutineScope {
             eventCallback.setResult(ClientEvent.OnNewMessage(message))
         }
 
-        override fun onSubscriptionSuccess(device: BluetoothDevice) {
-            eventCallback.setResult(ClientEvent.SubscriptionResult(result = Result.success(device)))
-        }
-
-        override fun onSubscriptionFailed(error: Throwable) {
-            eventCallback.setResult(ClientEvent.SubscriptionResult(result = Result.failure(error)))
+        override fun onNotificationEnableFailed() {
+            eventCallback.setResult(ClientEvent.NotificationEnableFailed)
         }
 
     }

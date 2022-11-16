@@ -8,8 +8,6 @@ interface ClientConsumerCallback {
 
     fun onNewMessage(device: BluetoothDevice, message: String)
 
-    fun onSubscriptionSuccess(device: BluetoothDevice)
-
-    fun onSubscriptionFailed(error: Throwable)
+    fun onNotificationEnableFailed()
 
 }

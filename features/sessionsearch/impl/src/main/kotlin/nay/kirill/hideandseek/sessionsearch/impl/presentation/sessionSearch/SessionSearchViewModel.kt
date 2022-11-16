@@ -10,6 +10,7 @@ import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
+import nay.kirill.hideandseek.sessionsearch.impl.presentation.waiting.WaitingArgs
 
 internal class SessionSearchViewModel(
         converter: SessionSearchStateConverter,
@@ -35,15 +36,20 @@ internal class SessionSearchViewModel(
                                     deviceAddressToConnect = null
                             )
                         }
-                        is ClientEvent.SubscriptionResult -> {
-                            event.result
-                                    .onSuccess {
-                                        state = state.copy(deviceAddressToConnect = null)
-                                    }
-                                    .onFailure {
-                                        state = state.copy(devicesEvent = ContentEvent.Error(it), deviceAddressToConnect = null)
-                                    }
+                        is ClientEvent.NotificationEnableFailed -> {
+                            state = state.copy(devicesEvent = ContentEvent.Error(
+                                    throwable = IllegalStateException() //TODO rafactor error handling
+                            ), deviceAddressToConnect = null)
 
+                        }
+                        is ClientEvent.ConnectionResult -> {
+                            event.connectResult
+                                    .onSuccess { device ->
+                                        navigation.openWaiting(args = WaitingArgs(device))
+                                    }
+                                    .onFailure { throwable ->
+                                        state = state.copy(devicesEvent = ContentEvent.Error(throwable))
+                                    }
                         }
                         else -> Unit
                     }
