@@ -30,26 +30,14 @@ internal class SessionSearchViewModel(
         clientEventCallback.result
                 .onEach { event ->
                     when (event) {
-                        is ClientEvent.ServiceInvalidated -> {
+                        is ClientEvent.OnFailure -> {
                             state = state.copy(
-                                    devicesEvent = ContentEvent.Error(IllegalStateException("Service got invalidated")),
+                                    devicesEvent = ContentEvent.Error(event.throwable),
                                     deviceAddressToConnect = null
                             )
                         }
-                        is ClientEvent.NotificationEnableFailed -> {
-                            state = state.copy(devicesEvent = ContentEvent.Error(
-                                    throwable = IllegalStateException() //TODO rafactor error handling
-                            ), deviceAddressToConnect = null)
-
-                        }
-                        is ClientEvent.ConnectionResult -> {
-                            event.connectResult
-                                    .onSuccess { device ->
-                                        navigation.openWaiting(args = WaitingArgs(device))
-                                    }
-                                    .onFailure { throwable ->
-                                        state = state.copy(devicesEvent = ContentEvent.Error(throwable))
-                                    }
+                        is ClientEvent.ConnectionSuccess -> {
+                            navigation.openWaiting(args = WaitingArgs(event.device))
                         }
                         else -> Unit
                     }
@@ -57,7 +45,7 @@ internal class SessionSearchViewModel(
                 .launchIn(viewModelScope)
     }
 
-    fun getDevices() {
+    fun startScanning() {
         state = state.copy(devicesEvent = ContentEvent.Loading())
 
         scanningJob?.cancel()

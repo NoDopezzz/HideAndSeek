@@ -14,7 +14,15 @@ object PermissionsUtils {
     fun checkBluetoothConnectPermission(context: Context): Boolean = Build.VERSION.SDK_INT < Build.VERSION_CODES.S
             || ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
 
-    val bluetoothScanningPermissions: Array<String>
+    fun checkScanningPermissions(context: Context): Boolean = bluetoothScanningPermissions.all { permission ->
+        ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun checkAdvertisingPermissions(context: Context): Boolean = bluetoothAdvertisingPermissions.all { permission ->
+        ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    val bluetoothScanningPermissions: List<String>
         get() {
             val permissions = mutableListOf(Manifest.permission.ACCESS_COARSE_LOCATION)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -22,9 +30,24 @@ object PermissionsUtils {
             }
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
                 permissions.add(Manifest.permission.BLUETOOTH_SCAN)
+                permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
             }
 
-            return permissions.toTypedArray()
+            return permissions
+        }
+
+    val bluetoothAdvertisingPermissions: List<String>
+        get() {
+            val permissions = mutableListOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
+                permissions.add(Manifest.permission.BLUETOOTH_ADVERTISE)
+                permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+            }
+
+            return permissions
         }
 
 }

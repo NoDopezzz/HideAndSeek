@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.content.Context
+import nay.kirill.bluetooth.client.exceptions.ClientException
 import nay.kirill.bluetooth.utils.CharacteristicConstants.CHARACTERISTIC_UUID
 import nay.kirill.bluetooth.utils.CharacteristicConstants.SERVICE_UUID
 import no.nordicsemi.android.ble.BleManager
@@ -29,7 +30,7 @@ class ClientManager(
         }
 
         override fun onServicesInvalidated() {
-            consumerCallback.onServiceInvalidated()
+            consumerCallback.onFailure(ClientException.ServiceInvalidated())
             characteristic = null
         }
 
@@ -43,11 +44,14 @@ class ClientManager(
 
             beginAtomicRequestQueue()
                     .add(enableNotifications(characteristic)
-                            .fail { _: BluetoothDevice?, _: Int ->
-                                consumerCallback.onNotificationEnableFailed()
+                            .fail { _: BluetoothDevice?, status: Int ->
+                                consumerCallback.onFailure(ClientException.ConnectionException(status))
                                 disconnect().enqueue()
                             }
                     )
+                    .fail { _, _ ->
+                        consumerCallback.onFailure(ClientException.UnknownException())
+                    }
                     .enqueue()
         }
     }

@@ -29,16 +29,22 @@ import nay.kirill.core.button.AppButton
 import nay.kirill.core.button.AppButtonState
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
+import nay.kirill.core.ui.error.AppError
 import nay.kirill.hideandseek.sessionsearch.impl.R
 
 @Composable
 internal fun WaitingScreen(
         state: WaitingUiState,
-        onBack: () -> Unit
+        onBack: () -> Unit,
+        onRetry: () -> Unit
 ) {
     when (state) {
         is WaitingUiState.Content -> Content(state, onBack)
-        else -> Unit
+        else -> AppError(
+                errorDescription = stringResource(id = R.string.waiting_screen_error_description),
+                backAction = onBack,
+                retryAction = onRetry
+        )
     }
 }
 
@@ -110,7 +116,8 @@ private fun WaitingScreenPreview(
 ) {
     WaitingScreen(
             state = state,
-            onBack = { }
+            onBack = { },
+            onRetry = { }
     )
 }
 

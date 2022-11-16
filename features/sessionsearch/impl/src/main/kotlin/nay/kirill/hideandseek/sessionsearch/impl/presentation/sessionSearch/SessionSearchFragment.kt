@@ -57,7 +57,7 @@ internal class SessionSearchFragment : Fragment() {
                 SessionSearchScreen(
                         state = viewModel.uiState.value,
                         onBack = viewModel::back,
-                        onRetry = viewModel::getDevices,
+                        onRetry = viewModel::startScanning,
                         onConnectToDevice = viewModel::onConnect
                 )
             }
@@ -67,7 +67,7 @@ internal class SessionSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getDevices()
+        viewModel.startScanning()
     }
 
     companion object {

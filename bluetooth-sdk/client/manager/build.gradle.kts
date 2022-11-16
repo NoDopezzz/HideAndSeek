@@ -14,6 +14,7 @@ dependencies {
     implementation(Libraries.Bluetooth.nordic)
 
     implementation(project(Project.BluetoothSDK.utils))
+    implementation(project(Project.BluetoothSDK.clientExceptions))
 
     implementation(Libraries.Koin.koinAndroid)
 

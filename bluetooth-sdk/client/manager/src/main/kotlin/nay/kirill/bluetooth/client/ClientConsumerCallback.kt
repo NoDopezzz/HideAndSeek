@@ -1,13 +1,12 @@
 package nay.kirill.bluetooth.client
 
 import android.bluetooth.BluetoothDevice
+import nay.kirill.bluetooth.client.exceptions.ClientException
 
 interface ClientConsumerCallback {
 
-    fun onServiceInvalidated()
-
     fun onNewMessage(device: BluetoothDevice, message: String)
 
-    fun onNotificationEnableFailed()
+    fun onFailure(throwable: ClientException)
 
 }

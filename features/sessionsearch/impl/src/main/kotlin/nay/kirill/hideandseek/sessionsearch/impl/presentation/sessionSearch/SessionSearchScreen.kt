@@ -19,6 +19,7 @@ import nay.kirill.core.button.AppButton
 import nay.kirill.core.button.AppButtonState
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
+import nay.kirill.core.ui.error.AppError
 import nay.kirill.core.ui.list.AppList
 import nay.kirill.core.ui.res.R as CoreR
 import nay.kirill.hideandseek.sessionsearch.impl.R
@@ -31,6 +32,22 @@ internal fun SessionSearchScreen(
         onBack: () -> Unit,
         onRetry: () -> Unit,
         onConnectToDevice: (String) -> Unit
+) {
+    when (state) {
+        is SessionSearchUiState.Content -> Content(state, onConnectToDevice, onBack)
+        is SessionSearchUiState.Error -> AppError(
+                errorDescription = stringResource(id = R.string.session_search_error_subtitle),
+                backAction = onBack,
+                retryAction = onRetry
+        )
+    }
+}
+
+@Composable
+private fun Content(
+        state: SessionSearchUiState.Content,
+        onConnectToDevice: (String) -> Unit,
+        onBack: () -> Unit
 ) {
     Scaffold(
             topBar = {
@@ -51,29 +68,15 @@ internal fun SessionSearchScreen(
                             .padding(start = 16.dp, end = 52.dp)
             )
 
-            if (state is SessionSearchUiState.Content) {
-                Content(
-                        sessions = state.sessions,
-                        modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth()
-                                .weight(1F),
-                        onConnectToDevice = onConnectToDevice
-                )
-            } else {
-                Spacer(modifier = Modifier.weight(1F))
-            }
+            Content(
+                    sessions = state.sessions,
+                    modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth()
+                            .weight(1F),
+                    onConnectToDevice = onConnectToDevice
+            )
 
-            if (state is SessionSearchUiState.Error) {
-                AppButton(
-                        state = AppButtonState.Content(text = stringResource(CoreR.string.retry_button)),
-                        modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 20.dp),
-                        onClick = onRetry
-                )
-                Spacer(modifier = Modifier.height(18.dp))
-            }
             AppButton(
                     state = AppButtonState.Content(text = stringResource(CoreR.string.back_button)),
                     modifier = Modifier
@@ -127,10 +130,7 @@ internal class SessionsSearchStateProvider : PreviewParameterProvider<SessionSea
                     titleId = R.string.session_search_title,
                     subtitleId = R.string.session_search_subtitle
             ),
-            SessionSearchUiState.Error(
-                    titleId = R.string.session_search_error_title,
-                    subtitleId = R.string.session_search_error_subtitle
-            )
+            SessionSearchUiState.Error
     )
 
 }

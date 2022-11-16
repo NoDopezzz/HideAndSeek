@@ -64,6 +64,8 @@ object Project {
 
         const val clientCallback = ":bluetooth-sdk:client:callback"
 
+        const val clientExceptions = ":bluetooth-sdk:client:exceptions"
+
         const val utils = ":bluetooth-sdk:utils"
 
     }

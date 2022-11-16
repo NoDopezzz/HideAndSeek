@@ -1,6 +1,7 @@
 package nay.kirill.bluetooth.client.callback.event
 
 import android.bluetooth.BluetoothDevice
+import nay.kirill.bluetooth.client.exceptions.ClientException
 
 /**
  * Events that BLE-client service produce.
@@ -8,16 +9,10 @@ import android.bluetooth.BluetoothDevice
 sealed interface ClientEvent {
 
     /**
-     * [ConnectionResult] shows connection to server result.
-     * @param connectResult is Result that defines connection status.
-     * In success case contains BLE-server device
+     * [ConnectionSuccess] is emitted when connection to server established successfully.
+     * @param device is BLE-server device we connected to.
      */
-    data class ConnectionResult(val connectResult: Result<BluetoothDevice>) : ClientEvent
-
-    /**
-     * [ServiceInvalidated] event often thrown when BLE-server is disconnected
-     */
-    object ServiceInvalidated : ClientEvent
+    data class ConnectionSuccess(val device: BluetoothDevice) : ClientEvent
 
     /**
      * [OnNewMessage] is emitted when client receives new message from server
@@ -25,9 +20,9 @@ sealed interface ClientEvent {
     data class OnNewMessage(val message: String) : ClientEvent
 
     /**
-     * [NotificationEnableFailed] shown subscription to characteristics updates status.
-     * In success case contains BLE-server device
+     * [OnFailure] is emitted when some exception is thrown
+     * during processing of ClientManager
      */
-    object NotificationEnableFailed : ClientEvent
+    data class OnFailure(val throwable: ClientException) : ClientEvent
 
 }

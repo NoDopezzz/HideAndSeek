@@ -30,7 +30,8 @@ internal class WaitingFragment : Fragment() {
             MaterialTheme {
                 WaitingScreen(
                         state = viewModel.uiState.value,
-                        onBack = ::back
+                        onBack = ::back,
+                        onRetry = ::retry
                 )
             }
         }
@@ -49,6 +50,11 @@ internal class WaitingFragment : Fragment() {
     private fun back() {
         activity?.stopService(Intent(activity, BleClientService::class.java))
         viewModel.back()
+    }
+
+    private fun retry() {
+        activity?.stopService(Intent(activity, BleClientService::class.java))
+        viewModel.openSessionSearching()
     }
 
     companion object {

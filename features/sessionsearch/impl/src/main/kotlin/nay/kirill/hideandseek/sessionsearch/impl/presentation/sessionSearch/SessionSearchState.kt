@@ -11,19 +11,12 @@ internal data class SessionSearchState(
 
 internal sealed interface SessionSearchUiState {
 
-    val titleId: Int
-
-    val subtitleId: Int
-
     data class Content(
             val sessions: List<SessionUiState>,
-            override val titleId: Int,
-            override val subtitleId: Int
+            val titleId: Int,
+            val subtitleId: Int
     ) : SessionSearchUiState
 
-    data class Error(
-            override val titleId: Int,
-            override val subtitleId: Int
-    ) : SessionSearchUiState
+    object Error : SessionSearchUiState
 
 }

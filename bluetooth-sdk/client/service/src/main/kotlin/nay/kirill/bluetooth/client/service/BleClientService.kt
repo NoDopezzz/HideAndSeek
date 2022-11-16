@@ -19,6 +19,7 @@ import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.bluetooth.client.callback.message.ClientMessage
 import nay.kirill.bluetooth.client.callback.message.ClientMessageCallback
+import nay.kirill.bluetooth.client.exceptions.ClientException
 import org.koin.android.ext.android.inject
 import kotlin.coroutines.CoroutineContext
 
@@ -36,16 +37,12 @@ class BleClientService : Service(), CoroutineScope {
 
     private val consumerCallback = object : ClientConsumerCallback {
 
-        override fun onServiceInvalidated() {
-            eventCallback.setResult(ClientEvent.ServiceInvalidated)
-        }
-
         override fun onNewMessage(device: BluetoothDevice, message: String) {
             eventCallback.setResult(ClientEvent.OnNewMessage(message))
         }
 
-        override fun onNotificationEnableFailed() {
-            eventCallback.setResult(ClientEvent.NotificationEnableFailed)
+        override fun onFailure(throwable: ClientException) {
+            eventCallback.setResult(ClientEvent.OnFailure(throwable))
         }
 
     }
@@ -103,13 +100,11 @@ class BleClientService : Service(), CoroutineScope {
                 ?.retry(4, 150)
                 ?.useAutoConnect(false)
                 ?.done {
-                    eventCallback.setResult(ClientEvent.ConnectionResult(Result.success(it)))
+                    eventCallback.setResult(ClientEvent.ConnectionSuccess(it))
                 }
                 ?.fail { _, status ->
                     eventCallback.setResult(
-                            value = ClientEvent.ConnectionResult(
-                                    connectResult = Result.failure(IllegalStateException("Failed to connect to bluetooth device: $status"))
-                            )
+                            value = ClientEvent.OnFailure(ClientException.ConnectionException(status))
                     )
                 }
                 ?.enqueue()

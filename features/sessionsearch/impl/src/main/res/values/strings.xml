@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="session_search_title">Поиск сесиии…</string>
-    <string name="session_search_error_title">Произошла ошибка</string>
 
     <string name="session_search_subtitle">Происходит поиск доступных сессий. Подключение использует Bluetooth, поэтому убедитесь, что эта настройка включена</string>
     <string name="available_sessions">Доступные сессии</string>
@@ -9,5 +8,6 @@
 
     <string name="waiting_screen_title">Ожидание игроков…</string>
     <string name="waiting_screen_description">Вы присоединились к устройству</string>
+    <string name="waiting_screen_error_description">Произошла ошибка при соединении с сервером</string>
     <string name="waiting_back_button">В главное меню</string>
 </resources>

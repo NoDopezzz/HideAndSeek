@@ -21,6 +21,6 @@ val sessionSearchModule = module {
     factoryOf(::WaitingStateConverter)
     factoryOf(::WaitingNavigation)
     viewModel { prop ->
-        WaitingViewModel(prop.get(), get(), get())
+        WaitingViewModel(prop.get(), get(), get(), get())
     }
 }

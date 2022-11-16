@@ -21,15 +21,18 @@ dependencies {
 
     implementation(project(Project.Core.arch))
     implementation(project(Project.Core.Utils.callbackFlow))
+    implementation(project(Project.Core.Utils.permissions))
     implementation(project(Project.Core.UI.button))
     implementation(project(Project.Core.UI.compose))
     implementation(project(Project.Core.UI.topbar))
     implementation(project(Project.Core.UI.res))
     implementation(project(Project.Core.UI.list))
+    implementation(project(Project.Core.UI.error))
 
     implementation(project(Project.BluetoothSDK.scannerApi))
     implementation(project(Project.BluetoothSDK.clientService))
     implementation(project(Project.BluetoothSDK.clientCallback))
+    implementation(project(Project.BluetoothSDK.clientExceptions))
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)
