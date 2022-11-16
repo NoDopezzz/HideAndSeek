@@ -11,6 +11,6 @@
     <string name="waiting_screen_error_description">Произошла ошибка при соединении с сервером</string>
     <string name="waiting_back_button">В главное меню</string>
 
-    <string name="hide_counter_title">Время прятаться!</string>
+    <string name="hide_timer_title">Время прятаться!</string>
     <string name="quit_game_button_title">Выйти из игры</string>
 </resources>

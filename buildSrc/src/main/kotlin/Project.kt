@@ -10,9 +10,9 @@ object Project {
 
         const val sessionSearchApi = ":features:sessionsearch:api"
 
-        const val hostingImpl = ":features:hosting:impl"
+        const val hostImpl = ":features:host:impl"
 
-        const val hostingApi = ":features:hosting:api"
+        const val hostApi = ":features:host:api"
 
     }
 

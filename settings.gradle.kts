@@ -26,8 +26,8 @@ include(
         ":features:mainmenu:api",
         ":features:sessionsearch:api",
         ":features:sessionsearch:impl",
-        ":features:hosting:api",
-        ":features:hosting:impl",
+        ":features:host:api",
+        ":features:host:impl",
 
         // SDK
         ":bluetooth-sdk:scanner:api",

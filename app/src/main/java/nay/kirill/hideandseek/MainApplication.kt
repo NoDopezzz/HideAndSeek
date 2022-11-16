@@ -7,7 +7,7 @@ import nay.kirill.bluetooth.scanner.impl.bluetoothScannerModule
 import nay.kirill.bluetooth.server.callback.serverCallbackModule
 import nay.kirill.core.ui.res.resourceModule
 import nay.kirill.hideandseek.di.mainModule
-import nay.kirill.hideandseek.hosting.impl.api.hostingModule
+import nay.kirill.hideandseek.host.impl.api.hostingModule
 import nay.kirill.hideandseek.mainmenu.impl.api.mainMenuModule
 import nay.kirill.hideandseek.navigation.navigationModule
 import nay.kirill.hideandseek.sessionsearch.impl.api.sessionSearchModule

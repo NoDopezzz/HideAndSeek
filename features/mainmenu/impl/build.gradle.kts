@@ -32,7 +32,7 @@ dependencies {
     implementation(project(Project.Core.Utils.permissions))
 
     implementation(project(Project.Features.sessionSearchApi))
-    implementation(project(Project.Features.hostingApi))
+    implementation(project(Project.Features.hostApi))
 
     implementation(Libraries.Permission.permissionDispatcher)
     kapt(Libraries.Permission.permissionDispatcherProcessor)
