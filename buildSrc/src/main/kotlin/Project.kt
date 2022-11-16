@@ -72,6 +72,8 @@ object Project {
 
         const val utils = ":bluetooth-sdk:utils"
 
+        const val messages = ":bluetooth-sdk:messages"
+
     }
 
 }

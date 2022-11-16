@@ -11,3 +11,9 @@ object CharacteristicConstants {
     val CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID: UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
 
 }
+
+object MessageConstants {
+
+    const val START = "START"
+
+}

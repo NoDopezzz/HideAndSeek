@@ -11,6 +11,6 @@ sealed interface ServerMessage {
      * @param deviceAddress is id of target device. If [deviceAddress] is null
      * message will be sent to all connected devices
      */
-    data class WriteCharacteristic(val message: String, val deviceAddress: String) : ServerMessage
+    data class WriteCharacteristic(val message: String, val deviceAddress: String? = null) : ServerMessage
 
 }

@@ -34,6 +34,7 @@ dependencies {
     implementation(project(Project.BluetoothSDK.clientService))
     implementation(project(Project.BluetoothSDK.clientCallback))
     implementation(project(Project.BluetoothSDK.clientExceptions))
+    implementation(project(Project.BluetoothSDK.messages))
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)

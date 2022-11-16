@@ -6,8 +6,11 @@ import android.bluetooth.BluetoothManager
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import nay.kirill.bluetooth.messages.MessageConstants
 import nay.kirill.bluetooth.server.callback.event.ServerEvent
 import nay.kirill.bluetooth.server.callback.event.ServerEventCallback
+import nay.kirill.bluetooth.server.callback.message.ServerMessage
+import nay.kirill.bluetooth.server.callback.message.ServerMessageCallback
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.core.ui.res.ResourceProvider
@@ -16,7 +19,8 @@ import nay.kirill.hideandseek.hosting.impl.R
 internal class HostingViewModel(
         converter: HostingStateConverter,
         private val navigation: HostingNavigation,
-        private val serverServiceCallback: ServerEventCallback,
+        private val serverEventCallback: ServerEventCallback,
+        private val serverMessageCallback: ServerMessageCallback,
         private val resourceProvider: ResourceProvider
 ) : BaseEffectViewModel<HostingState, HostingUiState, HostingEff>(
         converter = converter,
@@ -30,7 +34,7 @@ internal class HostingViewModel(
     fun init(manager: BluetoothManager) {
         state = state.copy(hostDeviceName = manager.adapter.name)
 
-        serverServiceCallback.result
+        serverEventCallback.result
                 .onEach { event ->
                     when (event) {
                         is ServerEvent.OnServerIsReady -> handleOnServerReady()
@@ -45,7 +49,9 @@ internal class HostingViewModel(
     }
 
     fun start() {
-        // TODO
+        serverMessageCallback.setResult(value = ServerMessage.WriteCharacteristic(
+                message = MessageConstants.START
+        ))
     }
 
     fun retry() {

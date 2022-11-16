@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
+import nay.kirill.bluetooth.messages.MessageConstants
 import nay.kirill.core.arch.BaseViewModel
 import nay.kirill.hideandseek.sessionsearch.impl.presentation.Navigation
 
@@ -25,9 +26,12 @@ internal class WaitingViewModel(
     }
 
     private fun handleClientEvent(event: ClientEvent) {
-        when (event) {
-            is ClientEvent.OnFailure -> {
+        when {
+            event is ClientEvent.OnFailure -> {
                 state = WaitingState.Error
+            }
+            event is ClientEvent.OnNewMessage && event.message == MessageConstants.START -> {
+                navigation.openHideCounter()
             }
             else -> Unit
         }
