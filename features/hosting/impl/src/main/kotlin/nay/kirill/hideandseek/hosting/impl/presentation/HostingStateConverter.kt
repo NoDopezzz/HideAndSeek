@@ -1,21 +1,20 @@
 package nay.kirill.hideandseek.hosting.impl.presentation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import nay.kirill.core.arch.ContentEvent
+import nay.kirill.core.utils.permissions.PermissionsUtils
 import nay.kirill.hideandseek.hosting.impl.R
-import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
 
-internal class HostingStateConverter : (HostingState) -> HostingUiState {
+internal class HostingStateConverter(
+        private val context: Context
+) : (HostingState) -> HostingUiState {
 
     @SuppressLint("MissingPermission")
-    override fun invoke(state: HostingState): HostingUiState = when (state.connectedDeviceEvent) {
-        is ContentEvent.Error -> HostingUiState.Error(
-                titleId = R.string.hosting_error_title,
-                subtitleId = R.string.hosting_error_subtitle,
-                primaryButtonAction = ButtonAction.Retry,
-                secondaryButtonAction = ButtonAction.Back
-        )
+    override fun invoke(state: HostingState): HostingUiState = when {
+        !PermissionsUtils.checkAdvertisingPermissions(context) -> HostingUiState.Error
+        state.connectedDeviceEvent is ContentEvent.Error -> HostingUiState.Error
         else -> HostingUiState.Content(
                 connectedDevices = state.connectedDeviceEvent
                         .data
@@ -29,9 +28,7 @@ internal class HostingStateConverter : (HostingState) -> HostingUiState {
                 hostDeviceName = state.hostDeviceName,
                 isPrimaryButtonVisible = !state.connectedDeviceEvent.data.isNullOrEmpty(),
                 titleId = R.string.hosting_title,
-                subtitleId = R.string.hosting_subtitle,
-                primaryButtonAction = ButtonAction.Start,
-                secondaryButtonAction = ButtonAction.Back
+                subtitleId = R.string.hosting_subtitle
         )
     }
 }

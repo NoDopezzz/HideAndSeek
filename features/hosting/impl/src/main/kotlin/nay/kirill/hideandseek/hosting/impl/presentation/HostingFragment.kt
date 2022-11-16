@@ -32,7 +32,9 @@ internal class HostingFragment : Fragment() {
             MaterialTheme {
                 HostingScreen(
                         state = viewModel.uiState.value,
-                        onButtonClicked = viewModel::onButtonClicked,
+                        onStart = viewModel::start,
+                        onBack = viewModel::back,
+                        onRetry = viewModel::retry
                 )
             }
         }

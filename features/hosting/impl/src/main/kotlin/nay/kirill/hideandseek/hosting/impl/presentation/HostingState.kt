@@ -2,7 +2,6 @@ package nay.kirill.hideandseek.hosting.impl.presentation
 
 import android.bluetooth.BluetoothDevice
 import nay.kirill.core.arch.ContentEvent
-import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
 
 internal data class HostingState(
@@ -12,35 +11,14 @@ internal data class HostingState(
 
 internal sealed interface HostingUiState {
 
-    val titleId: Int
-
-    val subtitleId: Int
-
-    val primaryButtonAction: ButtonAction
-
-    val secondaryButtonAction: ButtonAction
-
-    val isPrimaryButtonVisible: Boolean
-
     data class Content(
             val connectedDevices: List<ConnectedDeviceUiState>,
             val hostDeviceName: String,
-            override val titleId: Int,
-            override val subtitleId: Int,
-            override val primaryButtonAction: ButtonAction,
-            override val secondaryButtonAction: ButtonAction,
-            override val isPrimaryButtonVisible: Boolean
+            val titleId: Int,
+            val subtitleId: Int,
+            val isPrimaryButtonVisible: Boolean
     ) : HostingUiState
 
-    data class Error(
-            override val titleId: Int,
-            override val subtitleId: Int,
-            override val primaryButtonAction: ButtonAction,
-            override val secondaryButtonAction: ButtonAction
-    ) : HostingUiState {
-
-        override val isPrimaryButtonVisible: Boolean = true
-
-    }
+    object Error : HostingUiState
 
 }

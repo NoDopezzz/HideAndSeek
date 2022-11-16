@@ -21,15 +21,33 @@ import nay.kirill.core.button.AppButton
 import nay.kirill.core.button.AppButtonState
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
+import nay.kirill.core.ui.error.AppError
 import nay.kirill.core.ui.list.AppList
 import nay.kirill.hideandseek.hosting.impl.R
-import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 import nay.kirill.hideandseek.hosting.impl.presentation.models.ConnectedDeviceUiState
 
 @Composable
 internal fun HostingScreen(
         state: HostingUiState,
-        onButtonClicked: (ButtonAction) -> Unit,
+        onBack: () -> Unit,
+        onRetry: () -> Unit,
+        onStart: () -> Unit
+) {
+    when (state) {
+        is HostingUiState.Content -> Content(state, onBack, onStart)
+        is HostingUiState.Error -> AppError(
+                errorDescription = stringResource(id = R.string.hosting_error_subtitle),
+                backAction = onBack,
+                retryAction = onRetry
+        )
+    }
+}
+
+@Composable
+private fun Content(
+        state: HostingUiState.Content,
+        onBack: () -> Unit,
+        onStart: () -> Unit
 ) {
     Scaffold(
             topBar = {
@@ -43,19 +61,12 @@ internal fun HostingScreen(
         ) {
             Spacer(modifier = Modifier.height(40.dp))
 
-            val text = when (state) {
-                is HostingUiState.Content -> buildAnnotatedString {
-                    withStyle(AppTextStyle.SubTitle.toSpanStyle()) {
-                        append(stringResource(id = state.subtitleId))
-                    }
-                    withStyle(AppTextStyle.SubTitleHighlighted.toSpanStyle()) {
-                        append(" \"${state.hostDeviceName}\"")
-                    }
+            val text = buildAnnotatedString {
+                withStyle(AppTextStyle.SubTitle.toSpanStyle()) {
+                    append(stringResource(id = state.subtitleId))
                 }
-                else -> buildAnnotatedString {
-                    withStyle(AppTextStyle.SubTitle.toSpanStyle()) {
-                        append(stringResource(id = state.subtitleId))
-                    }
+                withStyle(AppTextStyle.SubTitleHighlighted.toSpanStyle()) {
+                    append(" \"${state.hostDeviceName}\"")
                 }
             }
             Text(
@@ -63,41 +74,37 @@ internal fun HostingScreen(
                     modifier = Modifier.padding(start = 16.dp, end = 52.dp)
             )
 
-            if (state is HostingUiState.Content) {
-                Content(
-                        connectedDevices = state.connectedDevices,
-                        modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth()
-                                .weight(1F)
-                )
-            } else {
-                Spacer(modifier = Modifier.weight(1F))
-            }
+            ConnectedDevices(
+                    connectedDevices = state.connectedDevices,
+                    modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth()
+                            .weight(1F)
+            )
 
             if (state.isPrimaryButtonVisible) {
                 AppButton(
-                        state = AppButtonState.Content(text = stringResource(id = state.primaryButtonAction.buttonTitleId)),
+                        state = AppButtonState.Content(text = stringResource(id = R.string.start_button_title)),
                         modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp),
-                        onClick = { onButtonClicked(state.primaryButtonAction) }
+                        onClick = onStart
                 )
                 Spacer(modifier = Modifier.height(18.dp))
             }
             AppButton(
-                    state = AppButtonState.Content(text = stringResource(id = state.secondaryButtonAction.buttonTitleId)),
+                    state = AppButtonState.Content(text = stringResource(id = R.string.back_button_title)),
                     modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp),
-                    onClick = { onButtonClicked(state.secondaryButtonAction) }
+                    onClick = onBack
             )
         }
     }
 }
 
 @Composable
-private fun Content(
+private fun ConnectedDevices(
         connectedDevices: List<ConnectedDeviceUiState>,
         modifier: Modifier = Modifier
 ) {
@@ -121,19 +128,16 @@ private fun HostingScreenPreview(
 ) {
     HostingScreen(
             state = state,
-            onButtonClicked = { /* Do nothing */ },
+            onBack = { },
+            onRetry = { },
+            onStart = { }
     )
 }
 
 internal class HostingUiStateProvider : PreviewParameterProvider<HostingUiState> {
 
     override val values: Sequence<HostingUiState> = sequenceOf(
-            HostingUiState.Error(
-                    titleId = R.string.hosting_error_title,
-                    subtitleId = R.string.hosting_error_subtitle,
-                    primaryButtonAction = ButtonAction.Retry,
-                    secondaryButtonAction = ButtonAction.Back
-            ),
+            HostingUiState.Error,
             HostingUiState.Content(
                     connectedDevices = listOf(
                             ConnectedDeviceUiState("", "Дима Huawei P40"),
@@ -142,9 +146,7 @@ internal class HostingUiStateProvider : PreviewParameterProvider<HostingUiState>
                     hostDeviceName = "Кирилл's S22",
                     isPrimaryButtonVisible = true,
                     titleId = R.string.hosting_title,
-                    subtitleId = R.string.hosting_subtitle,
-                    primaryButtonAction = ButtonAction.Start,
-                    secondaryButtonAction = ButtonAction.Back
+                    subtitleId = R.string.hosting_subtitle
             )
     )
 

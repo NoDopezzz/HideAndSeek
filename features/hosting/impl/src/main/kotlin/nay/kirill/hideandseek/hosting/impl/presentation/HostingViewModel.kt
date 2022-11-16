@@ -12,7 +12,6 @@ import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.core.ui.res.ResourceProvider
 import nay.kirill.hideandseek.hosting.impl.R
-import nay.kirill.hideandseek.hosting.impl.presentation.models.ButtonAction
 
 internal class HostingViewModel(
         converter: HostingStateConverter,
@@ -45,12 +44,16 @@ internal class HostingViewModel(
                 .launchIn(viewModelScope)
     }
 
-    fun onButtonClicked(buttonAction: ButtonAction) {
-        when (buttonAction) {
-            is ButtonAction.Start -> TODO()
-            is ButtonAction.Retry -> _effect.trySend(HostingEff.RetryStartService)
-            is ButtonAction.Back -> navigation.back()
-        }
+    fun start() {
+        // TODO
+    }
+
+    fun retry() {
+        _effect.trySend(HostingEff.RetryStartService)
+    }
+
+    fun back() {
+        navigation.back()
     }
 
     private fun handleOnServerReady() {
