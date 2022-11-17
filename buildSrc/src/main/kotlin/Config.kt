@@ -10,7 +10,7 @@ object AppConfig {
 
     const val targetSdk = 33
 
-    const val minSdk = 23
+    const val minSdk = 24
 
     const val applicationId = "nay.kirill.hideandseek"
 

@@ -46,6 +46,8 @@ object Project {
 
             const val radar = ":core:ui:radar"
 
+            const val qrCode = ":core:ui:qr-code"
+
         }
 
     }

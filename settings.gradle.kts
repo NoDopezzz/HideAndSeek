@@ -59,6 +59,7 @@ include(
         ":core:ui:error",
         ":core:ui:timer",
         ":core:ui:radar",
+        ":core:ui:qr-code",
         ":core:utils:permissions",
         ":core:arch",
         ":core:utils:callbackFlow"

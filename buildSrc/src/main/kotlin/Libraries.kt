@@ -114,6 +114,8 @@ object Libraries {
 
         const val picasso = "com.squareup.picasso:picasso:2.5.2"
 
+        const val zxing = "com.journeyapps:zxing-android-embedded:4.2.0"
+
     }
 
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"

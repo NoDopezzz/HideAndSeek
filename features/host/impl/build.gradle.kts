@@ -15,10 +15,6 @@ android {
 dependencies {
     implementation(Libraries.Koin.koinAndroid)
     implementation(Libraries.Navigation.cicerone)
-    implementation(Libraries.UI.radar)
-    implementation(Libraries.UI.picasso)
-    implementation(Libraries.Support.constraint)
-    implementation(Libraries.Androidx.appCompat)
 
     implementation(project(Project.Features.hostApi))
 

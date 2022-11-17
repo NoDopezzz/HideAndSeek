@@ -1,25 +1,33 @@
 package nay.kirill.hideandseek.client.impl.presentation.hide
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nay.kirill.core.button.AppButton
 import nay.kirill.core.button.AppButtonState
+import nay.kirill.core.compose.AppColors
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.core.ui.error.AppError
+import nay.kirill.core.ui.qrcode.BarcodeUtils
 import nay.kirill.hideandseek.client.impl.R
 
 @Composable
@@ -41,8 +49,8 @@ fun HideScreen(
 
 @Composable
 private fun Content(
-    state: HideUiState.Content,
-    onBack: () -> Unit
+        state: HideUiState.Content,
+        onBack: () -> Unit
 ) {
     Scaffold(
             topBar = {
@@ -60,7 +68,22 @@ private fun Content(
                     modifier = Modifier.padding(start = 16.dp, end = 52.dp),
                     style = AppTextStyle.SubTitle
             )
+
             Spacer(modifier = Modifier.weight(1F))
+            Image(
+                    bitmap = BarcodeUtils.createBarcodeBitmap(
+                            barcodeValue = state.deviceAddress.orEmpty(),
+                            widthPixels = with(LocalDensity.current) { 200.dp.toPx() }.toInt(),
+                            heightPixels = with(LocalDensity.current) { 200.dp.toPx() }.toInt()
+                    )
+                            .asImageBitmap(),
+                    contentDescription = "",
+                    modifier = Modifier
+                            .size(200.dp)
+                            .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.weight(1F))
+
             AppButton(
                     state = AppButtonState.Content(text = stringResource(R.string.quit_game_button_title)),
                     modifier = Modifier
