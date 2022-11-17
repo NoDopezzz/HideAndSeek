@@ -14,12 +14,19 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.server.service.BleServerService
+import nay.kirill.core.arch.args
+import nay.kirill.core.arch.withArgs
 import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 internal class SeekFragment : Fragment() {
 
-    private val viewModel: SeekViewModel by viewModel()
+    private val viewModel: SeekViewModel by viewModel {
+        parametersOf(args)
+    }
+
+    private val args: SeekArgs by args()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -81,7 +88,7 @@ internal class SeekFragment : Fragment() {
 
     companion object {
 
-        fun newInstance() = SeekFragment()
+        fun newInstance(args: SeekArgs) = SeekFragment().withArgs(args)
 
     }
 

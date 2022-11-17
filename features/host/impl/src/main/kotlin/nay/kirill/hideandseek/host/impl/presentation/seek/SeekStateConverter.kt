@@ -13,7 +13,7 @@ internal class SeekStateConverter(
                 descriptionId = R.string.no_permissions_error_description
         )
         state is SeekState.Content -> SeekUiState.Content(
-                devicesLeft = state.locations.size,
+                devicesLeft = state.leftDevicesCount,
                 locations = state.locations.values.toList(),
                 currentLocation = state.currentLocation
         )

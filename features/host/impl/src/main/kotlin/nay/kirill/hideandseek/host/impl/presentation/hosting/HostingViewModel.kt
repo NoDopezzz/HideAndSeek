@@ -16,6 +16,7 @@ import nay.kirill.core.arch.ContentEvent
 import nay.kirill.core.ui.res.ResourceProvider
 import nay.kirill.hideandseek.host.impl.R
 import nay.kirill.hideandseek.host.impl.presentation.HostNavigation
+import nay.kirill.hideandseek.host.impl.presentation.timer.SeekTimerArgs
 
 internal class HostingViewModel(
         converter: HostingStateConverter,
@@ -54,7 +55,7 @@ internal class HostingViewModel(
                 message = Message.Start
         ))
 
-        navigation.openTimer()
+        navigation.openTimer(args = SeekTimerArgs(state.connectedDeviceEvent.data?.size ?: 0))
     }
 
     fun retry() {

@@ -59,8 +59,8 @@ class BleServerService : Service(), CoroutineScope {
             serverEventCallback.setResult(ServerEvent.OnServerIsReady)
         }
 
-        override fun onNewMessage(device: BluetoothDevice, message: ByteArray) {
-            serverEventCallback.setResult(ServerEvent.OnNewMessage(Message.fromByteArray(message), device))
+        override fun onNewMessage(device: BluetoothDevice, message: ByteArray, deviceCount: Int) {
+            serverEventCallback.setResult(ServerEvent.OnNewMessage(Message.fromByteArray(message), device, deviceCount))
         }
 
         override fun onFailure(throwable: ServerException) {

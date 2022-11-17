@@ -12,8 +12,10 @@ import nay.kirill.bluetooth.server.callback.event.ServerEvent
 import nay.kirill.bluetooth.server.callback.event.ServerEventCallback
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.hideandseek.host.impl.presentation.HostNavigation
+import nay.kirill.hideandseek.host.impl.presentation.seek.SeekArgs
 
 internal class SeekTimerViewModel(
+        private val args: SeekTimerArgs,
         converter: SeekTimerConverter,
         serverEventCallback: ServerEventCallback,
         private val navigation: HostNavigation
@@ -52,7 +54,7 @@ internal class SeekTimerViewModel(
                     state = SeekTimerState.Content(i)
                 }
             }
-            navigation.openSeek()
+            navigation.openSeek(args = SeekArgs(args.connectedDevicesCount))
         }
     }
 

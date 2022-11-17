@@ -11,7 +11,6 @@ import nay.kirill.bluetooth.utils.CharacteristicConstants
 import no.nordicsemi.android.ble.BleManager
 import no.nordicsemi.android.ble.BleServerManager
 import no.nordicsemi.android.ble.observer.ServerObserver
-import java.nio.charset.StandardCharsets
 
 class ServerManager(
         private val context: Context,
@@ -95,7 +94,7 @@ class ServerManager(
 
                 setWriteCallback(gattCharacteristic).with {device, data ->
                     if (data.value != null) {
-                        consumerCallback.onNewMessage(device, data.value!!)
+                        consumerCallback.onNewMessage(device, data.value!!, serverConnections.size)
                     }
                 }
             }

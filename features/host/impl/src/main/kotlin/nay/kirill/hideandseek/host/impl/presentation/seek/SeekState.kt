@@ -11,6 +11,7 @@ sealed interface SeekState {
 
     data class Content(
             val locations: Map<String, RadarLocation>,
+            val leftDevicesCount: Int,
             val currentLocation: RadarLocation? = null
     ) : SeekState
 

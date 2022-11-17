@@ -45,6 +45,11 @@ sealed interface ServerEvent {
      * Receive [OnNewMessage] when got new message from connected BLE-client.
      * @param message is message that client sent
      * @param device is client that sent message
+     * @param deviceCount is count of current connected devices
      */
-    data class OnNewMessage(val message: Message, val device: BluetoothDevice) : ServerEvent
+    data class OnNewMessage(
+            val message: Message,
+            val device: BluetoothDevice,
+            val deviceCount: Int
+    ) : ServerEvent
 }

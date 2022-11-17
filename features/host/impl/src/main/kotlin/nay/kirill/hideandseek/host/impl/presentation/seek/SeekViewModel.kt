@@ -15,13 +15,17 @@ import nay.kirill.hideandseek.host.impl.presentation.HostNavigation
 import nay.kirill.location.api.LocationManager
 
 internal class SeekViewModel(
+        args: SeekArgs,
         converter: SeekStateConverter,
         serverEventCallback: ServerEventCallback,
         private val navigation: HostNavigation,
         private val locationManager: LocationManager
 ): BaseEffectViewModel<SeekState, SeekUiState, SeekEffect>(
         converter = converter,
-        initialState = SeekState.Content(locations = mapOf())
+        initialState = SeekState.Content(
+                locations = mapOf(),
+                leftDevicesCount = args.connectedDeviceCount
+        )
 ) {
 
     init {
@@ -70,7 +74,10 @@ internal class SeekViewModel(
                         longitude = (event.message as Message.Location).longitude.toFloat()
                 )
 
-                state = (state as SeekState.Content).copy(locations = updatedLocations)
+                state = (state as SeekState.Content).copy(
+                        locations = updatedLocations,
+                        leftDevicesCount = event.deviceCount
+                )
             }
         }
     }
