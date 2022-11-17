@@ -19,6 +19,9 @@ dependencies {
     implementation(Libraries.Koin.koinAndroid)
     implementation(Libraries.Navigation.cicerone)
 
+    implementation(Libraries.Google.location)
+    implementation(Libraries.Huawei.location)
+
     implementation(project(Project.Features.mainImpl))
     implementation(project(Project.Features.mainApi))
     implementation(project(Project.Features.clientImpl))
@@ -33,4 +36,7 @@ dependencies {
     implementation(project(Project.BluetoothSDK.clientManager))
     implementation(project(Project.BluetoothSDK.clientService))
     implementation(project(Project.BluetoothSDK.clientCallback))
+
+    implementation(project(Project.LocationSDK.google))
+    implementation(project(Project.LocationSDK.huawei))
 }

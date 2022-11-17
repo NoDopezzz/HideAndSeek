@@ -36,6 +36,8 @@ dependencies {
     implementation(project(Project.BluetoothSDK.clientExceptions))
     implementation(project(Project.BluetoothSDK.messages))
 
+    implementation(project(Project.LocationSDK.api))
+
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)
     implementation(Libraries.Compose.runtime)

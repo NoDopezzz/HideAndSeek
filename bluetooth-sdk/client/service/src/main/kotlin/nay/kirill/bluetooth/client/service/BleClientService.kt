@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.os.Parcelable
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -20,6 +21,7 @@ import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.bluetooth.client.callback.message.ClientMessage
 import nay.kirill.bluetooth.client.callback.message.ClientMessageCallback
 import nay.kirill.bluetooth.client.exceptions.ClientException
+import nay.kirill.bluetooth.messages.Message
 import org.koin.android.ext.android.inject
 import kotlin.coroutines.CoroutineContext
 
@@ -37,8 +39,8 @@ class BleClientService : Service(), CoroutineScope {
 
     private val consumerCallback = object : ClientConsumerCallback {
 
-        override fun onNewMessage(device: BluetoothDevice, message: String) {
-            eventCallback.setResult(ClientEvent.OnNewMessage(message))
+        override fun onNewMessage(device: BluetoothDevice, message: ByteArray) {
+            eventCallback.setResult(ClientEvent.OnNewMessage(Message.fromByteArray(message)))
         }
 
         override fun onFailure(throwable: ClientException) {
@@ -89,8 +91,8 @@ class BleClientService : Service(), CoroutineScope {
         }
     }
 
-    private fun sendMessage(message: String) {
-        clientManager?.sendMessage(message)
+    private fun sendMessage(message: Message) {
+        clientManager?.sendMessage(Message.toByteArray(message))
     }
 
     private fun startClientService(device: BluetoothDevice) {

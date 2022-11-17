@@ -22,6 +22,9 @@ object PermissionsUtils {
         ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     }
 
+    fun checkFineLocation(context: Context): Boolean =
+        ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
     val bluetoothScanningPermissions: List<String>
         get() {
             val permissions = mutableListOf(Manifest.permission.ACCESS_COARSE_LOCATION)

@@ -2,6 +2,7 @@ package nay.kirill.bluetooth.client.callback.event
 
 import android.bluetooth.BluetoothDevice
 import nay.kirill.bluetooth.client.exceptions.ClientException
+import nay.kirill.bluetooth.messages.Message
 
 /**
  * Events that BLE-client service produce.
@@ -17,7 +18,7 @@ sealed interface ClientEvent {
     /**
      * [OnNewMessage] is emitted when client receives new message from server
      */
-    data class OnNewMessage(val message: String) : ClientEvent
+    data class OnNewMessage(val message: Message) : ClientEvent
 
     /**
      * [OnFailure] is emitted when some exception is thrown

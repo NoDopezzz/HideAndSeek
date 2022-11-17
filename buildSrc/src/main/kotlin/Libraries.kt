@@ -16,6 +16,14 @@ object Libraries {
 
         const val material = "com.google.android.material:material:1.6.1"
 
+        const val location = "com.google.android.gms:play-services-location:21.0.1"
+
+    }
+
+    object Huawei {
+
+        const val location = "com.huawei.hms:location:6.8.0.300"
+
     }
 
     object Koin {
@@ -85,6 +93,12 @@ object Libraries {
         const val permissionDispatcherProcessor = "com.github.permissions-dispatcher:permissionsdispatcher-processor:$version"
 
         const val permissionDispatcherKtx = "com.github.permissions-dispatcher:ktx:$version"
+
+    }
+
+    object Utils {
+
+        const val jsonSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
 
     }
 

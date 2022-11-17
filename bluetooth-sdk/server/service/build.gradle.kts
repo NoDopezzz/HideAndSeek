@@ -17,6 +17,7 @@ dependencies {
     implementation(project(Project.BluetoothSDK.serverCallback))
     implementation(project(Project.Core.Utils.callbackFlow))
     implementation(project(Project.BluetoothSDK.serverExceptions))
+    implementation(project(Project.BluetoothSDK.messages))
 
     implementation(Libraries.Bluetooth.nordic)
     implementation(Libraries.Koin.koinAndroid)

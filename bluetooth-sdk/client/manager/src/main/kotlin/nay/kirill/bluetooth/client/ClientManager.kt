@@ -8,7 +8,6 @@ import nay.kirill.bluetooth.client.exceptions.ClientException
 import nay.kirill.bluetooth.utils.CharacteristicConstants.CHARACTERISTIC_UUID
 import nay.kirill.bluetooth.utils.CharacteristicConstants.SERVICE_UUID
 import no.nordicsemi.android.ble.BleManager
-import java.nio.charset.StandardCharsets
 
 class ClientManager(
         appContext: Context,
@@ -35,10 +34,11 @@ class ClientManager(
         }
 
         override fun initialize() {
+            requestMtu(517).enqueue()
+
             setNotificationCallback(characteristic).with { device, data ->
                 if (data.value != null) {
-                    val value = String(data.value!!, Charsets.UTF_8)
-                    consumerCallback.onNewMessage(device, value)
+                    consumerCallback.onNewMessage(device, data.value!!)
                 }
             }
 
@@ -56,8 +56,7 @@ class ClientManager(
         }
     }
 
-    fun sendMessage(message: String) {
-        val bytes = message.toByteArray(StandardCharsets.UTF_8)
-        writeCharacteristic(characteristic, bytes, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT).enqueue()
+    fun sendMessage(message: ByteArray) {
+        writeCharacteristic(characteristic, message, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT).enqueue()
     }
 }

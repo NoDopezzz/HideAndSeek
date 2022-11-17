@@ -68,12 +68,11 @@ class ServerManager(
         serverConnections.remove(device.address)?.close()
     }
 
-    fun sendMessage(message: String, deviceId: String?) {
-        val bytes = message.toByteArray(StandardCharsets.UTF_8)
+    fun sendMessage(message: ByteArray, deviceId: String?) {
         if (deviceId == null) {
-            serverConnections.forEach { it.value.sendMessage(bytes, gattCharacteristic) }
+            serverConnections.forEach { it.value.sendMessage(message, gattCharacteristic) }
         } else {
-            serverConnections[deviceId]?.sendMessage(bytes, gattCharacteristic)
+            serverConnections[deviceId]?.sendMessage(message, gattCharacteristic)
         }
     }
 
@@ -92,10 +91,11 @@ class ServerManager(
             }
 
             override fun initialize() {
+                requestMtu(517).enqueue()
+
                 setWriteCallback(gattCharacteristic).with {device, data ->
                     if (data.value != null) {
-                        val value = String(data.value!!, Charsets.UTF_8)
-                        consumerCallback.onNewMessage(device, value)
+                        consumerCallback.onNewMessage(device, data.value!!)
                     }
                 }
             }

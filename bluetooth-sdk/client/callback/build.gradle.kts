@@ -15,4 +15,5 @@ dependencies {
 
     implementation(project(Project.Core.Utils.callbackFlow))
     implementation(project(Project.BluetoothSDK.clientExceptions))
+    implementation(project(Project.BluetoothSDK.messages))
 }

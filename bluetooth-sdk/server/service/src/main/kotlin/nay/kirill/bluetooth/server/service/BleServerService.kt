@@ -16,6 +16,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import nay.kirill.bluetooth.messages.Message
 import nay.kirill.bluetooth.server.callback.event.ServerEvent
 import nay.kirill.bluetooth.server.callback.event.ServerEventCallback
 import nay.kirill.bluetooth.server.callback.message.ServerMessage
@@ -58,8 +59,8 @@ class BleServerService : Service(), CoroutineScope {
             serverEventCallback.setResult(ServerEvent.OnServerIsReady)
         }
 
-        override fun onNewMessage(device: BluetoothDevice, message: String) {
-            serverEventCallback.setResult(ServerEvent.OnNewMessage(message, device))
+        override fun onNewMessage(device: BluetoothDevice, message: ByteArray) {
+            serverEventCallback.setResult(ServerEvent.OnNewMessage(Message.fromByteArray(message), device))
         }
 
         override fun onFailure(throwable: ServerException) {
@@ -148,7 +149,7 @@ class BleServerService : Service(), CoroutineScope {
         }
     }
 
-    private fun sendMessage(message: String, deviceId: String?) {
-        serverManager?.sendMessage(message, deviceId)
+    private fun sendMessage(message: Message, deviceId: String?) {
+        serverManager?.sendMessage(Message.toByteArray(message), deviceId)
     }
 }

@@ -43,6 +43,10 @@ internal class HideFragment : Fragment() {
             viewModel.init(requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager)
         }
 
+        if (PermissionsUtils.checkFineLocation(requireContext())) {
+            viewModel.startLocationUpdating()
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 back()

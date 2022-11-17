@@ -1,6 +1,7 @@
 package nay.kirill.bluetooth.server.callback.event
 
 import android.bluetooth.BluetoothDevice
+import nay.kirill.bluetooth.messages.Message
 import nay.kirill.bluetooth.server.exceptions.ServerException
 
 /**
@@ -45,5 +46,5 @@ sealed interface ServerEvent {
      * @param message is message that client sent
      * @param device is client that sent message
      */
-    data class OnNewMessage(val message: String, val device: BluetoothDevice) : ServerEvent
+    data class OnNewMessage(val message: Message, val device: BluetoothDevice) : ServerEvent
 }

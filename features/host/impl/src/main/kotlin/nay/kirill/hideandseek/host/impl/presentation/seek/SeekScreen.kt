@@ -55,6 +55,12 @@ private fun Content(
                         .padding(bottom = paddingValues.calculateBottomPadding() + 16.dp)
                         .fillMaxSize()
         ) {
+            Column {
+                state.locations.forEach {
+                    Text(text = it)
+                }
+            }
+
             Spacer(modifier = Modifier.weight(1F))
 
             val text = buildAnnotatedString {

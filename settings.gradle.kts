@@ -13,6 +13,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://developer.huawei.com/repo/")
     }
 }
 
@@ -29,7 +30,7 @@ include(
         ":features:host:api",
         ":features:host:impl",
 
-        // SDK
+        // Bluetooth-SDK
         ":bluetooth-sdk:scanner:api",
         ":bluetooth-sdk:scanner:impl",
         ":bluetooth-sdk:server:manager",
@@ -42,6 +43,11 @@ include(
         ":bluetooth-sdk:client:exceptions",
         ":bluetooth-sdk:client:service",
         ":bluetooth-sdk:client:callback",
+
+        // Location-SDK
+        "location-sdk:api",
+        "location-sdk:google-impl",
+        "location-sdk:huawei-impl",
 
         // Core
         ":core:ui:compose",

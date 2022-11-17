@@ -1,6 +1,7 @@
 package nay.kirill.hideandseek.host.impl.presentation.seek
 
 import androidx.annotation.StringRes
+import nay.kirill.hideandseek.host.impl.presentation.seek.models.Location
 
 sealed interface SeekState {
 
@@ -9,7 +10,7 @@ sealed interface SeekState {
     object NoDevicesConnected : SeekState
 
     data class Content(
-            val locations: List<String>
+            val locations: Map<String, Location>
     ) : SeekState
 
 }

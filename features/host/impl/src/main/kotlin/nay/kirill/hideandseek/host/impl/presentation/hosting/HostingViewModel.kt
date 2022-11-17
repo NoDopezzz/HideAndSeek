@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothManager
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import nay.kirill.bluetooth.messages.MessageConstants
+import nay.kirill.bluetooth.messages.Message
 import nay.kirill.bluetooth.server.callback.event.ServerEvent
 import nay.kirill.bluetooth.server.callback.event.ServerEventCallback
 import nay.kirill.bluetooth.server.callback.message.ServerMessage
@@ -51,7 +51,7 @@ internal class HostingViewModel(
 
     fun start() {
         serverMessageCallback.setResult(value = ServerMessage.WriteCharacteristic(
-                message = MessageConstants.START
+                message = Message.Start
         ))
 
         navigation.openTimer()

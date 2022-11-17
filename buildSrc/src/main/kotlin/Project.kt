@@ -76,4 +76,14 @@ object Project {
 
     }
 
+    object LocationSDK {
+
+        const val api = ":location-sdk:api"
+
+        const val google = ":location-sdk:google-impl"
+
+        const val huawei = ":location-sdk:huawei-impl"
+
+    }
+
 }

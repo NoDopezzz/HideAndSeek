@@ -5,7 +5,7 @@ import nay.kirill.bluetooth.server.exceptions.ServerException
 
 interface ServerConsumerCallback {
 
-    fun onNewMessage(device: BluetoothDevice, message: String)
+    fun onNewMessage(device: BluetoothDevice, message: ByteArray)
 
     fun onNewDeviceConnected(device: BluetoothDevice, deviceCount: Int)
 
