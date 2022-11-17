@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
@@ -22,6 +23,8 @@ import nay.kirill.core.button.AppButtonState
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.core.ui.error.AppError
+import nay.kirill.core.ui.radar.RadarLocation
+import nay.kirill.core.ui.radar.RadarView
 import nay.kirill.hideandseek.host.impl.R
 
 @Composable
@@ -55,12 +58,14 @@ private fun Content(
                         .padding(bottom = paddingValues.calculateBottomPadding() + 16.dp)
                         .fillMaxSize()
         ) {
-            Column {
-                state.locations.forEach {
-                    Text(text = it)
-                }
-            }
+            Spacer(modifier = Modifier.weight(1F))
 
+            RadarView(
+                    centerLocation = state.currentLocation ?: RadarLocation(0F, 0F),
+                    locations = state.locations,
+                    size = 300.dp,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
             Spacer(modifier = Modifier.weight(1F))
 
             val text = buildAnnotatedString {
@@ -105,7 +110,8 @@ internal class SeekStateProvider : PreviewParameterProvider<SeekUiState> {
             SeekUiState.Error(descriptionId = R.string.common_error_description),
             SeekUiState.Content(
                     locations = listOf(),
-                    devicesLeft = 3
+                    devicesLeft = 3,
+                    currentLocation = RadarLocation(200F, 200F)
             )
     )
 

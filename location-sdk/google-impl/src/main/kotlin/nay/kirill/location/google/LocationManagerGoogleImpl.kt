@@ -24,7 +24,7 @@ internal class LocationManagerGoogleImpl(context: Context) : LocationManager {
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     override fun getLocationFlow(): Flow<Location> = callbackFlow {
         val locationRequest = LocationRequest
-                .Builder(Priority.PRIORITY_HIGH_ACCURACY, 3000)
+                .Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
                 .build()
 
         val callback = object : LocationCallback() {

@@ -14,6 +14,10 @@ android {
 dependencies {
     implementation(Libraries.Koin.koinAndroid)
     implementation(Libraries.Navigation.cicerone)
+    implementation(Libraries.UI.radar)
+    implementation(Libraries.UI.picasso)
+    implementation(Libraries.Support.constraint)
+    implementation(Libraries.Androidx.appCompat)
 
     implementation(project(Project.Features.hostApi))
 
@@ -25,6 +29,7 @@ dependencies {
     implementation(project(Project.Core.UI.list))
     implementation(project(Project.Core.UI.error))
     implementation(project(Project.Core.UI.timer))
+    implementation(project(Project.Core.UI.radar))
 
     implementation(project(Project.Core.Utils.permissions))
     implementation(project(Project.Core.Utils.callbackFlow))
@@ -34,6 +39,8 @@ dependencies {
     implementation(project(Project.BluetoothSDK.serverCallback))
     implementation(project(Project.BluetoothSDK.serverExceptions))
     implementation(project(Project.BluetoothSDK.messages))
+
+    implementation(project(Project.LocationSDK.api))
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)

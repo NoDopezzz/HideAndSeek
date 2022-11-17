@@ -20,7 +20,7 @@ internal class LocationManagerHuaweiImpl(context: Context) : LocationManager {
         val locationRequest = LocationRequest.create()
         locationRequest.apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 3000
+            interval = 1000
         }
 
         val callback = object : LocationCallback() {

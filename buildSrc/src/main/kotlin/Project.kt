@@ -44,6 +44,8 @@ object Project {
 
             const val timer = ":core:ui:timer"
 
+            const val radar = ":core:ui:radar"
+
         }
 
     }

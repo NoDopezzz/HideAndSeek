@@ -12,6 +12,12 @@ object Libraries {
 
     }
 
+    object Support {
+
+        const val constraint = "com.android.support.constraint:constraint-layout:1.1.0" // Use it for legacy
+
+    }
+
     object Google {
 
         const val material = "com.google.android.material:material:1.6.1"
@@ -99,6 +105,14 @@ object Libraries {
     object Utils {
 
         const val jsonSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+
+    }
+
+    object UI {
+
+        const val radar = "com.github.TristateAndroidTeam:radarview:1.0"
+
+        const val picasso = "com.squareup.picasso:picasso:2.5.2"
 
     }
 

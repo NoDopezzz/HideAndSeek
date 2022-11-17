@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.server.service.BleServerService
+import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class SeekFragment : Fragment() {
@@ -44,6 +45,10 @@ internal class SeekFragment : Fragment() {
                 back()
             }
         })
+
+        if (PermissionsUtils.checkFineLocation(requireContext())) {
+            viewModel.fetchCurrentLocation()
+        }
     }
 
     private fun observeEffects() {

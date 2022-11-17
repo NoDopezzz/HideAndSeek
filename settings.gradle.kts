@@ -14,6 +14,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://developer.huawei.com/repo/")
+        maven("https://jitpack.io")
     }
 }
 
@@ -57,6 +58,7 @@ include(
         ":core:ui:list",
         ":core:ui:error",
         ":core:ui:timer",
+        ":core:ui:radar",
         ":core:utils:permissions",
         ":core:arch",
         ":core:utils:callbackFlow"
