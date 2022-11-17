@@ -10,12 +10,12 @@ import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.bluetooth.scanner.api.BluetoothScanner
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
-import nay.kirill.hideandseek.client.impl.presentation.Navigation
+import nay.kirill.hideandseek.client.impl.presentation.HostNavigation
 import nay.kirill.hideandseek.client.impl.presentation.waiting.WaitingArgs
 
 internal class SessionSearchViewModel(
         converter: SessionSearchStateConverter,
-        private val navigation: Navigation,
+        private val navigation: HostNavigation,
         private val bluetoothScanner: BluetoothScanner,
         private val clientEventCallback: ClientEventCallback
 ) : BaseEffectViewModel<SessionSearchState, SessionSearchUiState, SessionSearchEffect>(

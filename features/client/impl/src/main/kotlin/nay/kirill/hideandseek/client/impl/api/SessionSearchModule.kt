@@ -1,7 +1,9 @@
 package nay.kirill.hideandseek.client.impl.api
 
 import nay.kirill.hideandseek.client.api.SessionSearchApi
-import nay.kirill.hideandseek.client.impl.presentation.Navigation
+import nay.kirill.hideandseek.client.impl.presentation.HostNavigation
+import nay.kirill.hideandseek.client.impl.presentation.hide.HideStateConverter
+import nay.kirill.hideandseek.client.impl.presentation.hide.HideViewModel
 import nay.kirill.hideandseek.client.impl.presentation.timer.HideTimerConverter
 import nay.kirill.hideandseek.client.impl.presentation.timer.HideTimerViewModel
 import nay.kirill.hideandseek.client.impl.presentation.sessionSearch.SessionSearchStateConverter
@@ -15,7 +17,7 @@ import org.koin.dsl.module
 
 val sessionSearchModule = module {
     factory<SessionSearchApi> { SessionSearchApiImpl() }
-    factoryOf(::Navigation)
+    factoryOf(::HostNavigation)
     viewModelOf(::SessionSearchViewModel)
     factoryOf(::SessionSearchStateConverter)
 
@@ -26,4 +28,7 @@ val sessionSearchModule = module {
 
     factoryOf(::HideTimerConverter)
     viewModelOf(::HideTimerViewModel)
+
+    factoryOf(::HideStateConverter)
+    viewModelOf(::HideViewModel)
 }

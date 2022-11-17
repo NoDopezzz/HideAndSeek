@@ -41,7 +41,7 @@ internal fun WaitingScreen(
     when (state) {
         is WaitingUiState.Content -> Content(state, onBack)
         else -> AppError(
-                errorDescription = stringResource(id = R.string.waiting_screen_error_description),
+                errorDescription = stringResource(id = R.string.common_error_description),
                 backAction = onBack,
                 retryAction = onRetry
         )

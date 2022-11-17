@@ -7,12 +7,12 @@ import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.bluetooth.messages.MessageConstants
 import nay.kirill.core.arch.BaseViewModel
-import nay.kirill.hideandseek.client.impl.presentation.Navigation
+import nay.kirill.hideandseek.client.impl.presentation.HostNavigation
 
 internal class WaitingViewModel(
         args: WaitingArgs,
         converter: WaitingStateConverter,
-        private val navigation: Navigation,
+        private val navigation: HostNavigation,
         private val clientEventCallback: ClientEventCallback
 ) : BaseViewModel<WaitingState, WaitingUiState>(
         converter = converter,

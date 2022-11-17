@@ -1,19 +1,21 @@
 package nay.kirill.hideandseek.client.impl.presentation.timer
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.core.arch.BaseEffectViewModel
-import nay.kirill.hideandseek.client.impl.presentation.Navigation
+import nay.kirill.hideandseek.client.impl.presentation.HostNavigation
 
 internal class HideTimerViewModel(
         converter: HideTimerConverter,
-        private val navigation: Navigation,
+        private val navigation: HostNavigation,
         clientEventCallback: ClientEventCallback
 ) : BaseEffectViewModel<HideCounterState, HideCounterUiState, HideTimerEffect>(
         converter = converter,
@@ -30,10 +32,13 @@ internal class HideTimerViewModel(
 
     fun startTimer() {
         timerJob?.cancel()
-        timerJob = viewModelScope.launch {
-            for (i in 59 downTo 0) {
+        timerJob = viewModelScope.launch(Dispatchers.IO) {
+            for (i in 10 downTo 0) {
                 delay(1000)
-                state = HideCounterState.Content(i)
+                withContext(Dispatchers.Main) { state = HideCounterState.Content(i) }
+            }
+            withContext(Dispatchers.Main) {
+                navigation.openHide()
             }
         }
     }
