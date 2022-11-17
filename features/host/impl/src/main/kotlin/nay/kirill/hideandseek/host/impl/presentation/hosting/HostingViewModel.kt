@@ -15,11 +15,11 @@ import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.core.ui.res.ResourceProvider
 import nay.kirill.hideandseek.host.impl.R
-import nay.kirill.hideandseek.host.impl.presentation.HostingNavigation
+import nay.kirill.hideandseek.host.impl.presentation.HostNavigation
 
 internal class HostingViewModel(
         converter: HostingStateConverter,
-        private val navigation: HostingNavigation,
+        private val navigation: HostNavigation,
         private val serverEventCallback: ServerEventCallback,
         private val serverMessageCallback: ServerMessageCallback,
         private val resourceProvider: ResourceProvider

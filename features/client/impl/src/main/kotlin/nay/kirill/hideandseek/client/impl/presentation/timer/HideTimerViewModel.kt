@@ -11,11 +11,11 @@ import kotlinx.coroutines.withContext
 import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.core.arch.BaseEffectViewModel
-import nay.kirill.hideandseek.client.impl.presentation.HostNavigation
+import nay.kirill.hideandseek.client.impl.presentation.ClientNavigation
 
 internal class HideTimerViewModel(
         converter: HideTimerConverter,
-        private val navigation: HostNavigation,
+        private val navigation: ClientNavigation,
         clientEventCallback: ClientEventCallback
 ) : BaseEffectViewModel<HideCounterState, HideCounterUiState, HideTimerEffect>(
         converter = converter,

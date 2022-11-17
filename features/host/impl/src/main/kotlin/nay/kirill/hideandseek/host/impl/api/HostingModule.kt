@@ -1,9 +1,11 @@
 package nay.kirill.hideandseek.host.impl.api
 
 import nay.kirill.hideandseek.host.api.HostingApi
-import nay.kirill.hideandseek.host.impl.presentation.HostingNavigation
+import nay.kirill.hideandseek.host.impl.presentation.HostNavigation
 import nay.kirill.hideandseek.host.impl.presentation.hosting.HostingStateConverter
 import nay.kirill.hideandseek.host.impl.presentation.hosting.HostingViewModel
+import nay.kirill.hideandseek.host.impl.presentation.seek.SeekStateConverter
+import nay.kirill.hideandseek.host.impl.presentation.seek.SeekViewModel
 import nay.kirill.hideandseek.host.impl.presentation.timer.SeekTimerConverter
 import nay.kirill.hideandseek.host.impl.presentation.timer.SeekTimerViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -15,9 +17,12 @@ import org.koin.dsl.module
 val hostingModule = module {
     factoryOf(::HostingApiImpl).withOptions { bind<HostingApi>() }
     factoryOf(::HostingStateConverter)
-    factoryOf(::HostingNavigation)
+    factoryOf(::HostNavigation)
     viewModelOf(::HostingViewModel)
 
     viewModelOf(::SeekTimerViewModel)
     factoryOf(::SeekTimerConverter)
+
+    factoryOf(::SeekStateConverter)
+    viewModelOf(::SeekViewModel)
 }

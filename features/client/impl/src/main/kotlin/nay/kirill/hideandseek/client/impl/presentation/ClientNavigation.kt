@@ -8,7 +8,7 @@ import nay.kirill.hideandseek.client.impl.presentation.sessionSearch.SessionSear
 import nay.kirill.hideandseek.client.impl.presentation.waiting.WaitingArgs
 import nay.kirill.hideandseek.client.impl.presentation.waiting.WaitingFragment
 
-internal class HostNavigation(
+internal class ClientNavigation(
         private val router: Router
 ) {
 
