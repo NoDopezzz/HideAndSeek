@@ -1,11 +1,11 @@
 package nay.kirill.hideandseek.client.impl.presentation.sessionSearch
 
-import android.bluetooth.BluetoothDevice
+import nay.kirill.bluetooth.scanner.api.BluetoothScannedDevice
 import nay.kirill.core.arch.ContentEvent
 import nay.kirill.hideandseek.client.impl.presentation.views.SessionUiState
 
 internal data class SessionSearchState(
-        val devicesEvent: ContentEvent<List<BluetoothDevice>>,
+        val devicesEvent: ContentEvent<List<BluetoothScannedDevice>>,
         val deviceAddressToConnect: String? = null
 )
 

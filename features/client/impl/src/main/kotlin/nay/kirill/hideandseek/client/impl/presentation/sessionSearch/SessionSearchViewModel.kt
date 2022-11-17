@@ -74,8 +74,8 @@ internal class SessionSearchViewModel(
 
         state = state.copy(deviceAddressToConnect = address)
         state.devicesEvent.onSuccess {
-            data.firstOrNull { it.address == address }?.let {
-                _effect.trySend(SessionSearchEffect.StartService(device = it))
+            data.firstOrNull { it.bluetoothDevice.address == address }?.let {
+                _effect.trySend(SessionSearchEffect.StartService(device = it.bluetoothDevice))
             }
         }
     }

@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface BluetoothScanner {
 
-    suspend fun getScannedDevicesFlow(): Flow<Result<List<BluetoothDevice>>>
+    suspend fun getScannedDevicesFlow(): Flow<Result<List<BluetoothScannedDevice>>>
 
 }

@@ -22,9 +22,9 @@ internal class SessionSearchStateConverter(
                 sessions = state.devicesEvent.data
                         ?.map {
                             SessionUiState(
-                                    deviceAddress = it.address,
-                                    name = it.name ?: it.address,
-                                    isLoading = it.address == state.deviceAddressToConnect
+                                    deviceAddress = it.bluetoothDevice.address,
+                                    name = it.name ?: it.bluetoothDevice.address,
+                                    isLoading = it.bluetoothDevice.address == state.deviceAddressToConnect
                             )
                         }
                         .orEmpty()
