@@ -6,4 +6,6 @@ sealed interface SeekEffect {
 
     data class ShowToast(val message: String) : SeekEffect
 
+    object Vibrate : SeekEffect
+
 }

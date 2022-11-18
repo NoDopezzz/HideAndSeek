@@ -15,7 +15,8 @@ internal class SeekStateConverter(
         state is SeekState.Content -> SeekUiState.Content(
                 devicesLeft = state.leftDevicesCount,
                 locations = state.locations.values.toList(),
-                currentLocation = state.currentLocation
+                currentLocation = state.currentLocation,
+                showCamera = state.locations.any { it.value.isNear }
         )
         state is SeekState.NoDevicesConnected -> SeekUiState.Error(R.string.no_connections_error_description)
         else -> SeekUiState.Error(descriptionId = R.string.common_error_description)

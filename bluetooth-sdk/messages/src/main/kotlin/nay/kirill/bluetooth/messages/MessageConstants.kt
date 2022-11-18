@@ -9,6 +9,10 @@ sealed class Message {
             val longitude: Double
     ) : Message()
 
+    data class IsNear(
+            val isNear: Boolean
+    ) : Message()
+
     object Unknown : Message()
 
     companion object {
@@ -16,6 +20,7 @@ sealed class Message {
         fun toByteArray(message: Message) = when (message) {
             is Start -> "START".toByteArray()
             is Location -> "${message.latitude};${message.longitude}".toByteArray()
+            is IsNear -> "IsNear:${message.isNear}".toByteArray()
             is Unknown -> ByteArray(0)
         }
 
@@ -27,6 +32,9 @@ sealed class Message {
                     ".*;.*".toRegex().matches(value) -> Location(
                             latitude = value.split(";")[0].toDouble(),
                             longitude = value.split(";")[1].toDouble()
+                    )
+                    value.contains("IsNear:") -> IsNear(
+                            value.split("IsNear:")[1].toBoolean()
                     )
                     else -> Unknown
                 }

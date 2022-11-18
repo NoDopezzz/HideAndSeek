@@ -28,6 +28,6 @@ val hostingModule = module {
 
     factoryOf(::SeekStateConverter)
     viewModel { param ->
-        SeekViewModel(param.get(), get(), get(), get(), get())
+        SeekViewModel(param.get(), get(), get(), get(), get(), get())
     }
 }

@@ -49,23 +49,28 @@ fun RadarView(
                         .align(Alignment.Center)
         )
 
-        val (startLat, startLong) = (centerLocation.latitude - RADIUM_LAT / 2F) to
-                (centerLocation.longitude - RADIUM_LONG / 2F)
-
-        locations.map { location ->
-            (location.latitude - startLat) / RADIUM_LAT * size to
-                    (location.longitude - startLong) / RADIUM_LONG * size
+        locations.forEach { location ->
+            Point(
+                    offset = LocationUtils.getX(
+                            lat = location.latitude,
+                            centerLat = centerLocation.latitude,
+                            size = size
+                    ) to LocationUtils.getY(
+                            long = location.longitude,
+                            centerLong = centerLocation.longitude,
+                            size = size
+                    ),
+                    isNear = location.isNear
+            )
         }
-                .forEach {
-                    Point(offset = it)
-                }
     }
 }
 
 @Composable
 private fun Point(
         modifier: Modifier = Modifier,
-        offset: Pair<Dp, Dp>
+        offset: Pair<Dp, Dp>,
+        isNear: Boolean
 ) {
     val offsetAnimationX: Dp by animateDpAsState(
             targetValue = offset.first - 5.dp,
@@ -78,7 +83,7 @@ private fun Point(
 
     Waves(
             waveSize = 10.dp,
-            color = AppColors.TransparentSecondary,
+            color = if (isNear) AppColors.TransparentRedUser else AppColors.TransparentGreenUser,
             modifier = modifier
                     .absoluteOffset(x = offsetAnimationX, y = offsetAnimationY)
     ) {
@@ -86,7 +91,10 @@ private fun Point(
                 modifier = modifier
                         .size(5.dp)
                         .align(Alignment.Center)
-                        .background(AppColors.Secondary, shape = CircleShape)
+                        .background(
+                                color = if (isNear) AppColors.RedUser else AppColors.GreenUser,
+                                shape = CircleShape
+                        )
         )
     }
 
@@ -161,9 +169,6 @@ private fun Waves(
         factory()
     }
 }
-
-private const val RADIUM_LAT = 0.0005
-private const val RADIUM_LONG = 0.0005
 
 @Preview
 @Composable

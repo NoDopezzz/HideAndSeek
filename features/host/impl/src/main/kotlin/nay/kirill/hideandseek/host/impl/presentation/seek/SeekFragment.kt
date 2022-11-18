@@ -1,13 +1,20 @@
 package nay.kirill.hideandseek.host.impl.presentation.seek
 
+import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +33,16 @@ internal class SeekFragment : Fragment() {
         parametersOf(args)
     }
 
+    private val vibrator: Vibrator by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager = requireContext().getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
+    }
+
     private val args: SeekArgs by args()
 
     override fun onCreateView(
@@ -37,7 +54,8 @@ internal class SeekFragment : Fragment() {
             SeekScreen(
                     state = viewModel.uiState.value,
                     onBack = ::back,
-                    onRetry = ::retry
+                    onRetry = ::retry,
+                    onPhoto = {}
             )
         }
     }
@@ -69,6 +87,16 @@ internal class SeekFragment : Fragment() {
         when (eff) {
             is SeekEffect.StopService -> stopService()
             is SeekEffect.ShowToast -> Toast.makeText(context, eff.message, Toast.LENGTH_SHORT).show()
+            is SeekEffect.Vibrate -> vibrate()
+        }
+    }
+
+    private fun vibrate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(500)
         }
     }
 

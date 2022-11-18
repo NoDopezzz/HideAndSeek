@@ -1,6 +1,10 @@
 package nay.kirill.hideandseek.host.impl.presentation.seek
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,9 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -20,6 +27,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nay.kirill.core.button.AppButton
 import nay.kirill.core.button.AppButtonState
+import nay.kirill.core.compose.AppColors
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.core.ui.error.AppError
@@ -31,7 +39,8 @@ import nay.kirill.hideandseek.host.impl.R
 internal fun SeekScreen(
         state: SeekUiState,
         onBack: () -> Unit,
-        onRetry: () -> Unit
+        onRetry: () -> Unit,
+        onPhoto: () -> Unit
 ) {
     when (state) {
         is SeekUiState.Error -> AppError(
@@ -39,14 +48,15 @@ internal fun SeekScreen(
                 backAction = onBack,
                 retryAction = onRetry
         )
-        is SeekUiState.Content -> Content(state, onBack)
+        is SeekUiState.Content -> Content(state, onBack, onPhoto)
     }
 }
 
 @Composable
 private fun Content(
         state: SeekUiState.Content,
-        onBack: () -> Unit
+        onBack: () -> Unit,
+        onPhoto: () -> Unit
 ) {
     Scaffold(
             topBar = {
@@ -76,10 +86,33 @@ private fun Content(
                     append(" ${state.devicesLeft}")
                 }
             }
-            Text(
-                    text = text,
-                    modifier = Modifier.padding(start = 16.dp, end = 32.dp)
-            )
+            Row(
+                    modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                        text = text,
+                        modifier = Modifier
+                                .padding(start = 16.dp, end = 32.dp)
+                                .align(Alignment.Bottom)
+                )
+                Spacer(modifier = Modifier.weight(1F))
+                if (state.showCamera) {
+                    Image(
+                            painter = painterResource(id = R.drawable.icon_photo),
+                            contentDescription = "",
+                            modifier = Modifier
+                                    .padding(end = 32.dp)
+                                    .clickable(
+                                            onClick = onPhoto,
+                                            interactionSource = remember { MutableInteractionSource() },
+                                            indication = rememberRipple(
+                                                    bounded = false,
+                                                    color = AppColors.TransparentPrimary
+                                            )
+                                    )
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(42.dp))
             AppButton(
                     state = AppButtonState.Content(text = stringResource(R.string.stop_game_button_title)),
@@ -100,7 +133,8 @@ private fun SeekScreenPreview(
     SeekScreen(
             state = state,
             onBack = { },
-            onRetry = { }
+            onRetry = { },
+            onPhoto = { }
     )
 }
 
@@ -111,7 +145,8 @@ internal class SeekStateProvider : PreviewParameterProvider<SeekUiState> {
             SeekUiState.Content(
                     locations = listOf(),
                     devicesLeft = 3,
-                    currentLocation = RadarLocation(200F, 200F)
+                    currentLocation = RadarLocation(200F, 200F),
+                    showCamera = true
             )
     )
 

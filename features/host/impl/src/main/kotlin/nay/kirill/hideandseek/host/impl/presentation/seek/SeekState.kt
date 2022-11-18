@@ -26,7 +26,8 @@ sealed interface SeekUiState {
     data class Content(
             val devicesLeft: Int,
             val currentLocation: RadarLocation?,
-            val locations: List<RadarLocation>
+            val locations: List<RadarLocation>,
+            val showCamera: Boolean = false
     ) : SeekUiState
 
 }
