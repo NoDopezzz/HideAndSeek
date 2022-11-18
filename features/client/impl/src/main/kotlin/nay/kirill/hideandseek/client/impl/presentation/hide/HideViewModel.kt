@@ -41,7 +41,7 @@ internal class HideViewModel(
 
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun startLocationUpdating() {
-        locationManager.getLocationFlow()
+        locationManager.getLocationFlow(interval = 3000)
                 .onEach { location ->
                     clientMessageCallback.setResult(
                             value = ClientMessage.SendMessage(message = Message.Location(

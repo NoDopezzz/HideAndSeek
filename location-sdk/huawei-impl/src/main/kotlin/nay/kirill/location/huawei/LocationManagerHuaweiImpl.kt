@@ -16,11 +16,11 @@ internal class LocationManagerHuaweiImpl(context: Context) : LocationManager {
 
     private val fusedLocationClient = FusedLocationProviderClient(context)
 
-    override fun getLocationFlow(): Flow<Location> = callbackFlow {
+    override fun getLocationFlow(interval: Long): Flow<Location> = callbackFlow {
         val locationRequest = LocationRequest.create()
         locationRequest.apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 1000
+            this.interval = interval
         }
 
         val callback = object : LocationCallback() {

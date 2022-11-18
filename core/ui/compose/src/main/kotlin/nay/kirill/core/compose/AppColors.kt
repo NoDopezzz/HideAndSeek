@@ -6,7 +6,11 @@ object AppColors {
 
     val Primary = Color(0xFF4B84F1)
 
-    val Secondary = Color(0xFFB5CEFE)
+    val TransparentPrimary = Color(0x804B84F1)
+
+    val Secondary = Color(0xFF4CAF50)
+
+    val TransparentSecondary = Color(0x804CAF50)
 
     val BlackText = Color(0xFF313333)
 

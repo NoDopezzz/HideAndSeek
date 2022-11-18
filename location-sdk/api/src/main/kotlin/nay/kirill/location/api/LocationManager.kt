@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface LocationManager {
 
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun getLocationFlow() : Flow<Location>
+    fun getLocationFlow(interval: Long) : Flow<Location>
 
 }

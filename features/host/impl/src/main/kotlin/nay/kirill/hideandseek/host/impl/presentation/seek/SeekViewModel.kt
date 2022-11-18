@@ -41,7 +41,7 @@ internal class SeekViewModel(
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun fetchCurrentLocation() {
         viewModelScope.launch {
-            locationManager.getLocationFlow()
+            locationManager.getLocationFlow(interval = 500)
                     .onEach {
                         if (state is SeekState.Content) {
                             state = (state as SeekState.Content).copy(currentLocation = RadarLocation(

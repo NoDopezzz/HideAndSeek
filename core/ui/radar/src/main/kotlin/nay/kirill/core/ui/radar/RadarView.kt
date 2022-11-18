@@ -1,19 +1,35 @@
 package nay.kirill.core.ui.radar
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import kotlinx.coroutines.delay
 import nay.kirill.core.compose.AppColors
 
 @Composable
@@ -28,38 +44,126 @@ fun RadarView(
                     .size(size)
                     .border(BorderStroke(2.dp, AppColors.Primary), shape = CircleShape)
     ) {
-        Box(
+        CenterPoint(
                 modifier = Modifier
                         .align(Alignment.Center)
-                        .size(20.dp)
-                        .background(AppColors.Primary, shape = CircleShape)
         )
 
-        val (startLat, startLong) = (centerLocation.latitude - LAT_IN_METER * 50F) to
-                (centerLocation.longitude - LONG_IN_METER * 50F)
+        val (startLat, startLong) = (centerLocation.latitude - RADIUM_LAT / 2F) to
+                (centerLocation.longitude - RADIUM_LONG / 2F)
 
         locations.map { location ->
-            (location.latitude - startLat) / LAT_IN_METER to
-                    (location.longitude - startLong) / LONG_IN_METER
+            (location.latitude - startLat) / RADIUM_LAT * size to
+                    (location.longitude - startLong) / RADIUM_LONG * size
         }
-                .map {
-                    it.first * (size / RADIUS_IN_METERS) to it.second * (size / RADIUS_IN_METERS)
-                }
                 .forEach {
-                    Box(
-                            modifier = Modifier
-                                    .padding(start = it.first - 5.dp, top = it.second - 5.dp)
-                                    .size(10.dp)
-                                    .background(AppColors.Secondary, shape = CircleShape)
-                    )
+                    Point(offset = it)
                 }
     }
 }
 
-private const val LAT_IN_METER = 0.016666666
-private const val LONG_IN_METER = 0.016666666
+@Composable
+private fun Point(
+        modifier: Modifier = Modifier,
+        offset: Pair<Dp, Dp>
+) {
+    val offsetAnimationX: Dp by animateDpAsState(
+            targetValue = offset.first - 5.dp,
+            animationSpec = spring(stiffness = Spring.StiffnessLow)
+    )
+    val offsetAnimationY: Dp by animateDpAsState(
+            targetValue = offset.second - 5.dp,
+            animationSpec = spring(stiffness = Spring.StiffnessLow)
+    )
 
-private const val RADIUS_IN_METERS = 100
+    Waves(
+            waveSize = 10.dp,
+            color = AppColors.TransparentSecondary,
+            modifier = modifier
+                    .absoluteOffset(x = offsetAnimationX, y = offsetAnimationY)
+    ) {
+        Box(
+                modifier = modifier
+                        .size(5.dp)
+                        .align(Alignment.Center)
+                        .background(AppColors.Secondary, shape = CircleShape)
+        )
+    }
+
+}
+
+@Composable
+private fun CenterPoint(
+        modifier: Modifier
+) {
+    Waves(
+            modifier = modifier,
+            waveSize = 30.dp,
+            color = AppColors.TransparentPrimary
+    ) {
+        Box(
+                modifier = Modifier
+                        .size(15.dp)
+                        .align(Alignment.Center)
+                        .background(AppColors.Primary, shape = CircleShape)
+        )
+    }
+}
+
+@Composable
+private fun Waves(
+        modifier: Modifier = Modifier,
+        waveSize: Dp,
+        color: Color,
+        factory: @Composable BoxScope.() -> Unit
+) {
+    val waves = listOf(
+            remember { Animatable(0f) },
+            remember { Animatable(0f) },
+            remember { Animatable(0f) },
+    )
+
+    val animationSpec = infiniteRepeatable<Float>(
+            animation = tween(4000, easing = FastOutLinearInEasing),
+            repeatMode = RepeatMode.Restart,
+    )
+
+    waves.forEachIndexed { index, animatable ->
+        LaunchedEffect(animatable) {
+            delay(index * 1000L)
+            animatable.animateTo(targetValue = 1f, animationSpec = animationSpec)
+        }
+    }
+
+    val dys = waves.map { it.value }
+
+    Box(
+            modifier = modifier
+    ) {
+        dys.forEach { dy ->
+            Box(
+                    Modifier
+                            .size(waveSize)
+                            .align(Alignment.Center)
+                            .graphicsLayer {
+                                scaleX = dy * 3 + 1
+                                scaleY = dy * 3 + 1
+                                alpha = 1 - dy
+                            }
+            ) {
+                Box(
+                        Modifier
+                                .fillMaxSize()
+                                .background(color = color, shape = CircleShape)
+                )
+            }
+        }
+        factory()
+    }
+}
+
+private const val RADIUM_LAT = 0.0005
+private const val RADIUM_LONG = 0.0005
 
 @Preview
 @Composable
