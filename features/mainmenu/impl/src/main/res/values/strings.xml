@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_menu_title">Игра в прятки</string>
+    <string name="main_menu_subtitle">Приложение поможет Вам и вашим друзьям получить больше удовольствия от классической игры в прятки!</string>
+
+    <string name="create_session_button">Я ищу</string>
+    <string name="connect_button">Я прячусь</string>
+</resources>

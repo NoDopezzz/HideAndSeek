@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hosting_title">Ожидание игроков…</string>
+    <string name="hosting_error_title">Произошла ошибка</string>
+
+    <string name="hosting_subtitle">Происходит ожидание подключаемых игроков. Проверьте, чтобы настройка Bluetooth была включена</string>
+    <string name="hosting_error_subtitle">Произошла ошибка при создании хоста. Проверьте настройки Bluetooth и предоставленные разрешения</string>
+    <string name="start_button_title">Начать игру</string>
+    <string name="back_button_title">Назад</string>
+    <string name="continue_button_title">Продолжить</string>
+    <string name="main_menu_button_title">В главное меню</string>
+
+    <string name="connected_devices_list_title">Игроки</string>
+    <string name="error_occurred_message">Произошла ошибка: %s</string>
+
+    <string name="seek_timer_title">Игроки прячутся</string>
+    <string name="stop_game_button_title">Остановить игру</string>
+
+    <string name="no_permissions_error_description">Произошла ошибка при работе сервера. Перепроверьте настройку Bluetooth и предоставленные разрешения пользователю</string>
+    <string name="no_connections_error_description">Кажется, все пользователи отключились от игры</string>
+    <string name="common_error_description">Произошла ошибка при работе сервера</string>
+
+    <string name="seek_title">Ищите игроков…</string>
+    <string name="define_location">Определяем ваше местоположение…</string>
+    <string name="left_to_find">Осталось найти:</string>
+
+    <string name="found_info_one_title">Поздравляем!</string>
+    <string name="found_info_one_description">Вы нашли игрока!</string>
+    <string name="found_info_all_description">Вы нашли всех игроков!</string>
+
+</resources>

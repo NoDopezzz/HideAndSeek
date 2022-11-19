@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="session_search_title">Поиск сесиии…</string>
+
+    <string name="session_search_subtitle">Происходит поиск доступных сессий. Подключение использует Bluetooth, поэтому убедитесь, что эта настройка включена</string>
+    <string name="available_sessions">Доступные сессии</string>
+    <string name="session_search_error_subtitle">Произошла ошибка при поиске доступных сессий. Проверьте настройки Bluetooth и все предоставленные разрешения</string>
+
+    <string name="waiting_screen_title">Ожидание игроков…</string>
+    <string name="waiting_screen_description">Вы присоединились к устройству</string>
+    <string name="main_menu_button">В главное меню</string>
+
+    <string name="hide_timer_title">Время прятаться!</string>
+
+    <string name="quit_game_button_title">Выйти из игры</string>
+    <string name="common_error_description">Произошла ошибка при соединении с сервером</string>
+
+    <string name="hide_screen_description">Покажите игроку QR-код, когда он вас найдет</string>
+
+    <string name="found_title">Игра окончена</string>
+    <string name="found_description">Вас обнаружили!</string>
+</resources>

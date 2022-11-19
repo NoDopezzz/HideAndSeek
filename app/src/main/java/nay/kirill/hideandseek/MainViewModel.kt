@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import nay.kirill.hideandseek.navigation.Navigation
 
 internal class MainViewModel(
-    private val navigation: Navigation
+        private val navigation: Navigation
 ) : ViewModel() {
 
-    fun openMain() = navigation.openMainScreen()
+    fun openMain() = navigation.openMainMenu()
 
 }

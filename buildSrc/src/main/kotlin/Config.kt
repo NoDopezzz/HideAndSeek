@@ -2,6 +2,7 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 object AppConfig {
 
@@ -9,7 +10,7 @@ object AppConfig {
 
     const val targetSdk = 33
 
-    const val minSdk = 23
+    const val minSdk = 24
 
     const val applicationId = "nay.kirill.hideandseek"
 
@@ -19,16 +20,16 @@ object AppConfig {
 }
 
 fun BaseExtension.libraryConfig(
-    target: Project,
-    targetPackage: String,
-    compose: Boolean = false
+        target: Project,
+        targetPackage: String,
+        compose: Boolean = false
 ) {
     baseConfig(target, targetPackage, compose)
 }
 
 fun BaseExtension.applicationConfig(
-    target: Project,
-    targetPackage: String
+        target: Project,
+        targetPackage: String
 ) {
     baseConfig(target, targetPackage)
 
@@ -52,9 +53,9 @@ fun BaseExtension.applicationConfig(
 }
 
 private fun BaseExtension.baseConfig(
-    target: Project,
-    targetPackage: String,
-    useCompose: Boolean = false
+        target: Project,
+        targetPackage: String,
+        useCompose: Boolean = false
 ) {
     compileSdkVersion(AppConfig.compileSdk)
 
@@ -72,7 +73,7 @@ private fun BaseExtension.baseConfig(
 
     target.tasks.withType(KotlinCompile::class.java).configureEach {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
         }
     }
 
