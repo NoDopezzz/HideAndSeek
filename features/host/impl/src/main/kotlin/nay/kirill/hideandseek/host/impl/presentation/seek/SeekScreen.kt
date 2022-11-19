@@ -138,7 +138,8 @@ private fun CenterView(
         )
         else -> Text(
                 text = stringResource(id = R.string.define_location),
-                style = AppTextStyle.SubTitle
+                style = AppTextStyle.SubTitle,
+                modifier = modifier
         )
     }
 }

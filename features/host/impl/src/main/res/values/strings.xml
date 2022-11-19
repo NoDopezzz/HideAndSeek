@@ -19,9 +19,9 @@
     <string name="no_permissions_error_description">Произошла ошибка при работе сервера. Перепроверьте настройку Bluetooth и предоставленные разрешения пользователю</string>
     <string name="no_connections_error_description">Кажется, все пользователи отключились от игры</string>
     <string name="common_error_description">Произошла ошибка при работе сервера</string>
-    
+
     <string name="seek_title">Ищите игроков…</string>
-    <string name="define_location">Определяем ваше местоположение</string>
+    <string name="define_location">Определяем ваше местоположение…</string>
     <string name="left_to_find">Осталось найти:</string>
 
     <string name="found_info_one_title">Поздравляем!</string>
