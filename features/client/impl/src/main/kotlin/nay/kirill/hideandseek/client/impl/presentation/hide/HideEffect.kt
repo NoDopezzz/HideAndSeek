@@ -4,4 +4,8 @@ sealed interface HideEffect {
 
     object StopService : HideEffect
 
+    object StartSound : HideEffect
+
+    object StopSound : HideEffect
+
 }
