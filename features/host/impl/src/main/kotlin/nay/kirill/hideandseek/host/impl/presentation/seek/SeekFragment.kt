@@ -55,7 +55,9 @@ internal class SeekFragment : Fragment() {
                     state = viewModel.uiState.value,
                     onBack = ::back,
                     onRetry = ::retry,
-                    onPhoto = viewModel::onPhoto
+                    onPhoto = viewModel::onPhoto,
+                    onLocation = viewModel::onLocation,
+                    onScan = viewModel::onScan
             )
         }
     }

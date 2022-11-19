@@ -114,7 +114,9 @@ object Libraries {
 
         const val picasso = "com.squareup.picasso:picasso:2.5.2"
 
-        const val zxing = "com.journeyapps:zxing-android-embedded:4.2.0"
+        const val zxing = "com.google.zxing:core:3.4.0"
+
+        const val zxingEmbedded = "com.journeyapps:zxing-android-embedded:4.2.0"
 
     }
 

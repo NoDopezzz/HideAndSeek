@@ -31,6 +31,7 @@ import nay.kirill.core.compose.AppColors
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.core.ui.error.AppError
+import nay.kirill.core.ui.qrcode.QrScanView
 import nay.kirill.core.ui.radar.RadarView
 import nay.kirill.hideandseek.host.impl.R
 
@@ -120,7 +121,7 @@ private fun CenterView(
         onScan: (String) -> Unit
 ) {
     when {
-        state.isScanningView -> ScanningView(onScan = onScan)
+        state.isScanningView -> QrScanView(onScan = onScan, modifier = modifier)
         state.currentLocation != null -> RadarView(
                 centerLocation = state.currentLocation,
                 locations = state.locations,
@@ -157,14 +158,6 @@ private fun ImageButton(
                         )
         )
     }
-}
-
-@Composable
-private fun ScanningView(
-        modifier: Modifier = Modifier,
-        onScan: (String) -> Unit
-) {
-    // TODO add scanning
 }
 
 @Preview

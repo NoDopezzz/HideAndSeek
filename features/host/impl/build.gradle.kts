@@ -27,6 +27,7 @@ dependencies {
     implementation(project(Project.Core.UI.error))
     implementation(project(Project.Core.UI.timer))
     implementation(project(Project.Core.UI.radar))
+    implementation(project(Project.Core.UI.qrCode))
 
     implementation(project(Project.Core.Utils.permissions))
     implementation(project(Project.Core.Utils.callbackFlow))

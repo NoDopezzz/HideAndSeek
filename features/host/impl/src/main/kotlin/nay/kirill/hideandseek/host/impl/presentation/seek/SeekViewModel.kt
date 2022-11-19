@@ -54,6 +54,21 @@ internal class SeekViewModel(
         state = contentState { copy(isScanning = false) }
     }
 
+    fun onScan(address: String) {
+        (state as? SeekState.Content)?.apply {
+            if (locations.containsKey(address)) {
+                viewModelScope.launch {
+                    updateLocation(locations = locations.toMutableMap().apply { remove(address) })
+                    state = contentState { copy(isScanning = false) }
+                }
+                // TODO notify user and navigate to found screen
+            } else {
+                _effect.trySend(SeekEffect.ShowToast("Не удалось прочитать QR code"))
+            }
+
+        }
+    }
+
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun fetchCurrentLocation() {
         viewModelScope.launch {
@@ -76,6 +91,12 @@ internal class SeekViewModel(
             event is ServerEvent.OnDeviceDisconnected && event.deviceCount == 0 -> {
                 _effect.trySend(SeekEffect.StopService)
                 withContext(Dispatchers.Main) { state = SeekState.NoDevicesConnected }
+            }
+            event is ServerEvent.OnDeviceDisconnected -> {
+                val updatedLocations = (state as SeekState.Content).locations.toMutableMap().apply {
+                    remove(event.device.address)
+                }
+                updateLocation(locations = updatedLocations)
             }
             event is ServerEvent.OnMinorException -> {
                 _effect.trySend(SeekEffect.ShowToast(message = "Произошла ошибка ${event.throwable.message}"))
