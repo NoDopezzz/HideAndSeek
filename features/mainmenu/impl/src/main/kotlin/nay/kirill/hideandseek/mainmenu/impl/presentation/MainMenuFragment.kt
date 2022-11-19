@@ -24,7 +24,9 @@ class MainMenuFragment : BluetoothScanningFragment() {
                         onCreateSession = {
                             launchWithAdvertisePermissionCheck {
                                 launchWithFineLocationPermissionCheck {
-                                    viewModel.onCreateSession()
+                                    launchWithCameraPermissionCheck {
+                                        viewModel.onCreateSession()
+                                    }
                                 }
                             }
                         },

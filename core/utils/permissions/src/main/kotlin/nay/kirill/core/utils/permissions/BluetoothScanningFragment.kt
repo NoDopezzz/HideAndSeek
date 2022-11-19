@@ -64,6 +64,16 @@ abstract class BluetoothScanningFragment : Fragment() {
         })
     }
 
+    /**
+     * If your functionality requires [Manifest.permission.CAMERA] you should
+     * call [launchWithCameraPermissionCheck] with passing lambda is [block] param
+     */
+    protected fun launchWithCameraPermissionCheck(block: () -> Unit) {
+        onCheckCameraWithPermissionCheck(object : Function0<Unit> {
+            override fun invoke() = block()
+        })
+    }
+
     @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun onCheckFineLocation(block: Function0<Unit>) {
         block.invoke()
@@ -78,6 +88,11 @@ abstract class BluetoothScanningFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.S)
     @NeedsPermission(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
     fun onCheckBluetoothScan(block: Function0<Unit>) {
+        block.invoke()
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    fun onCheckCamera(block: Function0<Unit>) {
         block.invoke()
     }
 
@@ -96,6 +111,11 @@ abstract class BluetoothScanningFragment : Fragment() {
     @OnShowRationale(Manifest.permission.BLUETOOTH_ADVERTISE, Manifest.permission.BLUETOOTH_CONNECT)
     fun showRationaleForAdvertisingBluetooth(request: PermissionRequest) {
         showPermissionAlert(type = PermissionType.BLUETOOTH, request = request)
+    }
+
+    @OnShowRationale(Manifest.permission.CAMERA)
+    fun showRationaleForCamera(request: PermissionRequest) {
+        showPermissionAlert(type = PermissionType.CAMERA, request = request)
     }
 
     @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -127,6 +147,17 @@ abstract class BluetoothScanningFragment : Fragment() {
     fun onBluetoothAdvertisingPermissionNeverAskAgain() {
         showPermissionAlert(
                 type = PermissionType.BLUETOOTH,
+                okAction = {
+                    openPermissionSettings()
+                },
+                cancelAction = { /* Do nothing */ }
+        )
+    }
+
+    @OnNeverAskAgain(Manifest.permission.CAMERA)
+    fun onCameraPermissionNeverAskAgain() {
+        showPermissionAlert(
+                type = PermissionType.CAMERA,
                 okAction = {
                     openPermissionSettings()
                 },
