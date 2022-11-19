@@ -2,6 +2,7 @@ package nay.kirill.hideandseek.host.impl.api
 
 import nay.kirill.hideandseek.host.api.HostingApi
 import nay.kirill.hideandseek.host.impl.presentation.HostNavigation
+import nay.kirill.hideandseek.host.impl.presentation.foundinfo.FoundInfoViewModel
 import nay.kirill.hideandseek.host.impl.presentation.hosting.HostingStateConverter
 import nay.kirill.hideandseek.host.impl.presentation.hosting.HostingViewModel
 import nay.kirill.hideandseek.host.impl.presentation.seek.SeekStateConverter
@@ -30,4 +31,6 @@ val hostingModule = module {
     viewModel { param ->
         SeekViewModel(param.get(), get(), get(), get(), get(), get())
     }
+
+    viewModelOf(::FoundInfoViewModel)
 }

@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.content.Context
+import android.util.Log
 import nay.kirill.bluetooth.client.exceptions.ClientException
 import nay.kirill.bluetooth.utils.CharacteristicConstants.CHARACTERISTIC_UUID
 import nay.kirill.bluetooth.utils.CharacteristicConstants.SERVICE_UUID
@@ -38,6 +39,7 @@ class ClientManager(
 
             setNotificationCallback(characteristic).with { device, data ->
                 if (data.value != null) {
+                    updateDeviceAddress(data.value!!)
                     consumerCallback.onNewMessage(device, data.value!!)
                 }
             }
@@ -53,6 +55,15 @@ class ClientManager(
                         consumerCallback.onFailure(ClientException.UnknownException())
                     }
                     .enqueue()
+        }
+
+        // Updating device address fetched from the server
+        private fun updateDeviceAddress(value: ByteArray) {
+            String(value).apply {
+                if (contains("address")) {
+                    ClientConfig.deviceAddress = removeRange(0, 7)
+                }
+            }
         }
     }
 

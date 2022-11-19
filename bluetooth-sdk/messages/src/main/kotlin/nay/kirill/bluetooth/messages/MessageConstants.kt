@@ -13,14 +13,18 @@ sealed class Message {
             val isNear: Boolean
     ) : Message()
 
+    object Found : Message()
+
     object Unknown : Message()
 
+    // TODO pretty dumb serialization. Come up with another one
     companion object {
 
         fun toByteArray(message: Message) = when (message) {
             is Start -> "START".toByteArray()
             is Location -> "${message.latitude};${message.longitude}".toByteArray()
             is IsNear -> "IsNear:${message.isNear}".toByteArray()
+            is Found -> "FOUND".toByteArray()
             is Unknown -> ByteArray(0)
         }
 
@@ -36,6 +40,7 @@ sealed class Message {
                     value.contains("IsNear:") -> IsNear(
                             value.split("IsNear:")[1].toBoolean()
                     )
+                    value == "FOUND" -> Found
                     else -> Unknown
                 }
             } catch (e: Throwable) {

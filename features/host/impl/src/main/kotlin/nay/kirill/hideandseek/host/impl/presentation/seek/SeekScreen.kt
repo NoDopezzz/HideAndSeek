@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
@@ -76,7 +77,9 @@ private fun Content(
 
             CenterView(
                     state = state,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(300.dp),
                     onScan = onScan
             )
             Spacer(modifier = Modifier.weight(1F))
@@ -99,7 +102,12 @@ private fun Content(
                                 .align(Alignment.Bottom)
                 )
                 Spacer(modifier = Modifier.weight(1F))
-                ImageButton(state, onPhoto, onLocation)
+                ImageButton(
+                        state = state,
+                        modifier = Modifier.size(64.dp),
+                        onPhoto = onPhoto,
+                        onLocation = onLocation
+                )
             }
 
             Spacer(modifier = Modifier.height(42.dp))
@@ -121,20 +129,24 @@ private fun CenterView(
         onScan: (String) -> Unit
 ) {
     when {
-        state.isScanningView -> QrScanView(onScan = onScan, modifier = modifier)
+        state.isScanningView -> QrScanView(onScan = onScan, modifier = modifier.fillMaxWidth())
         state.currentLocation != null -> RadarView(
                 centerLocation = state.currentLocation,
                 locations = state.locations,
                 size = 300.dp,
                 modifier = modifier
         )
-        else -> Unit
+        else -> Text(
+                text = stringResource(id = R.string.define_location),
+                style = AppTextStyle.SubTitle
+        )
     }
 }
 
 @Composable
 private fun ImageButton(
         state: SeekUiState.Content,
+        modifier: Modifier = Modifier,
         onPhoto: () -> Unit,
         onLocation: () -> Unit
 ) {
@@ -146,7 +158,7 @@ private fun ImageButton(
                     painterResource(id = R.drawable.icon_photo)
                 },
                 contentDescription = "",
-                modifier = Modifier
+                modifier = modifier
                         .padding(end = 32.dp)
                         .clickable(
                                 onClick = if (state.isScanningView) onLocation else onPhoto,

@@ -2,6 +2,8 @@ package nay.kirill.hideandseek.host.impl.presentation
 
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import nay.kirill.hideandseek.host.impl.presentation.foundinfo.FoundInfoArgs
+import nay.kirill.hideandseek.host.impl.presentation.foundinfo.FoundInfoFragment
 import nay.kirill.hideandseek.host.impl.presentation.hosting.HostingFragment
 import nay.kirill.hideandseek.host.impl.presentation.seek.SeekArgs
 import nay.kirill.hideandseek.host.impl.presentation.seek.SeekFragment
@@ -24,6 +26,14 @@ internal class HostNavigation(
 
     fun openSeek(args: SeekArgs) = router.replaceScreen(FragmentScreen {
         SeekFragment.newInstance(args)
+    })
+
+    fun navigateToFoundInfo(args: FoundInfoArgs) = router.navigateTo(FragmentScreen {
+        FoundInfoFragment.newInstance(args)
+    })
+
+    fun replaceFoundInfo(args: FoundInfoArgs) = router.replaceScreen(FragmentScreen {
+        FoundInfoFragment.newInstance(args)
     })
 
 }

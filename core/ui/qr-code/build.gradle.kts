@@ -6,13 +6,16 @@ plugins {
 android {
     libraryConfig(
             target = project,
-            targetPackage = "nay.kirill.core.ui.qrcode"
+            targetPackage = "nay.kirill.core.ui.qrcode",
+            compose = true
     )
 }
 
 dependencies {
     implementation(Libraries.UI.zxing)
-    implementation(Libraries.UI.zxingEmbedded)
+    implementation(Libraries.UI.zxingEmbedded) {
+        isTransitive = false
+    }
 
     implementation(platform(Libraries.Compose.bom))
     implementation(Libraries.Compose.material)

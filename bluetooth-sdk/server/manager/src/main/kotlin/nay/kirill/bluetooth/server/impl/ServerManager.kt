@@ -6,6 +6,11 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.BluetoothGattService
 import android.content.Context
+import android.util.Log
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nay.kirill.bluetooth.server.exceptions.ServerException
 import nay.kirill.bluetooth.utils.CharacteristicConstants
 import no.nordicsemi.android.ble.BleManager
@@ -23,9 +28,11 @@ class ServerManager(
                     or BluetoothGattCharacteristic.PROPERTY_WRITE
                     or BluetoothGattCharacteristic.PROPERTY_NOTIFY,
             BluetoothGattCharacteristic.PERMISSION_READ or BluetoothGattCharacteristic.PERMISSION_WRITE,
-            descriptor(CharacteristicConstants.CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID,
+            descriptor(
+                    CharacteristicConstants.CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID,
                     BluetoothGattDescriptor.PERMISSION_READ
-                            or BluetoothGattDescriptor.PERMISSION_WRITE, byteArrayOf(0, 0)),
+                            or BluetoothGattDescriptor.PERMISSION_WRITE, byteArrayOf(0, 0)
+            ),
             description("A characteristic to be read", true) // descriptors
     )
 
@@ -50,12 +57,20 @@ class ServerManager(
         serverConnections[device.address] = DeviceConnectionManager(context)
                 .apply {
                     useServer(this@ServerManager)
+
                     connect(device)
                             .fail { _, status ->
                                 consumerCallback.onFailure(ServerException.DeviceConnectionException(status))
                             }
                             .done { connectedDevice ->
                                 consumerCallback.onNewDeviceConnected(connectedDevice, serverConnections.size + 1)
+
+                                // Pretty dumb huck of delaying sending message containing device address
+                                // At that time client is able to enable notification
+                                GlobalScope.launch {
+                                    delay(2000)
+                                    sendMessage("address${device.address}".toByteArray(), gattCharacteristic)
+                                }
                             }
                             .enqueue()
                 }
@@ -92,7 +107,7 @@ class ServerManager(
             override fun initialize() {
                 requestMtu(517).enqueue()
 
-                setWriteCallback(gattCharacteristic).with {device, data ->
+                setWriteCallback(gattCharacteristic).with { device, data ->
                     if (data.value != null) {
                         consumerCallback.onNewMessage(device, data.value!!, serverConnections.size)
                     }

@@ -46,6 +46,7 @@ dependencies {
     implementation(Libraries.Compose.foundation)
     implementation(Libraries.Compose.preview)
     debugImplementation(Libraries.Compose.debugPreview)
+    implementation(Libraries.Compose.lottie)
 
     implementation(Libraries.coroutines)
 }

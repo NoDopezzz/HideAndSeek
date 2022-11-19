@@ -1,13 +1,11 @@
 package nay.kirill.hideandseek.client.impl.presentation.hide
 
 import android.Manifest
-import android.bluetooth.BluetoothManager
-import android.content.pm.PackageManager
 import androidx.annotation.RequiresPermission
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import nay.kirill.bluetooth.client.ClientConfig
 import nay.kirill.bluetooth.client.callback.event.ClientEvent
 import nay.kirill.bluetooth.client.callback.event.ClientEventCallback
 import nay.kirill.bluetooth.client.callback.message.ClientMessage
@@ -25,18 +23,13 @@ internal class HideViewModel(
         private val clientMessageCallback: ClientMessageCallback
 ): BaseEffectViewModel<HideState, HideUiState, HideEffect>(
         converter = converter,
-        initialState = HideState.Content(deviceAddress = null)
+        initialState = HideState.Content(deviceAddress = ClientConfig.deviceAddress)
 ) {
 
     init {
         clientEventCallback.result
                 .onEach(::handleEvent)
                 .launchIn(viewModelScope)
-    }
-
-    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    fun init(bluetoothManager: BluetoothManager) {
-        state = HideState.Content(deviceAddress = bluetoothManager.adapter.address)
     }
 
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)

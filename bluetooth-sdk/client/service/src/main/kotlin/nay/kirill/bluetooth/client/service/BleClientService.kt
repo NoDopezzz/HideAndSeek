@@ -50,15 +50,13 @@ class BleClientService : Service(), CoroutineScope {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val notificationChannel = NotificationChannel(
-                    BleClientService::class.java.simpleName,
-                    resources.getString(R.string.client_service_name),
-                    NotificationManager.IMPORTANCE_DEFAULT
-            )
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                    .createNotificationChannel(notificationChannel)
-        }
+        val notificationChannel = NotificationChannel(
+                BleClientService::class.java.simpleName,
+                resources.getString(R.string.client_service_name),
+                NotificationManager.IMPORTANCE_DEFAULT
+        )
+        (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+                .createNotificationChannel(notificationChannel)
 
         val notification = NotificationCompat.Builder(this, BleClientService::class.java.simpleName)
                 .setContentTitle(resources.getString(R.string.client_service_name))

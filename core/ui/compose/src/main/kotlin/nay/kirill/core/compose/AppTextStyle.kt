@@ -15,6 +15,14 @@ object AppTextStyle {
             color = AppColors.BlackText
     )
 
+    val Header2 = TextStyle(
+            fontSize = 32.sp,
+            fontWeight = FontWeight.W400,
+            fontFamily = FontFamily.SansSerif,
+            lineHeight = 42.sp,
+            color = AppColors.BlackText
+    )
+
     val Highlighted = TextStyle(
             fontSize = 36.sp,
             fontWeight = FontWeight.W700,

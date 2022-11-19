@@ -1,9 +1,10 @@
 package nay.kirill.hideandseek.client.impl.presentation.hide
 
-import android.bluetooth.BluetoothManager
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.client.service.BleClientService
 import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.reflect.Method
 
 internal class HideFragment : Fragment() {
 
@@ -38,10 +40,6 @@ internal class HideFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (PermissionsUtils.checkBluetoothConnectPermission(requireContext())) {
-            viewModel.init(requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager)
-        }
 
         if (PermissionsUtils.checkFineLocation(requireContext())) {
             viewModel.startLocationUpdating()

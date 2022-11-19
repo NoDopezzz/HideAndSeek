@@ -2,6 +2,7 @@ package nay.kirill.hideandseek.host.impl.presentation.seek
 
 import android.Manifest
 import android.location.Location
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,8 @@ import nay.kirill.bluetooth.server.callback.message.ServerMessageCallback
 import nay.kirill.core.arch.BaseEffectViewModel
 import nay.kirill.core.ui.radar.RadarLocation
 import nay.kirill.hideandseek.host.impl.presentation.HostNavigation
+import nay.kirill.hideandseek.host.impl.presentation.foundinfo.FoundInfoArgs
+import nay.kirill.hideandseek.host.impl.presentation.foundinfo.FoundType
 import nay.kirill.location.api.LocationManager
 
 internal class SeekViewModel(
@@ -61,7 +64,21 @@ internal class SeekViewModel(
                     updateLocation(locations = locations.toMutableMap().apply { remove(address) })
                     state = contentState { copy(isScanning = false) }
                 }
-                // TODO notify user and navigate to found screen
+
+                when (locations.size) {
+                    1 -> {
+                        _effect.trySend(SeekEffect.StopService)
+                        navigation.replaceFoundInfo(args = FoundInfoArgs(FoundType.ALL))
+                    }
+                    else -> {
+                        serverMessageCallback.setResult(ServerMessage.WriteCharacteristic(
+                                message = Message.Found,
+                                deviceAddress = address
+                        ))
+                        navigation.navigateToFoundInfo(args = FoundInfoArgs(FoundType.ONE))
+                    }
+                }
+
             } else {
                 _effect.trySend(SeekEffect.ShowToast("Не удалось прочитать QR code"))
             }
@@ -83,6 +100,8 @@ internal class SeekViewModel(
     }
 
     private suspend fun handleEvent(event: ServerEvent) {
+        Log.i("SeekViewModel", "New event: $event")
+
         when {
             event is ServerEvent.OnFatalException -> {
                 _effect.trySend(SeekEffect.StopService)
@@ -141,9 +160,8 @@ internal class SeekViewModel(
                     withContext(Dispatchers.Main) {
                         state = contentState {
                             copy(
-                                    currentLocation = currentLocation,
-                                    locations = mappedLocations,
-                                    isScanning = isScanning && mappedLocations.any { it.value.isNear }
+                                    currentLocation = realCurrentLocation,
+                                    locations = mappedLocations
                             )
                         }
                     }
@@ -163,7 +181,7 @@ internal class SeekViewModel(
                 results
         )
 
-        results[0] < 5
+        results[0] < 10
     } catch (e: Throwable) {
         false
     }
