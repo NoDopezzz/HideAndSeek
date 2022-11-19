@@ -10,10 +10,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -50,6 +55,7 @@ internal fun FoundInfoScreen(
 
             Text(
                     text = stringResource(id = descriptionId),
+                    textAlign = TextAlign.Center,
                     style = AppTextStyle.Header2,
                     modifier = Modifier
                             .padding(horizontal = 32.dp)
@@ -93,4 +99,21 @@ private fun SuccessfulView(
             composition = composition,
             progress = { progress },
     )
+}
+
+@Preview
+@Composable
+private fun FoundInfoPreview(
+        @PreviewParameter(FoundInfoStateProvider::class) type: FoundType
+) {
+    FoundInfoScreen(
+            type = type,
+            onButtonClick = { }
+    )
+}
+
+internal class FoundInfoStateProvider : PreviewParameterProvider<FoundType> {
+
+    override val values: Sequence<FoundType> = sequenceOf(FoundType.ALL, FoundType.ONE)
+
 }
