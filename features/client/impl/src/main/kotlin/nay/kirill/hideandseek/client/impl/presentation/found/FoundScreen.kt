@@ -1,4 +1,4 @@
-package nay.kirill.hideandseek.host.impl.presentation.foundinfo
+package nay.kirill.hideandseek.client.impl.presentation.found
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,23 +17,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import nay.kirill.core.button.AppButton
 import nay.kirill.core.button.AppButtonState
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
-import nay.kirill.hideandseek.host.impl.R
+import nay.kirill.hideandseek.client.impl.R
 
 @Composable
-internal fun FoundInfoScreen(
-        type: FoundType,
-        onButtonClick: () -> Unit
+internal fun FoundScreen(
+        onBack: () -> Unit
 ) {
     Scaffold(
             topBar = {
-                AppTopBar(text = stringResource(id = R.string.found_info_one_title))
+                AppTopBar(text = stringResource(id = R.string.found_title))
             }
     ) {
         Column(
@@ -43,13 +41,8 @@ internal fun FoundInfoScreen(
         ) {
             Spacer(modifier = Modifier.height(120.dp))
 
-            val descriptionId = when (type) {
-                FoundType.ONE -> R.string.found_info_one_description
-                FoundType.ALL -> R.string.found_info_all_description
-            }
-
             Text(
-                    text = stringResource(id = descriptionId),
+                    text = stringResource(id = R.string.found_description),
                     style = AppTextStyle.Header2,
                     modifier = Modifier
                             .padding(horizontal = 32.dp)
@@ -58,34 +51,30 @@ internal fun FoundInfoScreen(
 
             Spacer(modifier = Modifier.weight(1F))
 
-            SuccessfulView(
+            FailureView(
                     modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .size(400.dp)
+                            .size(250.dp)
             )
 
             Spacer(modifier = Modifier.weight(1F))
 
-            val buttonTitleId = when (type) {
-                FoundType.ONE -> R.string.continue_button_title
-                FoundType.ALL -> R.string.main_menu_button_title
-            }
             AppButton(
-                    state = AppButtonState.Content(text = stringResource(id = buttonTitleId)),
+                    state = AppButtonState.Content(text = stringResource(id = R.string.main_menu_button)),
                     modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp),
-                    onClick = onButtonClick
+                    onClick = onBack
             )
         }
     }
 }
 
 @Composable
-private fun SuccessfulView(
-      modifier: Modifier = Modifier
+private fun FailureView(
+        modifier: Modifier = Modifier
 ) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.successful))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
     val progress by animateLottieCompositionAsState(composition)
 
     LottieAnimation(

@@ -1,10 +1,7 @@
 package nay.kirill.hideandseek.client.impl.presentation.hide
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +15,6 @@ import kotlinx.coroutines.flow.onEach
 import nay.kirill.bluetooth.client.service.BleClientService
 import nay.kirill.core.utils.permissions.PermissionsUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.reflect.Method
 
 internal class HideFragment : Fragment() {
 
@@ -55,7 +51,7 @@ internal class HideFragment : Fragment() {
                 .flowWithLifecycle(lifecycle)
                 .onEach { eff ->
                     when (eff) {
-                        is HideEffect.Error -> stopService()
+                        is HideEffect.StopService -> stopService()
                     }
                 }
                 .launchIn(lifecycleScope)

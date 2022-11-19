@@ -8,7 +8,7 @@
 
     <string name="waiting_screen_title">Ожидание игроков…</string>
     <string name="waiting_screen_description">Вы присоединились к устройству</string>
-    <string name="waiting_back_button">В главное меню</string>
+    <string name="main_menu_button">В главное меню</string>
 
     <string name="hide_timer_title">Время прятаться!</string>
 
@@ -16,4 +16,7 @@
     <string name="common_error_description">Произошла ошибка при соединении с сервером</string>
 
     <string name="hide_screen_description">Покажите игроку QR-код, когда он вас найдет</string>
+
+    <string name="found_title">Игра окончена</string>
+    <string name="found_description">Вас обнаружили!</string>
 </resources>

@@ -85,7 +85,7 @@ private fun Content(
             )
             Spacer(modifier = Modifier.height(42.dp))
             AppButton(
-                    state = AppButtonState.Content(text = stringResource(id = R.string.waiting_back_button)),
+                    state = AppButtonState.Content(text = stringResource(id = R.string.main_menu_button)),
                     onClick = onBack,
                     modifier = Modifier
                             .fillMaxWidth()

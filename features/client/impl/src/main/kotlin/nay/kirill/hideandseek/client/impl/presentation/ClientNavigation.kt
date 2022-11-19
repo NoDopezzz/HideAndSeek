@@ -2,6 +2,7 @@ package nay.kirill.hideandseek.client.impl.presentation
 
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import nay.kirill.hideandseek.client.impl.presentation.found.FoundFragment
 import nay.kirill.hideandseek.client.impl.presentation.hide.HideFragment
 import nay.kirill.hideandseek.client.impl.presentation.timer.HideTimerFragment
 import nay.kirill.hideandseek.client.impl.presentation.sessionSearch.SessionSearchFragment
@@ -28,6 +29,10 @@ internal class ClientNavigation(
 
     fun openHide() = router.replaceScreen(FragmentScreen {
         HideFragment.newInstance()
+    })
+
+    fun openFound() = router.replaceScreen(FragmentScreen {
+        FoundFragment.newInstance()
     })
 
 }

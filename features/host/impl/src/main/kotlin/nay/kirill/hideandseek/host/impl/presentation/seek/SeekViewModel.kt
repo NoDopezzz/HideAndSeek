@@ -64,15 +64,15 @@ internal class SeekViewModel(
                     state = contentState { copy(isScanning = false) }
                 }
 
+                serverMessageCallback.setResult(ServerMessage.WriteCharacteristic(
+                        message = Message.Found,
+                        deviceAddress = address
+                ))
                 when (locations.size) {
                     1 -> {
                         navigation.replaceFoundInfo(args = FoundInfoArgs(FoundType.ALL))
                     }
                     else -> {
-                        serverMessageCallback.setResult(ServerMessage.WriteCharacteristic(
-                                message = Message.Found,
-                                deviceAddress = address
-                        ))
                         navigation.navigateToFoundInfo(args = FoundInfoArgs(FoundType.ONE))
                     }
                 }
@@ -112,6 +112,7 @@ internal class SeekViewModel(
                     remove(event.device.address)
                 }
                 updateLocation(locations = updatedLocations)
+                state = contentState { copy(leftDevicesCount = leftDevicesCount - 1) }
             }
             event is ServerEvent.OnMinorException -> {
                 _effect.trySend(SeekEffect.ShowToast(message = "Произошла ошибка ${event.throwable.message}"))
@@ -120,10 +121,17 @@ internal class SeekViewModel(
                 val updatedLocations = (state as SeekState.Content).locations.toMutableMap()
                 val location = (event.message as Message.Location)
 
-                updatedLocations[event.device.address] = RadarLocation(
-                        latitude = location.latitude,
-                        longitude = location.longitude
-                )
+                if (updatedLocations.containsKey(event.device.address)) {
+                    updatedLocations[event.device.address] = updatedLocations[event.device.address]!!.copy(
+                            latitude = location.latitude,
+                            longitude = location.longitude
+                    )
+                } else {
+                    updatedLocations[event.device.address] = RadarLocation(
+                            latitude = location.latitude,
+                            longitude = location.longitude
+                    )
+                }
 
                 updateLocation(locations = updatedLocations)
             }

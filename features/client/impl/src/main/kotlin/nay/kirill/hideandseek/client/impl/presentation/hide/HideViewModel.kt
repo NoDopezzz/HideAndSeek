@@ -1,6 +1,7 @@
 package nay.kirill.hideandseek.client.impl.presentation.hide
 
 import android.Manifest
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
@@ -55,10 +56,18 @@ internal class HideViewModel(
     }
 
     private fun handleEvent(event: ClientEvent) {
-        when (event) {
-            is ClientEvent.OnFailure -> {
-                _effect.trySend(HideEffect.Error)
+        Log.i("HideViewModel", "new event: $event")
+        when {
+            event is ClientEvent.OnFailure -> {
+                _effect.trySend(HideEffect.StopService)
                 state = HideState.Error
+            }
+            event is ClientEvent.OnNewMessage && event.message is Message.IsNear -> {
+
+            }
+            event is ClientEvent.OnNewMessage && event.message is Message.Found -> {
+                _effect.trySend(HideEffect.StopService)
+                navigation.openFound()
             }
             else -> Unit
         }
