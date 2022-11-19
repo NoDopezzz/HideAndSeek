@@ -7,6 +7,6 @@ internal class FoundInfoViewModel(
         private val navigation: HostNavigation
 ) : ViewModel() {
 
-    fun onButtonClick() = navigation.back()
+    fun back() = navigation.back()
 
 }

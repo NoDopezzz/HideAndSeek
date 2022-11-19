@@ -2,7 +2,6 @@ package nay.kirill.hideandseek.host.impl.presentation.seek
 
 import android.Manifest
 import android.location.Location
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -67,7 +66,6 @@ internal class SeekViewModel(
 
                 when (locations.size) {
                     1 -> {
-                        _effect.trySend(SeekEffect.StopService)
                         navigation.replaceFoundInfo(args = FoundInfoArgs(FoundType.ALL))
                     }
                     else -> {
@@ -100,8 +98,6 @@ internal class SeekViewModel(
     }
 
     private suspend fun handleEvent(event: ServerEvent) {
-        Log.i("SeekViewModel", "New event: $event")
-
         when {
             event is ServerEvent.OnFatalException -> {
                 _effect.trySend(SeekEffect.StopService)
