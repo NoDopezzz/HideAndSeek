@@ -61,16 +61,9 @@ private fun Content(
         ) {
             Spacer(modifier = Modifier.height(40.dp))
 
-            val text = buildAnnotatedString {
-                withStyle(AppTextStyle.SubTitle.toSpanStyle()) {
-                    append(stringResource(id = state.subtitleId))
-                }
-                withStyle(AppTextStyle.SubTitleHighlighted.toSpanStyle()) {
-                    append(" \"${state.hostDeviceName}\"")
-                }
-            }
             Text(
-                    text = text,
+                    text = stringResource(id = state.subtitleId),
+                    style = AppTextStyle.SubTitle,
                     modifier = Modifier.padding(start = 16.dp, end = 52.dp)
             )
 
