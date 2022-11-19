@@ -31,7 +31,6 @@ import nay.kirill.core.compose.AppColors
 import nay.kirill.core.compose.AppTextStyle
 import nay.kirill.core.topbar.AppTopBar
 import nay.kirill.core.ui.error.AppError
-import nay.kirill.core.ui.radar.RadarLocation
 import nay.kirill.core.ui.radar.RadarView
 import nay.kirill.hideandseek.host.impl.R
 
@@ -40,7 +39,9 @@ internal fun SeekScreen(
         state: SeekUiState,
         onBack: () -> Unit,
         onRetry: () -> Unit,
-        onPhoto: () -> Unit
+        onPhoto: () -> Unit,
+        onLocation: () -> Unit,
+        onScan: (String) -> Unit
 ) {
     when (state) {
         is SeekUiState.Error -> AppError(
@@ -48,7 +49,7 @@ internal fun SeekScreen(
                 backAction = onBack,
                 retryAction = onRetry
         )
-        is SeekUiState.Content -> Content(state, onBack, onPhoto)
+        is SeekUiState.Content -> Content(state, onBack, onPhoto, onLocation, onScan)
     }
 }
 
@@ -56,7 +57,9 @@ internal fun SeekScreen(
 private fun Content(
         state: SeekUiState.Content,
         onBack: () -> Unit,
-        onPhoto: () -> Unit
+        onPhoto: () -> Unit,
+        onLocation: () -> Unit,
+        onScan: (String) -> Unit
 ) {
     Scaffold(
             topBar = {
@@ -70,11 +73,10 @@ private fun Content(
         ) {
             Spacer(modifier = Modifier.weight(1F))
 
-            RadarView(
-                    centerLocation = state.currentLocation ?: RadarLocation(0F, 0F),
-                    locations = state.locations,
-                    size = 300.dp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+            CenterView(
+                    state = state,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onScan = onScan
             )
             Spacer(modifier = Modifier.weight(1F))
 
@@ -96,23 +98,9 @@ private fun Content(
                                 .align(Alignment.Bottom)
                 )
                 Spacer(modifier = Modifier.weight(1F))
-                if (state.showCamera) {
-                    Image(
-                            painter = painterResource(id = R.drawable.icon_photo),
-                            contentDescription = "",
-                            modifier = Modifier
-                                    .padding(end = 32.dp)
-                                    .clickable(
-                                            onClick = onPhoto,
-                                            interactionSource = remember { MutableInteractionSource() },
-                                            indication = rememberRipple(
-                                                    bounded = false,
-                                                    color = AppColors.TransparentPrimary
-                                            )
-                                    )
-                    )
-                }
+                ImageButton(state, onPhoto, onLocation)
             }
+
             Spacer(modifier = Modifier.height(42.dp))
             AppButton(
                     state = AppButtonState.Content(text = stringResource(R.string.stop_game_button_title)),
@@ -125,6 +113,60 @@ private fun Content(
     }
 }
 
+@Composable
+private fun CenterView(
+        state: SeekUiState.Content,
+        modifier: Modifier = Modifier,
+        onScan: (String) -> Unit
+) {
+    when {
+        state.isScanningView -> ScanningView(onScan = onScan)
+        state.currentLocation != null -> RadarView(
+                centerLocation = state.currentLocation,
+                locations = state.locations,
+                size = 300.dp,
+                modifier = modifier
+        )
+        else -> Unit
+    }
+}
+
+@Composable
+private fun ImageButton(
+        state: SeekUiState.Content,
+        onPhoto: () -> Unit,
+        onLocation: () -> Unit
+) {
+    if (state.showButton) {
+        Image(
+                painter = if (state.isScanningView) {
+                    painterResource(id = R.drawable.icon_location)
+                } else {
+                    painterResource(id = R.drawable.icon_photo)
+                },
+                contentDescription = "",
+                modifier = Modifier
+                        .padding(end = 32.dp)
+                        .clickable(
+                                onClick = if (state.isScanningView) onLocation else onPhoto,
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = rememberRipple(
+                                        bounded = false,
+                                        color = AppColors.TransparentPrimary
+                                )
+                        )
+        )
+    }
+}
+
+@Composable
+private fun ScanningView(
+        modifier: Modifier = Modifier,
+        onScan: (String) -> Unit
+) {
+    // TODO add scanning
+}
+
 @Preview
 @Composable
 private fun SeekScreenPreview(
@@ -134,7 +176,9 @@ private fun SeekScreenPreview(
             state = state,
             onBack = { },
             onRetry = { },
-            onPhoto = { }
+            onPhoto = { },
+            onLocation = { },
+            onScan = { }
     )
 }
 
@@ -145,8 +189,8 @@ internal class SeekStateProvider : PreviewParameterProvider<SeekUiState> {
             SeekUiState.Content(
                     locations = listOf(),
                     devicesLeft = 3,
-                    currentLocation = RadarLocation(200F, 200F),
-                    showCamera = true
+                    currentLocation = null,
+                    showButton = true
             )
     )
 

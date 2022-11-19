@@ -1,5 +1,6 @@
 package nay.kirill.core.ui.radar
 
+import android.location.Location
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -28,13 +29,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
 import kotlinx.coroutines.delay
 import nay.kirill.core.compose.AppColors
 
 @Composable
 fun RadarView(
-        centerLocation: RadarLocation,
+        centerLocation: Location,
         locations: List<RadarLocation>,
         size: Dp,
         modifier: Modifier = Modifier
@@ -52,12 +52,12 @@ fun RadarView(
         locations.forEach { location ->
             Point(
                     offset = LocationUtils.getX(
-                            lat = location.latitude,
-                            centerLat = centerLocation.latitude,
+                            lat = location.latitude.toFloat(),
+                            centerLat = centerLocation.latitude.toFloat(),
                             size = size
                     ) to LocationUtils.getY(
-                            long = location.longitude,
-                            centerLong = centerLocation.longitude,
+                            long = location.longitude.toFloat(),
+                            centerLong = centerLocation.longitude.toFloat(),
                             size = size
                     ),
                     isNear = location.isNear
@@ -173,9 +173,5 @@ private fun Waves(
 @Preview
 @Composable
 private fun RadarPreview() {
-    RadarView(
-            centerLocation = RadarLocation(-8.777022F, 115.223076F),
-            locations = listOf(RadarLocation(-8.777115F, 115.22314F)),
-            size = 300.dp
-    )
+    // TODO
 }

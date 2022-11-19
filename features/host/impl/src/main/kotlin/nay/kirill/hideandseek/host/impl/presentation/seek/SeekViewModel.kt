@@ -46,18 +46,21 @@ internal class SeekViewModel(
 
     fun retry() = navigation.openHosting()
 
+    fun onPhoto() {
+        state = contentState { copy(isScanning = true) }
+    }
+
+    fun onLocation() {
+        state = contentState { copy(isScanning = false) }
+    }
+
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun fetchCurrentLocation() {
         viewModelScope.launch {
             locationManager.getLocationFlow(interval = 500)
-                    .onEach {
-                        if (state is SeekState.Content) {
-                            state = (state as SeekState.Content).copy(
-                                    currentLocation = RadarLocation(
-                                            latitude = it.latitude.toFloat(),
-                                            longitude = it.longitude.toFloat()
-                                    )
-                            )
+                    .onEach { currentLocation ->
+                        withContext(Dispatchers.IO) {
+                            updateLocation(currentLocation)
                         }
                     }
                     .launchIn(viewModelScope)
@@ -81,50 +84,61 @@ internal class SeekViewModel(
                 val updatedLocations = (state as SeekState.Content).locations.toMutableMap()
                 val location = (event.message as Message.Location)
 
-                val isNear = (state as SeekState.Content).currentLocation
-                        ?.let { currentLocation ->
-                            checkLocationDistance(
-                                    location.latitude,
-                                    location.longitude,
-                                    currentLocation.latitude.toDouble(),
-                                    currentLocation.longitude.toDouble()
-                            )
-                        }
-                    ?: false
-
-                if (updatedLocations[event.device.address]?.isNear != isNear) {
-                    if (isNear) _effect.trySend(SeekEffect.Vibrate)
-                    serverMessageCallback.setResult(ServerMessage.WriteCharacteristic(Message.IsNear(isNear), event.device.address))
-                }
-
                 updatedLocations[event.device.address] = RadarLocation(
-                        latitude = location.latitude.toFloat(),
-                        longitude = location.longitude.toFloat(),
-                        isNear = isNear
+                        latitude = location.latitude,
+                        longitude = location.longitude
                 )
 
-                withContext(Dispatchers.Main) {
-                    state = (state as SeekState.Content).copy(
-                            locations = updatedLocations,
-                            leftDevicesCount = event.deviceCount
-                    )
-                }
+                updateLocation(locations = updatedLocations)
             }
         }
     }
 
+    private suspend fun updateLocation(
+            currentLocation: Location? = null,
+            locations: Map<String, RadarLocation>? = null
+    ) {
+        val realCurrentLocation = currentLocation ?: (state as? SeekState.Content)?.currentLocation ?: return
+        val realLocations = locations ?: (state as? SeekState.Content)?.locations ?: return
+
+        realLocations
+                .mapValues { targetLocation ->
+                    val isNear = checkLocationDistance(realCurrentLocation, targetLocation.value)
+                    if (targetLocation.value.isNear != isNear) {
+                        if (isNear) _effect.trySend(SeekEffect.Vibrate)
+                        serverMessageCallback.setResult(
+                                ServerMessage.WriteCharacteristic(
+                                        message = Message.IsNear(isNear),
+                                        deviceAddress = targetLocation.key
+                                )
+                        )
+                    }
+
+                    targetLocation.value.copy(isNear = isNear)
+                }
+                .also { mappedLocations ->
+                    withContext(Dispatchers.Main) {
+                        state = contentState {
+                            copy(
+                                    currentLocation = currentLocation,
+                                    locations = mappedLocations,
+                                    isScanning = isScanning && mappedLocations.any { it.value.isNear }
+                            )
+                        }
+                    }
+                }
+    }
+
     private fun checkLocationDistance(
-            latitude1: Double,
-            longitude1: Double,
-            latitude2: Double,
-            longitude2: Double
+            currentLocation: Location,
+            targetLocation: RadarLocation,
     ): Boolean = try {
         val results = FloatArray(2)
         Location.distanceBetween(
-                latitude1,
-                longitude1,
-                latitude2,
-                longitude2,
+                currentLocation.latitude,
+                currentLocation.longitude,
+                targetLocation.latitude,
+                targetLocation.longitude,
                 results
         )
 
@@ -132,4 +146,12 @@ internal class SeekViewModel(
     } catch (e: Throwable) {
         false
     }
+
+    private fun contentState(update: SeekState.Content.() -> SeekState): SeekState {
+        return (state as? SeekState.Content)?.let {
+            it.update()
+        }
+            ?: state
+    }
+
 }

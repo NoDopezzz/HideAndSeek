@@ -1,5 +1,6 @@
 package nay.kirill.hideandseek.host.impl.presentation.seek
 
+import android.location.Location
 import androidx.annotation.StringRes
 import nay.kirill.core.ui.radar.RadarLocation
 
@@ -12,7 +13,8 @@ sealed interface SeekState {
     data class Content(
             val locations: Map<String, RadarLocation>,
             val leftDevicesCount: Int,
-            val currentLocation: RadarLocation? = null
+            val currentLocation: Location? = null,
+            val isScanning: Boolean = false
     ) : SeekState
 
 }
@@ -25,9 +27,10 @@ sealed interface SeekUiState {
 
     data class Content(
             val devicesLeft: Int,
-            val currentLocation: RadarLocation?,
+            val currentLocation: Location?,
             val locations: List<RadarLocation>,
-            val showCamera: Boolean = false
+            val showButton: Boolean = false,
+            val isScanningView: Boolean = false
     ) : SeekUiState
 
 }
