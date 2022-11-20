@@ -33,7 +33,7 @@ internal class HideTimerViewModel(
     fun startTimer() {
         timerJob?.cancel()
         timerJob = viewModelScope.launch(Dispatchers.IO) {
-            for (i in 2 downTo 0) {
+            for (i in 59 downTo 0) {
                 delay(1000)
                 withContext(Dispatchers.Main) { state = HideCounterState.Content(i) }
             }
